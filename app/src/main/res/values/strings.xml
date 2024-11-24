@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Revisor Help</string>
+    <string name="InstructionText">Для продолжения введите номер поезда в формате ХХХА и номер штабного вагона</string>
+    <string name="Greating">Добро пожаловать</string>
+    <string name="startButtonName">Старт</string>
+    <string name="CoachNumberText">Номер вагона</string>
+    <string name="StartButtonText">Загрузить</string>
+    <string name="CoachTextViewValue">Номер КРИ</string>
+    <string name="TrainNumberTextViewValue">Номер поезда</string>
+    <string name="TextTrainNumberTextView">Номер поезда</string>
+
+</resources>
