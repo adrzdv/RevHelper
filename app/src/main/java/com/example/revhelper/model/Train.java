@@ -1,8 +1,5 @@
 package com.example.revhelper.model;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
@@ -10,31 +7,28 @@ import androidx.room.PrimaryKey;
 
 import org.jetbrains.annotations.Nullable;
 
-import java.io.Serializable;
-
-
 @Entity(tableName = "trains")
 public class Train {
     @PrimaryKey
-    public int id;
+    private int id;
     @ColumnInfo(name = "number_straight")
     @NonNull
-    public String directNumber = "";
+    private String directNumber = "";
     @ColumnInfo(name = "number_reversed")
     @NonNull
-    public String reversedNumber = "";
+    private String reversedNumber = "";
     @ColumnInfo(name = "route")
     @NonNull
-    public String route = "";
+    private String route = "";
     @ColumnInfo(name = "has_progressive")
     @Nullable
-    public Integer hasProgressive = 0;
+    private Integer hasProgressive = 0;
     @ColumnInfo(name = "has_registrator")
     @Nullable
-    public Integer hasRegistrator = 0;
+    private Integer hasRegistrator = 0;
     @ColumnInfo(name = "dep")
     @NonNull
-    public Integer dep = 0;
+    private Integer dep = 0;
 
     public int getId() {
         return id;
@@ -55,12 +49,12 @@ public class Train {
         return route;
     }
 
-    public int isHasProgressive() {
-        return hasProgressive;
+    public int getHasRegistrator() {
+        return hasRegistrator;
     }
 
-    public int isHasRegistrator() {
-        return hasRegistrator;
+    public int getHasProgressive() {
+        return hasProgressive;
     }
 
     public void setDirectNumber(@NonNull String directNumber) {
@@ -89,6 +83,10 @@ public class Train {
 
     public int getDep() {
         return dep;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     @NonNull

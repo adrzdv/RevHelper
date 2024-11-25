@@ -10,13 +10,13 @@ import java.io.Serializable;
 @Entity(tableName = "informators")
 public class Coach implements Serializable {
     @PrimaryKey
-    int id;
+    private int id;
     @ColumnInfo(name = "coach_number")
     @NonNull
-    String coachNumber = "";
+    private String coachNumber = "";
     @ColumnInfo(name = "id_branch")
     @NonNull
-    int dep = 0;
+    private int dep = 0;
 
     public void setCoachNumber(@NonNull String coachNumber) {
         this.coachNumber = coachNumber;

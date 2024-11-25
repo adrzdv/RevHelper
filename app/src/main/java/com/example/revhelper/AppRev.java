@@ -10,14 +10,14 @@ public class AppRev extends Application {
     private static AppRev instance;
     private static AppDatabase db;
 
-//    public static AppRev getInstance() {
-//        return instance;
-//    }
+    public static AppRev getInstance() {
+        return instance;
+    }
 
     @Override
     public void onCreate() {
         super.onCreate();
-        //instance = this;
+        instance = this;
         db = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "dbtrain")
                 .allowMainThreadQueries()
                 .createFromAsset("database/train.db")
@@ -25,6 +25,7 @@ public class AppRev extends Application {
     }
 
     public static AppDatabase getDb() {
+
         return db;
     }
 

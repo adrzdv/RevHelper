@@ -1,9 +1,6 @@
 package com.example.revhelper;
 
-import static android.content.Intent.FLAG_ACTIVITY_MULTIPLE_TASK;
-import static android.content.Intent.FLAG_ACTIVITY_NEW_DOCUMENT;
-
-import android.content.Intent;
+import android.content.Context;
 import android.os.Bundle;
 import android.text.Editable;
 import android.view.View;
@@ -15,12 +12,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
-import androidx.room.Room;
 
 import com.example.revhelper.databinding.ActivityMainBinding;
 import com.example.revhelper.model.Coach;
 import com.example.revhelper.model.DialogFragmentResult;
-import com.example.revhelper.model.Train;
+import com.example.revhelper.model.TrainDto;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -34,20 +30,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
         setContentView(view);
+        appDb = AppRev.getDb();
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
 
-        appDb = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "dbtrain")
-                .allowMainThreadQueries()
-                .createFromAsset("database/train.db")
-                .build();
-
         Button startButton = binding.startButton;
         startButton.setOnClickListener(this);
         binding.exitButton.setOnClickListener(this);
+
 
     }
 
@@ -63,6 +56,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 toast.show();
                 return;
             }
+
+//            Наметки для пробы шарить сообщение
 
 //            Intent intent = new Intent();
 //            intent.setAction(Intent.ACTION_SEND);
@@ -88,10 +83,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 return;
             }
 
-            Train train = appDb.trainDao().findByNumber(search);
             Coach coach = appDb.coachDao().findByCoach(coachFromActivity);
 
-            if (train == null) {
+            TrainDto trainDto = appDb.trainDao().findByNumberWithDep(search);
+
+            if (trainDto == null) {
                 Toast toast = Toast.makeText(this, "Поезд не найден",
                         Toast.LENGTH_LONG);
                 toast.show();
@@ -105,7 +101,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             } else {
                 args.putString("coach", "Нет");
             }
-            args.putString("train", train.toString());
+            args.putString("train", trainDto.toString());
             dialog.setArguments(args);
             dialog.show(getSupportFragmentManager(), "custom");
 
