@@ -1,8 +1,10 @@
-package com.example.revhelper;
+package com.example.revhelper.sys;
 
 import androidx.room.Database;
 import androidx.room.RoomDatabase;
 
+import com.example.revhelper.dao.CoachDao;
+import com.example.revhelper.dao.TrainDao;
 import com.example.revhelper.model.Branches;
 import com.example.revhelper.model.Coach;
 import com.example.revhelper.model.Deps;

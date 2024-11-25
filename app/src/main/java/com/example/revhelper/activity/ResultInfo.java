@@ -1,4 +1,4 @@
-package com.example.revhelper;
+package com.example.revhelper.activity;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
@@ -10,6 +10,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.example.revhelper.R;
 import com.example.revhelper.databinding.ActivityResultInfoBinding;
 import com.example.revhelper.model.Train;
 

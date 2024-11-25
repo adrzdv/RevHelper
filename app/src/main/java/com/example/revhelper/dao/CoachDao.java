@@ -1,4 +1,4 @@
-package com.example.revhelper;
+package com.example.revhelper.dao;
 
 import androidx.room.Dao;
 import androidx.room.Query;

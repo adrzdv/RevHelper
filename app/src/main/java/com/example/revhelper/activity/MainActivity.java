@@ -1,6 +1,5 @@
-package com.example.revhelper;
+package com.example.revhelper.activity;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.text.Editable;
 import android.view.View;
@@ -13,6 +12,9 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.example.revhelper.sys.AppDatabase;
+import com.example.revhelper.sys.AppRev;
+import com.example.revhelper.R;
 import com.example.revhelper.databinding.ActivityMainBinding;
 import com.example.revhelper.model.Coach;
 import com.example.revhelper.model.DialogFragmentResult;
@@ -56,15 +58,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 toast.show();
                 return;
             }
-
-//            Наметки для пробы шарить сообщение
-
-//            Intent intent = new Intent();
-//            intent.setAction(Intent.ACTION_SEND);
-//            intent.putExtra(Intent.EXTRA_TEXT, "TEXT");
-//            intent.setType("text/plain");
-//            startActivity(Intent.createChooser(intent, "Share something"));
-
 
             String search = searchText.toString();
             String coachFromActivity = binding.CoachTextInput.getText().toString();
