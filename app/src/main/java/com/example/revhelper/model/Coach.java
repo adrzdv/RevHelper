@@ -9,7 +9,7 @@ import java.io.Serializable;
 
 @Entity(tableName = "informators")
 public class Coach implements Serializable {
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     private int id;
     @ColumnInfo(name = "coach_number")
     @NonNull
@@ -17,6 +17,7 @@ public class Coach implements Serializable {
     @ColumnInfo(name = "id_branch")
     @NonNull
     private int dep = 0;
+
 
     public void setCoachNumber(@NonNull String coachNumber) {
         this.coachNumber = coachNumber;
@@ -42,5 +43,6 @@ public class Coach implements Serializable {
     public void setId(int id) {
         this.id = id;
     }
+
 
 }

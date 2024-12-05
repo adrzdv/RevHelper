@@ -1,17 +1,11 @@
-package com.example.revhelper.model;
+package com.example.revhelper.fragments;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
-
-import com.example.revhelper.R;
 
 public class DialogFragmentResult extends DialogFragment {
 
@@ -20,14 +14,38 @@ public class DialogFragmentResult extends DialogFragment {
 
         String train = getArguments().getString("train");
         String coach = getArguments().getString("coach");
-        AlertDialog.Builder builder=new AlertDialog.Builder(getActivity());
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+
+        boolean isTrain = train == null;
+        boolean isCoach = coach == null;
+
+        if (!isTrain && isCoach) {
+
+            return builder
+                    .setTitle("Результат поиска")
+                    .setMessage(train + "\n")
+                    .setPositiveButton("OK", null)
+                    .create();
+
+        } else if (isTrain && !isCoach) {
+
+            return builder
+                    .setTitle("Результат поиска")
+                    .setMessage("Автоинформатор: " + coach)
+                    .setPositiveButton("OK", null)
+                    .create();
+
+        }
+
         return builder
                 .setTitle("Результат поиска")
                 .setMessage(train + "\n" + "Автоинформатор: " + coach)
                 .setPositiveButton("OK", null)
                 .create();
+
     }
 
+    /*
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -40,4 +58,5 @@ public class DialogFragmentResult extends DialogFragment {
 
         getDialog().setTitle("Результат поиска:");
     }
+     */
 }

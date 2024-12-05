@@ -9,7 +9,7 @@ import org.jetbrains.annotations.Nullable;
 
 @Entity(tableName = "trains")
 public class Train {
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     private int id;
     @ColumnInfo(name = "number_straight")
     @NonNull
@@ -29,6 +29,9 @@ public class Train {
     @ColumnInfo(name = "dep")
     @NonNull
     private Integer dep = 0;
+    @ColumnInfo(name = "has_portal")
+    @Nullable
+    private Integer hasPortal = 0;
 
     public int getId() {
         return id;
@@ -89,6 +92,14 @@ public class Train {
         this.id = id;
     }
 
+    public int getHasPortal() {
+        return hasPortal;
+    }
+
+    public void setHasPortal(int hasPortal) {
+        this.hasPortal = hasPortal;
+    }
+
     @NonNull
     public String toString() {
         String yesString = "Да";
@@ -109,6 +120,14 @@ public class Train {
         } else {
             res += noString + "\n";
         }
+
+        res += "Мультимедийный портал: ";
+        if (this.hasPortal == 1) {
+            res += yesString + "\n";
+        } else {
+            res += noString + "\n";
+        }
+
         return res;
     }
 }

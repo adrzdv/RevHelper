@@ -3,6 +3,8 @@ package com.example.revhelper.model;
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 
+import org.jetbrains.annotations.Nullable;
+
 public class TrainDto {
 
     @ColumnInfo(name = "number_straight")
@@ -18,6 +20,8 @@ public class TrainDto {
     private int hasRegistrator;
     @ColumnInfo(name = "has_progressive")
     private int hasProgressive;
+    @ColumnInfo(name = "has_portal")
+    private int hasPortal;
 
     public void setDirectNumber(String dirNumber) {
         this.directNumber = dirNumber;
@@ -75,6 +79,14 @@ public class TrainDto {
         return hasProgressive;
     }
 
+    public int getHasPortal() {
+        return hasPortal;
+    }
+
+    public void setHasPortal(int hasPortal) {
+        this.hasPortal = hasPortal;
+    }
+
     @NonNull
     public String toString() {
         String yesString = "Да";
@@ -96,6 +108,14 @@ public class TrainDto {
         } else {
             res += noString + "\n";
         }
+
+        res += "Мультимедийный портал: ";
+        if (this.hasPortal == 1) {
+            res += yesString + "\n";
+        } else {
+            res += noString + "\n";
+        }
+
         return res;
     }
 

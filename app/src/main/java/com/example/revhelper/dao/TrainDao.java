@@ -1,10 +1,14 @@
 package com.example.revhelper.dao;
 
 import androidx.room.Dao;
+import androidx.room.Insert;
+import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 
 import com.example.revhelper.model.Train;
 import com.example.revhelper.model.TrainDto;
+
+import java.util.List;
 
 @Dao
 public interface TrainDao {
@@ -15,11 +19,20 @@ public interface TrainDao {
     Train findByNumber(String trainNumber);
 
     @Query("SELECT trains.number_straight, trains.number_reversed, trains.route, trains.has_progressive," +
-            "trains.has_registrator, deps.name AS dep_name, branches.name AS branch_name " +
+            "trains.has_registrator, trains.has_portal, deps.name AS dep_name, branches.name AS branch_name " +
             "FROM trains " +
             "LEFT JOIN deps ON trains.dep = deps.id " +
             "LEFT JOIN branches ON branches.id = deps.branch " +
             "WHERE trains.number_straight LIKE :trainNumber OR trains.number_reversed LIKE :trainNumber")
     TrainDto findByNumberWithDep(String trainNumber);
+
+    @Insert
+    void insertTrains(List<Train> trainList);
+
+    @Query("DELETE FROM trains")
+    void cleanTrainTable();
+
+    @Query("DELETE FROM sqlite_sequence WHERE name = 'trains'")
+    void cleanKeys();
 
 }

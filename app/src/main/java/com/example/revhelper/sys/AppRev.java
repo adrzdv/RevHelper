@@ -20,6 +20,7 @@ public class AppRev extends Application {
         instance = this;
         db = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "dbtrain")
                 .allowMainThreadQueries()
+                .fallbackToDestructiveMigration()
                 .createFromAsset("database/train.db")
                 .build();
     }

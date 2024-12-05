@@ -8,5 +8,8 @@
     <string name="CoachTextViewValue">Номер КРИ</string>
     <string name="TrainNumberTextViewValue">Номер поезда</string>
     <string name="TextTrainNumberTextView">Номер поезда</string>
+    <string name="TrainSwitcher">Поиск поезда</string>
+    <string name="CoachSwitcher">Поиск вагона</string>
+    <string name="ImportData">Импортировать списки</string>
 
 </resources>
