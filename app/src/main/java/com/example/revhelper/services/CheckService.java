@@ -1,4 +1,4 @@
-package com.example.revhelper.activity.services;
+package com.example.revhelper.services;
 
 import java.util.regex.Pattern;
 

@@ -7,7 +7,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
 
-public class DialogFragmentResult extends DialogFragment {
+public class DialogFragmentSearchResult extends DialogFragment {
 
     @NonNull
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -44,19 +44,4 @@ public class DialogFragmentResult extends DialogFragment {
                 .create();
 
     }
-
-    /*
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.activity_result_info, container, false);
-    }
-
-    @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
-        getDialog().setTitle("Результат поиска:");
-    }
-     */
 }

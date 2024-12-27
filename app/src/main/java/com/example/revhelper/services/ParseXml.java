@@ -1,11 +1,9 @@
-package com.example.revhelper.activity.services;
+package com.example.revhelper.services;
 
 import android.content.Context;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.Looper;
-import android.view.View;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.revhelper.exceptions.CustomException;
@@ -30,17 +28,16 @@ import javax.xml.parsers.DocumentBuilderFactory;
 
 public class ParseXml {
 
-    public void parseXml(Context context, Uri uri, AppDatabase appDb,
-                         ProgressBar progressBar, View v) throws CustomException {
+    private final CheckService service = new CheckService();
+
+    public void parseXml(Context context, Uri uri, AppDatabase appDb) throws CustomException {
 
         Executor executor = Executors.newSingleThreadExecutor();
         Handler handler = new Handler(Looper.getMainLooper());
         final StringBuilder resThreed = new StringBuilder();
 
-        progressBar.setVisibility(View.GONE);
 
         ResultCallback callback = message -> {
-            progressBar.setVisibility(View.GONE);
             resThreed.append(message);
         };
 
@@ -59,31 +56,29 @@ public class ParseXml {
             Element elm = (Element) document.getElementsByTagName("desteny").item(0);
             String elmFlag = elm.getTextContent();
 
-
-            progressBar.setVisibility(View.VISIBLE);
-
             if (elmFlag.equals("add")) {
 
                 executor.execute(() -> {
-                    final List<Train> trains = getTrainListFromDoc(document, progressBar);
-                    final List<Coach> coaches = getCoachesListFromDoc(document, progressBar);
+                    List<Train> trains;
+                    List<Coach> coaches;
+
                     final String message;
                     String temp;
+
                     try {
+                        trains = getTrainListFromDoc(document);
+                        coaches = getCoachesListFromDoc(document);
+
                         if (!trains.isEmpty()) {
                             appDb.trainDao().insertTrains(trains);
-                            handler.post(() -> progressBar.setProgress(50));
                         }
                         if (!coaches.isEmpty()) {
                             appDb.coachDao().insertCoaches(coaches);
-                            handler.post(() -> progressBar.setProgress(95));
                         }
 
                         temp = "Данные успешно загружены";
-                        handler.post(() -> progressBar.setProgress(100));
-                    } catch (Exception e) {
+                    } catch (CustomException e) {
                         temp = "Ошибка загрузки данных";
-                        progressBar.setVisibility(View.GONE);
                     }
                     message = temp;
                     handler.post(() -> callback.onResult(message));
@@ -98,26 +93,25 @@ public class ParseXml {
                     final String message;
                     String temp;
 
-                    final List<Train> trains = getTrainListFromDoc(document, progressBar);
-                    final List<Coach> coaches = getCoachesListFromDoc(document, progressBar);
+                    List<Train> trains;
+                    List<Coach> coaches;
+
                     try {
+                        trains = getTrainListFromDoc(document);
+                        coaches = getCoachesListFromDoc(document);
                         if (!trains.isEmpty()) {
                             appDb.trainDao().cleanTrainTable();
                             appDb.trainDao().cleanKeys();
                             appDb.trainDao().insertTrains(trains);
-                            handler.post(() -> progressBar.setProgress(50));
                         }
                         if (!coaches.isEmpty()) {
                             appDb.coachDao().cleanCoachTable();
                             appDb.coachDao().cleanKeys();
                             appDb.coachDao().insertCoaches(coaches);
-                            handler.post(() -> progressBar.setProgress(99));
                         }
                         temp = "Данные успешно загружены";
-                        handler.post(() -> progressBar.setProgress(100));
-                    } catch (Exception e) {
+                    } catch (CustomException e) {
                         temp = "Ошибка загрузки данных";
-                        progressBar.setVisibility(View.GONE);
                     }
 
                     message = temp;
@@ -128,9 +122,7 @@ public class ParseXml {
 
             } else if (elmFlag.equals("update")) {
 
-
             } else {
-
                 input.close();
                 throw new CustomException("Некорректный флаг начала файла");
             }
@@ -139,23 +131,31 @@ public class ParseXml {
 
         } catch (Exception e) {
             Toast.makeText(context, e.getMessage(), Toast.LENGTH_LONG).show();
-            progressBar.setVisibility(View.GONE);
         }
     }
 
-    private List<Train> getTrainListFromDoc(Document doc, ProgressBar progressBar) {
+    private List<Train> getTrainListFromDoc(Document doc) throws CustomException {
 
         List<Train> res = new ArrayList<>();
 
         NodeList nodeList = doc.getElementsByTagName("train");
         for (int i = 0; i < nodeList.getLength(); i++) {
-            int perc = i / nodeList.getLength() / 2 * 100;
             Element elm = (Element) nodeList.item(i);
             Train train = new Train();
-            train.setDirectNumber(elm.getElementsByTagName("number-straight")
-                    .item(0).getTextContent());
-            train.setReversedNumber(elm.getElementsByTagName("number-reversed")
-                    .item(0).getTextContent());
+            if (!service.checkTrainRegex(elm.getElementsByTagName("number-straight")
+                    .item(0).getTextContent())) {
+                throw new CustomException("Ошибка парсинга");
+            } else {
+                train.setDirectNumber(elm.getElementsByTagName("number-straight")
+                        .item(0).getTextContent());
+            }
+            if (!service.checkTrainRegex(elm.getElementsByTagName("number-reversed")
+                    .item(0).getTextContent())) {
+                throw new CustomException("Ошибка парсинга");
+            } else {
+                train.setReversedNumber(elm.getElementsByTagName("number-reversed")
+                        .item(0).getTextContent());
+            }
             train.setRoute(elm.getElementsByTagName("route").item(0)
                     .getTextContent());
             train.setHasProgressive(Integer.parseInt(elm.getElementsByTagName("progressive")
@@ -166,14 +166,13 @@ public class ParseXml {
             train.setDep(Integer.parseInt(elm.getElementsByTagName("dep")
                     .item(0).getTextContent()));
             res.add(train);
-            progressBar.setProgress(perc);
         }
 
         return res;
 
     }
 
-    private List<Coach> getCoachesListFromDoc(Document doc, ProgressBar progressBar) {
+    private List<Coach> getCoachesListFromDoc(Document doc) throws CustomException {
 
         List<Coach> res = new ArrayList<>();
 
@@ -182,14 +181,19 @@ public class ParseXml {
         for (int i = 0; i < nodeList.getLength(); i++) {
 
             Element el = (Element) nodeList.item(i);
-            int perc = i / nodeList.getLength() / 2 * 100 + 50;
             Coach coach = new Coach();
 
-            coach.setCoachNumber(el.getElementsByTagName("coach-number").item(0).getTextContent());
-            coach.setDep(Integer.parseInt(el.getElementsByTagName("branch").item(0).getTextContent()));
+            if (!service.checkCoachRegex(el.getElementsByTagName("coach-number")
+                    .item(0).getTextContent())) {
+                throw new CustomException("Ошибка парсинга");
+            } else {
+                coach.setCoachNumber(el.getElementsByTagName("coach-number")
+                        .item(0).getTextContent());
+            }
+            coach.setDep(Integer.parseInt(el.getElementsByTagName("branch")
+                    .item(0).getTextContent()));
 
             res.add(coach);
-            progressBar.setProgress(perc);
 
         }
 

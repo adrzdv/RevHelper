@@ -5,17 +5,20 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.MainActivity">
+    tools:context=".activity.SearchActivity">
 
-    <TextView
-        android:id="@+id/WelcomeText"
+    <Button
+        android:id="@+id/loadDataButton"
+        style="@style/CustomButtonStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
+        android:layout_marginStart="100dp"
         android:layout_marginTop="8dp"
-        android:text="@string/Greating"
+        android:layout_marginEnd="100dp"
+        android:text="@string/StartButtonText"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/CoachNumberInput" />
 
     <TextView
         android:id="@+id/TrainTextView"
@@ -25,19 +28,7 @@
         android:layout_marginTop="8dp"
         android:text="@string/TextTrainNumberTextView"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/InstructionTextView" />
-
-    <TextView
-        android:id="@+id/InstructionTextView"
-        android:layout_width="0dp"
-        android:layout_height="56dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="100dp"
-        android:layout_marginEnd="24dp"
-        android:text="@string/InstructionText"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/WelcomeText" />
+        app:layout_constraintTop_toBottomOf="@+id/coachSwitch" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/TrainNumberInput"
@@ -54,6 +45,8 @@
             android:id="@+id/TrainTextInput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:inputType="text"
+            android:maxLines="1"
             android:hint="@string/TrainNumberTextViewValue" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -82,27 +75,22 @@
             android:id="@+id/CoachTextInput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:inputType="text"
+            android:maxLines="1"
             android:hint="@string/CoachNumberText" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
         android:id="@+id/startButton"
+        style="@style/CustomButtonStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
+        android:layout_marginStart="100dp"
         android:layout_marginTop="8dp"
+        android:layout_marginEnd="100dp"
         android:text="@string/StartButtonText"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/CoachNumberInput" />
-
-    <Button
-        android:id="@+id/exitButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:text="Выход"
-        app:layout_constraintStart_toEndOf="@+id/startButton"
         app:layout_constraintTop_toBottomOf="@+id/CoachNumberInput" />
 
     <Switch
@@ -120,32 +108,35 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="25dp"
+        android:layout_marginTop="64dp"
         android:text="@string/TrainSwitcher"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/WelcomeText" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ProgressBar
         android:id="@+id/progressBar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="150dp"
+        android:indeterminate="true"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/backButton"
+        style="@style/CustomButtonStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="100dp"
-        android:layout_marginTop="400dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="100dp"
-        android:indeterminate="true"
-        android:visibility="gone"
+        android:text="@string/BackText"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/importData"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        android:layout_marginEnd="24dp"
-        android:text="@string/ImportData"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/loadDataButton" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

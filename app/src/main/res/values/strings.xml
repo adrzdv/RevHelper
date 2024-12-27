@@ -10,6 +10,25 @@
     <string name="TextTrainNumberTextView">Номер поезда</string>
     <string name="TrainSwitcher">Поиск поезда</string>
     <string name="CoachSwitcher">Поиск вагона</string>
-    <string name="ImportData">Импортировать списки</string>
+    <string name="ImportData">Импорт</string>
+    <string name="StartTitle">RHelper 1.0</string>
+    <string name="LoadDataText">Загрузить данные</string>
+    <string name="ServiceText">Сервисное меню</string>
+    <string name="RevisionText">Ревизия поезда</string>
+    <string name="ExitText">Выход</string>
+    <string name="BackText">Назад</string>
+    <string name="CoachActivityHeader">Ревизия вагона</string>
+    <string name="SkudoppText">СКУДОПП</string>
+    <string name="AutomaticDoorText">Автоматические двери</string>
+    <string name="AddCoachInfoButtonText">Добавить вагон</string>
+    <string name="StartRevision">Начать проверку</string>
+    <string name="TrainRevisionHeader">Проверка поезда</string>
+    <string name="CoachWorkerText">Проводник</string>
+    <string name="SaveInfoTextString">Сохранить</string>
+    <string name="ReturnBackTextString">Назад</string>
+    <string name="MakeResultButtonText">Результат</string>
+    <string name="DeleteStringText">Удалить</string>
+    <string name="orderButtonText">Уведомление</string>
+
 
 </resources>
