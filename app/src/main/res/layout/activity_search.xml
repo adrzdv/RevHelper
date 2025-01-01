@@ -20,16 +20,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/CoachNumberInput" />
 
-    <TextView
-        android:id="@+id/TrainTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="8dp"
-        android:text="@string/TextTrainNumberTextView"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/coachSwitch" />
-
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/TrainNumberInput"
         android:layout_width="0dp"
@@ -39,26 +29,18 @@
         android:layout_marginEnd="24dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/TrainTextView">
+        app:layout_constraintTop_toBottomOf="@+id/coachSwitch">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/TrainTextInput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textColor="@color/foreground_color"
+            android:background="@color/background_color"
             android:inputType="text"
             android:maxLines="1"
             android:hint="@string/TrainNumberTextViewValue" />
     </com.google.android.material.textfield.TextInputLayout>
-
-    <TextView
-        android:id="@+id/textView4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="8dp"
-        android:text="@string/CoachTextViewValue"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/TrainNumberInput" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/CoachNumberInput"
@@ -69,18 +51,20 @@
         android:layout_marginEnd="24dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView4">
+        app:layout_constraintTop_toBottomOf="@+id/TrainNumberInput">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/CoachTextInput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textColor="@color/foreground_color"
+            android:background="@color/background_color"
             android:inputType="text"
             android:maxLines="1"
             android:hint="@string/CoachNumberText" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/startButton"
         style="@style/CustomButtonStyle"
         android:layout_width="wrap_content"
@@ -93,7 +77,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/CoachNumberInput" />
 
-    <Switch
+    <com.google.android.material.materialswitch.MaterialSwitch
         android:id="@+id/coachSwitch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -103,7 +87,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/trainSwitch" />
 
-    <Switch
+    <com.google.android.material.materialswitch.MaterialSwitch
         android:id="@+id/trainSwitch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -126,7 +110,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/backButton"
         style="@style/CustomButtonStyle"
         android:layout_width="wrap_content"

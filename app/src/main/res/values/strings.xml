@@ -28,7 +28,23 @@
     <string name="ReturnBackTextString">Назад</string>
     <string name="MakeResultButtonText">Результат</string>
     <string name="DeleteStringText">Удалить</string>
-    <string name="orderButtonText">Уведомление</string>
+    <string name="OrderButtonText">Уведомление</string>
+    <string name="CheckBoxElectricityText">Электроснабжение</string>
+    <string name="ProgressiveTextCheckBox">Прогрессивные нормы</string>
+    <string name="SpinnerTextStateRadioGroupeHeader">Состояние/наличие</string>
+    <string name="GoodRadioText">Исправен</string>
+    <string name="FaultyRadioText">Неисправен</string>
+    <string name="main_nodes_state_header_text">Состояние основных систем:</string>
+    <string name="AddViolationButtonText">Добавить нарушение</string>
+    <string name="FinishCoachRevisionTextButton">Завершить проверку</string>
+    <string name="OrderHeaderText">Уведомление</string>
+    <string name="OrderDateInputText">Дата уведомления</string>
+    <string name="OrderNumberHitText">Номер уведомления</string>
+    <string name="TrainMasterHintText">Начальник поезда</string>
+    <string name="OrderTrainTeamButtonText">Поездная бригада</string>
+    <string name="TrainNumberHint">Введите поезд</string>
+    <string name="MasterDataInputText">ФИО работника</string>
+    <string name="MasterTextView">Введите ФИО и выберете должность</string>
 
 
 </resources>

@@ -14,6 +14,48 @@
         <item name="windowNoTitle">true</item>
     </style>
 
+    <style name="DialogTheme" parent="Theme.MaterialComponents.Dialog">
+        <!-- Настройка внешнего вида диалога -->
+        <item name="android:windowMinWidthMajor">90%</item>
+        <item name="android:windowMinWidthMinor">90%</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowBackground">@android:color/background_light</item>
+    </style>
+
+    <style name="CustomTextInputTheme" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <!-- Цвет границы -->
+        <item name="boxStrokeColor">@color/grey_corp</item>
+        <!-- Цвет текста подсказки (hint) -->
+        <item name="hintTextColor">@color/black</item>
+        <!-- Цвет фона текстового поля -->
+        <item name="boxBackgroundColor">@color/white</item>
+        <!-- Цвет текста -->
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="CustomSpinnerWithBorder">
+        <item name="android:background">@drawable/spinner_border</item>  <!-- Добавление рамки -->
+        <item name="android:padding">8dp</item>
+    </style>
+
+    <style name="CustomSpinnerStyle" parent="Widget.AppCompat.Spinner">
+        <!-- Задаем цвет текста -->
+        <item name="android:textColor">@color/black</item>
+        <!-- Задаем цвет фона для раскрытого списка -->
+        <item name="android:popupBackground">@android:color/white</item>
+        <!-- Задаем размер текста -->
+        <item name="android:textSize">16sp</item>
+        <!-- Дополнительные настройки -->
+        <item name="android:paddingLeft">10dp</item>
+        <item name="android:paddingRight">10dp</item>
+        <!-- Убираем фоновый цвет, чтобы не закрывал текст -->
+        <!--<item name="android:background">@android:color/white</item>-->
+        <!-- Устанавливаем контрастный цвет фона -->
+        <item name="android:dropDownWidth">match_parent</item>
+        <item name="android:background">@drawable/spinner_border</item>
+    </style>
+
     <style name="Theme.RevHelper.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="Theme.RevHelper.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
@@ -34,6 +76,7 @@
         <item name="android:textColor">@color/black</item>
         <item name="buttonStyle">@style/CustomButtonStyle</item>
     </style>
+
     <style name="CustomTextTheme">
         <item name="android:fontFamily">@font/fsrail55</item>
         <item name="android:textSize">16sp</item>

@@ -1,16 +1,42 @@
 package com.example.revhelper.model;
 
 import java.time.LocalDate;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Order {
     private String number;
     private String route;
     private LocalDate date;
+    private Map<String, String> directors = new HashMap<>();
+    private TrainDto train;
 
-    public Order(String number, String route, LocalDate date) {
+    public Order(String number, String route, LocalDate date, Map<String, String> directors, TrainDto train) {
         this.number = number;
         this.route = route;
         this.date = date;
+        this.directors = directors;
+        this.train = train;
+    }
+
+    public Order() {
+
+    }
+
+    public void setTrain(TrainDto train) {
+        this.train = train;
+    }
+
+    public TrainDto getTrain() {
+        return this.train;
+    }
+
+    public void setDirectors(Map<String, String> directors) {
+        this.directors = directors;
+    }
+
+    public Map<String, String> getDirectors() {
+        return this.directors;
     }
 
     public void setNumber(String number) {

@@ -3,14 +3,10 @@ package com.example.revhelper.model;
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 
-import org.jetbrains.annotations.Nullable;
-
 public class TrainDto {
 
-    @ColumnInfo(name = "number_straight")
-    private String directNumber;
-    @ColumnInfo(name = "number_reversed")
-    private String reversedNumber;
+    @ColumnInfo(name = "number")
+    private String number;
     private String route;
     @ColumnInfo(name = "dep_name")
     private String depName;
@@ -23,12 +19,19 @@ public class TrainDto {
     @ColumnInfo(name = "has_portal")
     private int hasPortal;
 
-    public void setDirectNumber(String dirNumber) {
-        this.directNumber = dirNumber;
+    public TrainDto(String number, String route, String branchName, String depName,
+                    int hasRegistrator, int hasProgressive, int hasPortal) {
+        this.number = number;
+        this.route = route;
+        this.depName = depName;
+        this.branchName = branchName;
+        this.hasRegistrator = hasRegistrator;
+        this.hasProgressive = hasProgressive;
+        this.hasPortal = hasPortal;
     }
 
-    public void setReversedNumber(String revNumber) {
-        this.reversedNumber = revNumber;
+    public void setNumber(String number) {
+        this.number = number;
     }
 
     public void setRoute(String route) {
@@ -51,12 +54,8 @@ public class TrainDto {
         this.hasRegistrator = regist;
     }
 
-    public String getDirectNumber() {
-        return directNumber;
-    }
-
-    public String getReversedNumber() {
-        return reversedNumber;
+    public String getNumber() {
+        return this.number;
     }
 
     public String getRoute() {
@@ -64,11 +63,11 @@ public class TrainDto {
     }
 
     public String getDepName() {
-        return getDepName();
+        return this.depName;
     }
 
     public String getBranchName() {
-        return getBranchName();
+        return this.branchName;
     }
 
     public int getHasRegistrator() {
@@ -92,7 +91,7 @@ public class TrainDto {
         String yesString = "Да";
         String noString = "Нет";
 
-        String res = "Поезд: " + this.getDirectNumber() + "/" + this.getReversedNumber() + "\n" +
+        String res = "Поезд: " + this.getNumber() + "\n" +
                 "Сообщение: " + this.getRoute() + "\n" +
                 "Формирование: " + this.depName + ", ФПКФ " + this.branchName + "\n" +
                 "Прогрессивные нормы: ";

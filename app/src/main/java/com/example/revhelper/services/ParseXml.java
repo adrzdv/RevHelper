@@ -142,20 +142,14 @@ public class ParseXml {
         for (int i = 0; i < nodeList.getLength(); i++) {
             Element elm = (Element) nodeList.item(i);
             Train train = new Train();
-            if (!service.checkTrainRegex(elm.getElementsByTagName("number-straight")
+            if (!service.checkTrainRegex(elm.getElementsByTagName("number")
                     .item(0).getTextContent())) {
                 throw new CustomException("Ошибка парсинга");
             } else {
-                train.setDirectNumber(elm.getElementsByTagName("number-straight")
+                train.setNumber(elm.getElementsByTagName("number")
                         .item(0).getTextContent());
             }
-            if (!service.checkTrainRegex(elm.getElementsByTagName("number-reversed")
-                    .item(0).getTextContent())) {
-                throw new CustomException("Ошибка парсинга");
-            } else {
-                train.setReversedNumber(elm.getElementsByTagName("number-reversed")
-                        .item(0).getTextContent());
-            }
+
             train.setRoute(elm.getElementsByTagName("route").item(0)
                     .getTextContent());
             train.setHasProgressive(Integer.parseInt(elm.getElementsByTagName("progressive")

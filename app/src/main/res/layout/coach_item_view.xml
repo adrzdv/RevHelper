@@ -31,8 +31,9 @@
     <!-- Кнопка значка -->
     <ImageButton
         android:id="@+id/menu_button"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
         android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="@string/BackText"
         android:src="@drawable/ic_delete"/>
 </LinearLayout>
