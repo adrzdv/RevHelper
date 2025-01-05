@@ -1,7 +1,5 @@
 package com.example.revhelper.model;
 
-import android.os.Parcelable;
-
 import java.time.LocalDateTime;
 import java.util.List;
 

@@ -10,9 +10,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.revhelper.R;
-import com.example.revhelper.databinding.ActivityCoachBinding;
 import com.example.revhelper.databinding.ActivityResultBinding;
-import com.example.revhelper.databinding.ActivityRevisionBinding;
 import com.example.revhelper.model.MainNodesEnum;
 
 import java.io.Serializable;

@@ -31,7 +31,6 @@ import com.example.revhelper.mapper.ViolationMapper;
 import com.example.revhelper.model.CoachOnRevision;
 import com.example.revhelper.model.MainNodesEnum;
 import com.example.revhelper.model.Order;
-import com.example.revhelper.model.Violation;
 import com.example.revhelper.model.ViolationForCoach;
 import com.example.revhelper.sys.AppRev;
 

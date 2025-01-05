@@ -19,7 +19,6 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.revhelper.R;
-import com.example.revhelper.adapters.ViolationAdapter;
 import com.example.revhelper.databinding.ActivityOrderBinding;
 import com.example.revhelper.dto.OrderParcelable;
 import com.example.revhelper.fragments.DialogFragmentExitConfirmation;
@@ -27,13 +26,11 @@ import com.example.revhelper.mapper.OrderMapper;
 import com.example.revhelper.model.Order;
 import com.example.revhelper.model.Train;
 import com.example.revhelper.model.TrainDto;
-import com.example.revhelper.model.Violation;
 import com.example.revhelper.sys.AppDatabase;
 import com.example.revhelper.sys.AppRev;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 
@@ -42,8 +39,6 @@ public class OrderActivity extends AppCompatActivity {
 
     private ActivityOrderBinding binding;
     private AppDatabase appDb;
-    //private ViolationAdapter violationAdapter;
-    //private List<Violation> violationNameList;
     private Order order = new Order();
     private TrainDto train;
 
@@ -55,7 +50,6 @@ public class OrderActivity extends AppCompatActivity {
         View view = binding.getRoot();
         setContentView(view);
         appDb = AppRev.getDb();
-        //violationAdapter = new ViolationAdapter(this, violationNameList);
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
