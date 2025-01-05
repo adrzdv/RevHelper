@@ -140,6 +140,7 @@ public class CoachActivity extends AppCompatActivity {
             mapCoachNodesValue.put(mainNodesList.get(0).getName(), coach.isCoachEnergySystem());
             mapCoachNodesValue.put(mainNodesList.get(1).getName(), coach.isCoachSkudopp());
             mapCoachNodesValue.put(mainNodesList.get(2).getName(), coach.isCoachAutomaticDoor());
+            mapCoachNodesValue.put(mainNodesList.get(3).getName(), coach.isCoachProgressive());
             violationList.addAll(coach.getViolationList().stream()
                     .map(ViolationMapper::fromParceToCoach)
                     .collect(Collectors.toList()));
@@ -147,7 +148,8 @@ public class CoachActivity extends AppCompatActivity {
             binding.showNodesTextRes.setText(new StringBuilder().append("Начало проверки: ")
                     .append(revStartString).append('\n')
                     .append(getMainNodesStatesToShow(coach.isCoachEnergySystem(),
-                            coach.isCoachSkudopp(), coach.isCoachAutomaticDoor())).toString());
+                            coach.isCoachSkudopp(), coach.isCoachAutomaticDoor(), coach.isCoachProgressive()))
+                    .toString());
 
         } else {
             revStartString = revStart.format(formatterToShow);
@@ -186,6 +188,7 @@ public class CoachActivity extends AppCompatActivity {
                     mapCoachNodesValue.get(mainNodesList.get(1).getName()),
                     mapCoachNodesValue.get(mainNodesList.get(2).getName()),
                     mapCoachNodesValue.get(mainNodesList.get(0).getName()),
+                    mapCoachNodesValue.get(mainNodesList.get(3).getName()),
                     revStart,
                     violationList);
 
@@ -211,18 +214,19 @@ public class CoachActivity extends AppCompatActivity {
             boolean isSkudoppAvailable;
             boolean isAutomaticDoorsAvailable;
             boolean isEnergySystemNodeAvailable;
+            boolean isProgressive;
 
             if (mainNodeName.equals(mainNodesList.get(0).getName())) {
                 isEnergySystemNodeAvailable = statusNode;
                 mapCoachNodesValue.put(mainNodesList.get(0).getName(), isEnergySystemNodeAvailable);
-                Toast toast = Toast.makeText(this, "Информация добавлена",
+                Toast toast = Toast.makeText(this, mainNodesList.get(0).getName(),
                         Toast.LENGTH_LONG);
                 toast.show();
             }
             if (mainNodeName.equals(mainNodesList.get(1).getName())) {
                 isSkudoppAvailable = statusNode;
                 mapCoachNodesValue.put(mainNodesList.get(1).getName(), isSkudoppAvailable);
-                Toast toast = Toast.makeText(this, "Информация добавлена",
+                Toast toast = Toast.makeText(this, mainNodesList.get(1).getName(),
                         Toast.LENGTH_LONG);
                 toast.show();
             }
@@ -230,7 +234,15 @@ public class CoachActivity extends AppCompatActivity {
             if (mainNodeName.equals(mainNodesList.get(2).getName())) {
                 isAutomaticDoorsAvailable = statusNode;
                 mapCoachNodesValue.put(mainNodesList.get(2).getName(), isAutomaticDoorsAvailable);
-                Toast toast = Toast.makeText(this, "Информация добавлена",
+                Toast toast = Toast.makeText(this, mainNodesList.get(2).getName(),
+                        Toast.LENGTH_LONG);
+                toast.show();
+            }
+
+            if (mainNodeName.equals(mainNodesList.get(3).getName())) {
+                isProgressive = statusNode;
+                mapCoachNodesValue.put(mainNodesList.get(3).getName(), isProgressive);
+                Toast toast = Toast.makeText(this, mainNodesList.get(3).getName(),
                         Toast.LENGTH_LONG);
                 toast.show();
             }
@@ -253,7 +265,8 @@ public class CoachActivity extends AppCompatActivity {
 
     private static StringBuilder getMainNodesStatesToShow(boolean isEnergySystemNodeAvailable,
                                                           boolean isSkudoppAvailable,
-                                                          boolean isAutomaticDoorsAvailable) {
+                                                          boolean isAutomaticDoorsAvailable,
+                                                          boolean isProgressive) {
         StringBuilder resNodesToShow = new StringBuilder();
         resNodesToShow = resNodesToShow.append("Система электроснабжения: ");
         if (isEnergySystemNodeAvailable) {
@@ -269,6 +282,12 @@ public class CoachActivity extends AppCompatActivity {
         }
         resNodesToShow = resNodesToShow.append("Автоматические двери: ");
         if (isAutomaticDoorsAvailable) {
+            resNodesToShow.append("да" + '\n');
+        } else {
+            resNodesToShow.append("нет" + '\n');
+        }
+        resNodesToShow = resNodesToShow.append("Прогрессивные нормы: ");
+        if (isProgressive) {
             resNodesToShow.append("да" + '\n');
         } else {
             resNodesToShow.append("нет" + '\n');

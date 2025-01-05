@@ -12,6 +12,7 @@ public class CoachMapper {
                 coach.getCoachWorker(),
                 coach.isCoachSkudopp(),
                 coach.isCoachAutomaticDoor(),
+                coach.isCoachProgressive(),
                 coach.getRevisionTime(),
                 coach.isCoachEnergySystem(),
                 coach.getViolationList().stream()
@@ -25,6 +26,7 @@ public class CoachMapper {
                 coach.isCoachSkudopp(),
                 coach.isCoachAutomaticDoor(),
                 coach.isCoachEnergySystem(),
+                coach.isCoachProgressive(),
                 coach.getRevisionTime(),
                 coach.getViolationList().stream()
                         .map(ViolationMapper::fromParceToCoach)

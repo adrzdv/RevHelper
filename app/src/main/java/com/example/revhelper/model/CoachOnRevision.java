@@ -11,6 +11,7 @@ public class CoachOnRevision {
     private boolean coachSkudopp;
     private boolean coachAutomaticDoor;
     private boolean coachEnergySystem;
+    private boolean coachProgressive;
     private LocalDateTime revisionTime;
     private List<ViolationForCoach> violationList;
 
@@ -19,6 +20,7 @@ public class CoachOnRevision {
                            boolean coachSkudopp,
                            boolean coachAutomaticDoor,
                            boolean coachEnergySystem,
+                           boolean coachProgressive,
                            LocalDateTime revisionTime,
                            List<ViolationForCoach> violationList) {
         this.coachAutomaticDoor = coachAutomaticDoor;
@@ -26,8 +28,17 @@ public class CoachOnRevision {
         this.coachWorker = coachWorker;
         this.coachNumber = coachNumber;
         this.coachEnergySystem = coachEnergySystem;
+        this.coachProgressive = coachProgressive;
         this.revisionTime = revisionTime;
         this.violationList = violationList;
+    }
+
+    public void setCoachProgressive(boolean coachProgressive) {
+        this.coachProgressive = coachProgressive;
+    }
+
+    public boolean isCoachProgressive() {
+        return this.coachProgressive;
     }
 
     public List<ViolationForCoach> getViolationList() {

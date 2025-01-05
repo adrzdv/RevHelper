@@ -70,13 +70,19 @@ public class ResultActivity extends AppCompatActivity {
 
         for (String key : map.keySet()) {
             if (!(key.equals(MainNodesEnum.SKUDOPP.name())
-                    || key.equals("TOTAL") || key.equals(MainNodesEnum.AUTO_DOOR.name()))) {
+                    || key.equals("TOTAL") || key.equals(MainNodesEnum.PROGRESS.name())
+                    || key.equals(MainNodesEnum.AUTO_DOOR.name()))) {
                 resultText.append("\n")
                         .append(key)
                         .append("\nВагоны:\n")
                         .append(map.get(key))
                         .append("\n");
             }
+        }
+
+        if (resMap.containsKey(MainNodesEnum.PROGRESS.name())) {
+            resultText.append("ПРОГРЕССИВНЫЕ НОРМЫ:\n").append(map.get(MainNodesEnum.PROGRESS.name()))
+                    .append("\n");
         }
 
         binding.resultTextView.setText(resultText.toString());

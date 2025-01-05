@@ -20,10 +20,12 @@ public class CoachOnRevisionParce implements Parcelable {
     private boolean coachEnergySystem;
     private boolean coachSkudopp;
     private boolean coachAutomaticDoor;
+    private boolean coachProgressive;
     private LocalDateTime revisionTime;
     private List<ViolationDtoParce> violationList;
 
     public CoachOnRevisionParce(String coachNumber, String coachWorker, boolean coachSkudopp, boolean coachAutomaticDoor,
+                                boolean coachProgressive,
                                 LocalDateTime revisionTime, boolean coachEnergySystem, List<ViolationDtoParce> violationList) {
         this.coachAutomaticDoor = coachAutomaticDoor;
         this.coachSkudopp = coachSkudopp;
@@ -31,6 +33,7 @@ public class CoachOnRevisionParce implements Parcelable {
         this.coachNumber = coachNumber;
         this.revisionTime = revisionTime;
         this.coachEnergySystem = coachEnergySystem;
+        this.coachProgressive = coachProgressive;
         this.violationList = violationList;
     }
 
@@ -40,6 +43,7 @@ public class CoachOnRevisionParce implements Parcelable {
         coachSkudopp = in.readByte() != 0;
         coachAutomaticDoor = in.readByte() != 0;
         coachEnergySystem = in.readByte() != 0;
+        coachProgressive = in.readByte() != 0;
         revisionTime = LocalDateTime.parse(in.readString());
         violationList = new ArrayList<>();
         in.readList(violationList, Violation.class.getClassLoader());
@@ -56,6 +60,26 @@ public class CoachOnRevisionParce implements Parcelable {
             return new CoachOnRevisionParce[size];
         }
     };
+
+    @Override
+    public void writeToParcel(@NonNull Parcel dest, int flags) {
+        dest.writeString(coachNumber);
+        dest.writeString(coachWorker);
+        dest.writeByte((byte) (coachSkudopp ? 1 : 0));
+        dest.writeByte((byte) (coachAutomaticDoor ? 1 : 0));
+        dest.writeByte((byte) (coachEnergySystem ? 1 : 0));
+        dest.writeByte((byte) (coachProgressive ? 1 : 0));
+        dest.writeString(revisionTime.toString());
+        dest.writeList(violationList);
+    }
+
+    public void setCoachProgressive(boolean coachProgressive) {
+        this.coachProgressive = coachProgressive;
+    }
+
+    public boolean isCoachProgressive() {
+        return this.coachProgressive;
+    }
 
     public List<ViolationDtoParce> getViolationList() {
         return this.violationList;
@@ -118,14 +142,5 @@ public class CoachOnRevisionParce implements Parcelable {
         return 0;
     }
 
-    @Override
-    public void writeToParcel(@NonNull Parcel dest, int flags) {
-        dest.writeString(coachNumber);
-        dest.writeString(coachWorker);
-        dest.writeByte((byte) (coachSkudopp ? 1 : 0));
-        dest.writeByte((byte) (coachAutomaticDoor ? 1 : 0));
-        dest.writeByte((byte) (coachEnergySystem ? 1 : 0));
-        dest.writeString(revisionTime.toString());
-        dest.writeList(violationList);
-    }
+
 }

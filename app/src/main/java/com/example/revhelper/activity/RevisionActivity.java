@@ -37,6 +37,7 @@ import com.example.revhelper.sys.AppRev;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -100,6 +101,7 @@ public class RevisionActivity extends AppCompatActivity {
                                     coach.isCoachSkudopp(),
                                     coach.isCoachAutomaticDoor(),
                                     coach.isCoachEnergySystem(),
+                                    coach.isCoachProgressive(),
                                     LocalDateTime.now(),
                                     coach.getViolationList().stream()
                                             .map(ViolationMapper::fromParceToCoach)
@@ -182,9 +184,24 @@ public class RevisionActivity extends AppCompatActivity {
                 .filter(CoachOnRevision::isCoachSkudopp)
                 .count()));
 
+        StringBuilder progressiveCoaches = new StringBuilder();
+
+        List<String> coachesNmbrs = coachMap.values().stream()
+                .filter(CoachOnRevision::isCoachProgressive)
+                .map(CoachOnRevision::getCoachNumber)
+                .collect(Collectors.toList());
+
+        for (String coachNumber : coachesNmbrs) {
+            progressiveCoaches.append(coachNumber).append(" ");
+        }
+
+        resMap.put(MainNodesEnum.PROGRESS.name(), progressiveCoaches.toString());
+
         List<ViolationForCoach> violationList = AppRev.getDb().violationDao().getAllViolations().stream()
                 .map(ViolationMapper::fromEntityToForCouch)
                 .collect(Collectors.toList());
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
 
         for (ViolationForCoach violation : violationList) {
             StringBuilder coaches = new StringBuilder();
@@ -194,7 +211,7 @@ public class RevisionActivity extends AppCompatActivity {
                             .append(" ")
                             .append(coach.getCoachWorker())
                             .append(" ")
-                            .append(coach.getRevisionTime())
+                            .append(coach.getRevisionTime().format(formatter))
                             .append("\n");
                     resMap.put(violation.getName(), coaches.toString());
                 }
