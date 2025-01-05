@@ -130,6 +130,7 @@ public class RevisionActivity extends AppCompatActivity {
             }
         }, coach -> { // Обработка удаления вагона
             coachMap.remove(coach.getCoachNumber());
+
         });
         rView.setAdapter(adapter);
 
