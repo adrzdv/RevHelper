@@ -12,7 +12,7 @@ public class CoachOnRevision {
     private boolean coachAutomaticDoor;
     private boolean coachEnergySystem;
     private LocalDateTime revisionTime;
-    private List<Violation> violationList;
+    private List<ViolationForCoach> violationList;
 
     public CoachOnRevision(String coachNumber,
                            String coachWorker,
@@ -20,7 +20,7 @@ public class CoachOnRevision {
                            boolean coachAutomaticDoor,
                            boolean coachEnergySystem,
                            LocalDateTime revisionTime,
-                           List<Violation> violationList) {
+                           List<ViolationForCoach> violationList) {
         this.coachAutomaticDoor = coachAutomaticDoor;
         this.coachSkudopp = coachSkudopp;
         this.coachWorker = coachWorker;
@@ -30,11 +30,11 @@ public class CoachOnRevision {
         this.violationList = violationList;
     }
 
-    public List<Violation> getViolationList() {
+    public List<ViolationForCoach> getViolationList() {
         return this.violationList;
     }
 
-    public void setViolationList(List<Violation> violationList) {
+    public void setViolationList(List<ViolationForCoach> violationList) {
         this.violationList = violationList;
     }
 

@@ -1,11 +1,17 @@
 package com.example.revhelper.adapters;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.PopupMenu;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -13,23 +19,22 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.revhelper.R;
 import com.example.revhelper.dto.CoachRepresentViewDto;
 import com.example.revhelper.model.Violation;
+import com.example.revhelper.model.ViolationForCoach;
 
 import java.util.List;
 
 public class ViolationAdapter extends RecyclerView.Adapter<ViolationAdapter.ViolationViewHolder> {
 
-    private List<Violation> violationList;
+    private List<ViolationForCoach> violationList;
+    private Context context;
 
-    public ViolationAdapter(List<Violation> violationList) {
+    public ViolationAdapter(Context context, List<ViolationForCoach> violationList) {
+        this.context = context;
         this.violationList = violationList;
     }
 
-    public interface OnItemClickListener {
-        void onItemClick(String violationString);
-    }
-
     @SuppressLint("NotifyDataSetChanged")
-    public void updateData(List<Violation> updatedList) {
+    public void updateData(List<ViolationForCoach> updatedList) {
         this.violationList = updatedList;
         notifyDataSetChanged();
     }
@@ -44,8 +49,10 @@ public class ViolationAdapter extends RecyclerView.Adapter<ViolationAdapter.Viol
 
     @Override
     public void onBindViewHolder(@NonNull ViolationAdapter.ViolationViewHolder holder, int position) {
-        Violation violation = violationList.get(position);
+        ViolationForCoach violation = violationList.get(position);
+        holder.violationCode.setText(String.valueOf(violation.getCode()));
         holder.violationName.setText(violation.getName());
+        holder.menuButton.setOnClickListener(v -> showPopupMenu(v, position));
     }
 
     @Override
@@ -55,11 +62,68 @@ public class ViolationAdapter extends RecyclerView.Adapter<ViolationAdapter.Viol
     }
 
     public static class ViolationViewHolder extends RecyclerView.ViewHolder {
-        TextView violationName;
+        TextView violationCode, violationName;
+        public ImageButton menuButton;
 
         public ViolationViewHolder(@NonNull View itemView) {
             super(itemView);
+            violationCode = itemView.findViewById(R.id.violation_code);
             violationName = itemView.findViewById(R.id.violation_name);
+            menuButton = itemView.findViewById(R.id.menu_button);
         }
+    }
+
+    private void showPopupMenu(View view, int position) {
+        PopupMenu popupMenu = new PopupMenu(context, view);
+        popupMenu.inflate(R.menu.item_menu);
+
+        popupMenu.setOnMenuItemClickListener(menuItem -> {
+            if (menuItem.getItemId() == R.id.delete_item) {
+                violationList.remove(position);
+                notifyItemRemoved(position);
+                return true;
+            } else if (menuItem.getItemId() == R.id.add_amount) {
+                // Показываем окно для ввода количества
+                showAmountInputDialog(position);
+                return true;
+            }
+            return false;
+        });
+
+        popupMenu.show();
+    }
+
+    private void showAmountInputDialog(int position) {
+        // Создаем диалоговое окно с полем для ввода количества
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle("Введите количество");
+
+        // Создаем EditText для ввода
+        EditText input = new EditText(context);
+        input.setInputType(InputType.TYPE_CLASS_NUMBER);  // Тип ввода - только цифры
+        builder.setView(input);
+
+        builder.setPositiveButton("OK", (dialog, which) -> {
+            String amountText = input.getText().toString();
+            if (!amountText.isEmpty()) {
+                try {
+                    int amount = Integer.parseInt(amountText);  // Преобразуем строку в целое число
+                    updateViolationAmount(position, amount);  // Обновляем количество для этого нарушения
+                } catch (NumberFormatException e) {
+                    Toast.makeText(context, "Некорректные данные", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        builder.setNegativeButton("Отмена", (dialog, which) -> dialog.dismiss());
+
+        builder.show();
+    }
+
+    private void updateViolationAmount(int position, int amount) {
+        // Обновляем количество для конкретного нарушения в списке
+        ViolationForCoach violation = violationList.get(position);
+        violation.setAmount(amount);  // Предполагаем, что у объекта Violation есть метод setAmount
+        notifyItemChanged(position);  // Обновляем элемент в RecyclerView
     }
 }

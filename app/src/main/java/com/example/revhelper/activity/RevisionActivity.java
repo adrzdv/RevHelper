@@ -27,9 +27,15 @@ import com.example.revhelper.dto.OrderParcelable;
 import com.example.revhelper.fragments.DialogFragmentExitConfirmation;
 import com.example.revhelper.mapper.CoachMapper;
 import com.example.revhelper.mapper.OrderMapper;
+import com.example.revhelper.mapper.ViolationMapper;
 import com.example.revhelper.model.CoachOnRevision;
+import com.example.revhelper.model.MainNodesEnum;
 import com.example.revhelper.model.Order;
+import com.example.revhelper.model.Violation;
+import com.example.revhelper.model.ViolationForCoach;
+import com.example.revhelper.sys.AppRev;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -94,7 +100,10 @@ public class RevisionActivity extends AppCompatActivity {
                                     coach.isCoachSkudopp(),
                                     coach.isCoachAutomaticDoor(),
                                     coach.isCoachEnergySystem(),
-                                    LocalDateTime.now(), null));
+                                    LocalDateTime.now(),
+                                    coach.getViolationList().stream()
+                                            .map(ViolationMapper::fromParceToCoach)
+                                            .collect(Collectors.toList())));
                         } else if (orderParce != null) {
                             order = OrderMapper.fromParcelableToOrder(orderParce);
                             binding.orderTextView.setText(getOrderToShow(order));
@@ -117,6 +126,8 @@ public class RevisionActivity extends AppCompatActivity {
             } else {
                 Toast.makeText(RevisionActivity.this, "Some troubles", Toast.LENGTH_SHORT).show();
             }
+        }, coach -> { // Обработка удаления вагона
+            coachMap.remove(coach.getCoachNumber());
         });
         rView.setAdapter(adapter);
 
@@ -137,6 +148,10 @@ public class RevisionActivity extends AppCompatActivity {
         }));
 
         binding.makeResultButton.setOnClickListener((v -> {
+            Map<String, String> resMap = makeRevisionResult();
+            Intent intent = new Intent(RevisionActivity.this, ResultActivity.class);
+            intent.putExtra("resMap", (Serializable) resMap);
+            startActivity(intent);
 
         }));
 
@@ -145,6 +160,48 @@ public class RevisionActivity extends AppCompatActivity {
             launcher.launch(intent);
         }));
 
+    }
+
+    private Map<String, String> makeRevisionResult() {
+        Map<String, String> resMap = new HashMap<>();
+
+        int total = 0;
+
+        for (CoachOnRevision coach : coachMap.values()) {
+
+            total = total + coach.getViolationList().stream().mapToInt(ViolationForCoach::getAmount).sum();
+
+        }
+
+        resMap.put("TOTAL", String.valueOf(total));
+
+        resMap.put(MainNodesEnum.AUTO_DOOR.name(), String.valueOf(coachMap.values().stream()
+                .filter(CoachOnRevision::isCoachAutomaticDoor)
+                .count()));
+        resMap.put(MainNodesEnum.SKUDOPP.name(), String.valueOf(coachMap.values().stream()
+                .filter(CoachOnRevision::isCoachSkudopp)
+                .count()));
+
+        List<ViolationForCoach> violationList = AppRev.getDb().violationDao().getAllViolations().stream()
+                .map(ViolationMapper::fromEntityToForCouch)
+                .collect(Collectors.toList());
+
+        for (ViolationForCoach violation : violationList) {
+            StringBuilder coaches = new StringBuilder();
+            for (CoachOnRevision coach : coachMap.values()) {
+                if (coach.getViolationList().contains(violation)) {
+                    coaches.append(coach.getCoachNumber())
+                            .append(" ")
+                            .append(coach.getCoachWorker())
+                            .append(" ")
+                            .append(coach.getRevisionTime())
+                            .append("\n");
+                    resMap.put(violation.getName(), coaches.toString());
+                }
+            }
+        }
+
+        return resMap;
     }
 
     private void updateRecyclerView(List<CoachRepresentViewDto> updatedList) {

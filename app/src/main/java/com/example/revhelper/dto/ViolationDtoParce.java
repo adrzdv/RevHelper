@@ -11,18 +11,24 @@ public class ViolationDtoParce implements Parcelable {
 
     private int id;
     private String name;
+    private int code;
     private int revisionType;
+    private int amount;
 
-    public ViolationDtoParce(int id, String name, int revisionType) {
+    public ViolationDtoParce(int id, int code, String name, int revisionType, int amount) {
         this.id = id;
+        this.code = code;
         this.name = name;
         this.revisionType = revisionType;
+        this.amount = amount;
     }
 
     protected ViolationDtoParce(Parcel in) {
         id = in.readInt();
+        code = in.readInt();
         name = in.readString();
         revisionType = in.readInt();
+        amount = in.readInt();
     }
 
     public static final Creator<ViolationDtoParce> CREATOR = new Creator<ViolationDtoParce>() {
@@ -36,6 +42,22 @@ public class ViolationDtoParce implements Parcelable {
             return new ViolationDtoParce[size];
         }
     };
+
+    public void setAmount(int amount) {
+        this.amount = amount;
+    }
+
+    public int getAmount() {
+        return this.amount;
+    }
+
+    public void setCode(int code) {
+        this.code = code;
+    }
+
+    public int getCode() {
+        return this.code;
+    }
 
     public void setId(int id) {
         this.id = id;
@@ -70,7 +92,9 @@ public class ViolationDtoParce implements Parcelable {
     @Override
     public void writeToParcel(@NonNull Parcel dest, int flags) {
         dest.writeInt(id);
+        dest.writeInt(code);
         dest.writeString(name);
         dest.writeInt(revisionType);
+        dest.writeInt(amount);
     }
 }

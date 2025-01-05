@@ -87,7 +87,6 @@ public class ParseXml {
 
             } else if (elmFlag.equals("rebase")) {
 
-
                 executor.execute(() -> {
 
                     final String message;
@@ -121,7 +120,7 @@ public class ParseXml {
                 });
 
             } else if (elmFlag.equals("update")) {
-
+                input.close();
             } else {
                 input.close();
                 throw new CustomException("Некорректный флаг начала файла");

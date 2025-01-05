@@ -15,7 +15,7 @@ public class CoachMapper {
                 coach.getRevisionTime(),
                 coach.isCoachEnergySystem(),
                 coach.getViolationList().stream()
-                        .map(ViolationMapper::fromEntityToParce)
+                        .map(ViolationMapper::fromForCoachToParce)
                         .collect(Collectors.toList()));
     }
 
@@ -27,7 +27,7 @@ public class CoachMapper {
                 coach.isCoachEnergySystem(),
                 coach.getRevisionTime(),
                 coach.getViolationList().stream()
-                        .map(ViolationMapper::fromParceToEntity)
+                        .map(ViolationMapper::fromParceToCoach)
                         .collect(Collectors.toList()));
     }
 }

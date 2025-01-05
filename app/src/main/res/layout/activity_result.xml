@@ -13,12 +13,23 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/violation_list_recycler_view"
+        <com.google.android.material.textview.MaterialTextView
+            style="@style/CustomTheme"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:scrollbars="vertical" />
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:text="@string/ResultHeaderString" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/result_text_view"
+            style="@style/CustomTextTheme"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="8dp">
+
+        </com.google.android.material.textview.MaterialTextView>
+
+
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -22,15 +22,21 @@ public class CoachAdapter extends RecyclerView.Adapter<CoachAdapter.CoachViewHol
     private List<CoachRepresentViewDto> coachListForRepresent;
     private OnItemClickListener listener;
     private Context context;
+    private final OnCoachDeleteListener deleteListener;
 
     public interface OnItemClickListener {
         void onItemClick(CoachRepresentViewDto coach);
     }
 
-    public CoachAdapter(Context context, List<CoachRepresentViewDto> coachList, OnItemClickListener listener) {
+    public interface OnCoachDeleteListener {
+        void onCoachDelete(CoachRepresentViewDto coach);
+    }
+
+    public CoachAdapter(Context context, List<CoachRepresentViewDto> coachList, OnItemClickListener listener, OnCoachDeleteListener deleteListener) {
         this.context = context;
         this.coachListForRepresent = coachList;
         this.listener = listener;
+        this.deleteListener = deleteListener;
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -76,11 +82,14 @@ public class CoachAdapter extends RecyclerView.Adapter<CoachAdapter.CoachViewHol
 
     private void showPopupMenu(View view, int position) {
         PopupMenu popupMenu = new PopupMenu(context, view);
-        popupMenu.inflate(R.menu.item_menu); // Подключаем меню из res/menu/item_menu.xml
+        popupMenu.inflate(R.menu.item_menu_coach); // Подключаем меню из res/menu/item_menu.xml
 
         popupMenu.setOnMenuItemClickListener(menuItem -> {
             if (menuItem.getItemId() == R.id.delete_item) {
                 // Удаляем элемент из списка
+                if (deleteListener != null) {
+                    deleteListener.onCoachDelete(coachListForRepresent.get(position));
+                }
                 coachListForRepresent.remove(position);
                 notifyItemRemoved(position);
                 return true;

@@ -37,6 +37,7 @@ import com.example.revhelper.mapper.ViolationMapper;
 import com.example.revhelper.model.CoachOnRevision;
 import com.example.revhelper.model.MainNodes;
 import com.example.revhelper.model.Violation;
+import com.example.revhelper.model.ViolationForCoach;
 import com.example.revhelper.services.CheckService;
 import com.example.revhelper.sys.AppDatabase;
 import com.example.revhelper.sys.AppRev;
@@ -49,6 +50,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @SuppressLint("NewApi")
 public class CoachActivity extends AppCompatActivity {
@@ -59,7 +61,7 @@ public class CoachActivity extends AppCompatActivity {
     private AppDatabase appDb;
     private List<MainNodes> mainNodesList;
     private ViolationAdapter adapter;
-    private List<Violation> violationList = new ArrayList<>();
+    private List<ViolationForCoach> violationList = new ArrayList<>();
     private final LocalDateTime revStart = LocalDateTime.now();
     private final DateTimeFormatter formatterToShow = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
     Map<String, Boolean> mapCoachNodesValue = new HashMap<>();
@@ -96,7 +98,15 @@ public class CoachActivity extends AppCompatActivity {
                         ViolationDtoParce violationParce = result.getData().getParcelableExtra("violation");
                         if (violationParce != null) {
                             Violation violation = ViolationMapper.fromParceToEntity(violationParce);
-                            violationList.add(violation);
+                            ViolationForCoach violationForCoach = ViolationMapper.fromEntityToForCouch(violation);
+                            if (violationList.contains(violationForCoach)) {
+                                Toast toast = Toast.makeText(this, "Нарушение уже добавлено",
+                                        Toast.LENGTH_LONG);
+                                toast.show();
+                                return;
+                            }
+
+                            violationList.add(violationForCoach);
                             updateRecyclerView(violationList);
                         }
                     }
@@ -106,7 +116,8 @@ public class CoachActivity extends AppCompatActivity {
         RecyclerView rView = binding.violationListRecycler;
         rView.setLayoutManager(new LinearLayoutManager(this));
         rView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
-        adapter = new ViolationAdapter(violationList);
+
+        adapter = new ViolationAdapter(this, violationList);
         rView.setAdapter(adapter);
 
         mainNodesList = appDb.mainNodesDao().getMainNodesList();
@@ -129,6 +140,9 @@ public class CoachActivity extends AppCompatActivity {
             mapCoachNodesValue.put(mainNodesList.get(0).getName(), coach.isCoachEnergySystem());
             mapCoachNodesValue.put(mainNodesList.get(1).getName(), coach.isCoachSkudopp());
             mapCoachNodesValue.put(mainNodesList.get(2).getName(), coach.isCoachAutomaticDoor());
+            violationList.addAll(coach.getViolationList().stream()
+                    .map(ViolationMapper::fromParceToCoach)
+                    .collect(Collectors.toList()));
 
             binding.showNodesTextRes.setText(new StringBuilder().append("Начало проверки: ")
                     .append(revStartString).append('\n')
@@ -175,13 +189,6 @@ public class CoachActivity extends AppCompatActivity {
                     revStart,
                     violationList);
 
-//            CoachOnRevisionParce coachOnRevisionParce = new CoachOnRevisionParce(coachNumber, coachWorker,
-//                    mapCoachNodesValue.get(mainNodesList.get(1).getName()),
-//                    mapCoachNodesValue.get(mainNodesList.get(2).getName()),
-//                    revStart,
-//                    mapCoachNodesValue.get(mainNodesList.get(0).getName()),
-//                    violationList);
-
             // Возвращаем объект в предыдущую активити
             Intent resultIntent = new Intent();
             resultIntent.putExtra("coach", CoachMapper.fromCoachOnRevisionToParcelable(coachOnRevision));
@@ -208,15 +215,24 @@ public class CoachActivity extends AppCompatActivity {
             if (mainNodeName.equals(mainNodesList.get(0).getName())) {
                 isEnergySystemNodeAvailable = statusNode;
                 mapCoachNodesValue.put(mainNodesList.get(0).getName(), isEnergySystemNodeAvailable);
+                Toast toast = Toast.makeText(this, "Информация добавлена",
+                        Toast.LENGTH_LONG);
+                toast.show();
             }
             if (mainNodeName.equals(mainNodesList.get(1).getName())) {
                 isSkudoppAvailable = statusNode;
                 mapCoachNodesValue.put(mainNodesList.get(1).getName(), isSkudoppAvailable);
+                Toast toast = Toast.makeText(this, "Информация добавлена",
+                        Toast.LENGTH_LONG);
+                toast.show();
             }
 
             if (mainNodeName.equals(mainNodesList.get(2).getName())) {
                 isAutomaticDoorsAvailable = statusNode;
                 mapCoachNodesValue.put(mainNodesList.get(2).getName(), isAutomaticDoorsAvailable);
+                Toast toast = Toast.makeText(this, "Информация добавлена",
+                        Toast.LENGTH_LONG);
+                toast.show();
             }
 
         }));
@@ -228,7 +244,7 @@ public class CoachActivity extends AppCompatActivity {
 
     }
 
-    private void updateRecyclerView(List<Violation> updateViolationList) {
+    private void updateRecyclerView(List<ViolationForCoach> updateViolationList) {
         //Обновляем адаптер RecyclerView
         if (adapter != null) {
             adapter.updateData(updateViolationList);

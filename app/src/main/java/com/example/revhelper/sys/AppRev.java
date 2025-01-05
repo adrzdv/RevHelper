@@ -2,6 +2,7 @@ package com.example.revhelper.sys;
 
 import android.app.Application;
 
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.room.Room;
 
 
@@ -16,6 +17,7 @@ public class AppRev extends Application {
 
     @Override
     public void onCreate() {
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         super.onCreate();
         instance = this;
         db = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "dbtrain")

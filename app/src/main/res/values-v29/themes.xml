@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Theme.RevHelper" parent="Base.Theme.RevHelper">
+        <item name="android:fontFamily">@font/fsrail55</item>
+        <item name="android:forceDarkAllowed">false</item>
+    </style>
+
+</resources>

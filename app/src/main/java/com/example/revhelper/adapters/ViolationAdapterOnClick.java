@@ -32,13 +32,14 @@ public class ViolationAdapterOnClick extends RecyclerView.Adapter<ViolationAdapt
     @Override
     public ViolationViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.violation_item_view, parent, false);
+                .inflate(R.layout.violation_item_view_without_button, parent, false);
         return new ViolationAdapterOnClick.ViolationViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViolationAdapterOnClick.ViolationViewHolder holder, int position) {
         Violation violation = violationList.get(position);
+        holder.violationCode.setText(String.valueOf(violation.getCode()));
         holder.violationName.setText(violation.getName());
         holder.itemView.setOnClickListener(v -> listener.onItemClick(violation));
     }
@@ -49,10 +50,11 @@ public class ViolationAdapterOnClick extends RecyclerView.Adapter<ViolationAdapt
     }
 
     public static class ViolationViewHolder extends RecyclerView.ViewHolder {
-        TextView violationName;
+        TextView violationCode, violationName;
 
         public ViolationViewHolder(@NonNull View itemView) {
             super(itemView);
+            violationCode = itemView.findViewById(R.id.violation_code);
             violationName = itemView.findViewById(R.id.violation_name);
         }
     }

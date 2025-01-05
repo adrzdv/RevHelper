@@ -42,8 +42,8 @@ public class OrderActivity extends AppCompatActivity {
 
     private ActivityOrderBinding binding;
     private AppDatabase appDb;
-    private ViolationAdapter violationAdapter;
-    private List<Violation> violationNameList;
+    //private ViolationAdapter violationAdapter;
+    //private List<Violation> violationNameList;
     private Order order = new Order();
     private TrainDto train;
 
@@ -55,7 +55,7 @@ public class OrderActivity extends AppCompatActivity {
         View view = binding.getRoot();
         setContentView(view);
         appDb = AppRev.getDb();
-        violationAdapter = new ViolationAdapter(violationNameList);
+        //violationAdapter = new ViolationAdapter(this, violationNameList);
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
@@ -71,6 +71,11 @@ public class OrderActivity extends AppCompatActivity {
                         String workerData = result.getData().getStringExtra("SURNAME");
                         if (!worker.isBlank()) {
                             order.getDirectors().put(worker, workerData);
+                            StringBuilder workerForView = new StringBuilder();
+                            for (String keyWorker : order.getDirectors().keySet()) {
+                                workerForView.append(keyWorker).append(": ").append(order.getDirectors().get(keyWorker)).append("\n");
+                                binding.trainInfoTextView.setText(workerForView);
+                            }
                         }
                     }
                 }
@@ -109,7 +114,6 @@ public class OrderActivity extends AppCompatActivity {
 
         binding.trainAutocompliteTextView.setOnItemClickListener((parent, View, position, id) -> {
             Train selectedTrain = adapter.getItem(position);
-            binding.trainInfoTextView.setText(selectedTrain.toString());
             train = appDb.trainDao().findByNumberWithDep(selectedTrain.getNumber());
         });
 
@@ -127,7 +131,14 @@ public class OrderActivity extends AppCompatActivity {
                 return;
             }
 
-            if (binding.orderDateTextInput.getText() == null) {
+            if (order.getDirectors().isEmpty()) {
+                Toast toast = Toast.makeText(this, "Не заполнена поедная бригада",
+                        Toast.LENGTH_LONG);
+                toast.show();
+                return;
+            }
+
+            if (binding.orderDateTextInput.getText().toString().isBlank()) {
                 Toast toast = Toast.makeText(this, "Не заполнена дата",
                         Toast.LENGTH_LONG);
                 toast.show();

@@ -45,6 +45,11 @@
     <string name="TrainNumberHint">Введите поезд</string>
     <string name="MasterDataInputText">ФИО работника</string>
     <string name="MasterTextView">Введите ФИО и выберете должность</string>
+    <string name="ResultHeaderString">Результат проверки</string>
+    <string name="ViolationCodeText">Код нарушения</string>
+    <string name="ViolationNameText">Описание нарушения</string>
+    <string name="EditAmmountText">Изменить количество</string>
+    <string name="UpdateAmountText">Изменить количество</string>
 
 
 </resources>

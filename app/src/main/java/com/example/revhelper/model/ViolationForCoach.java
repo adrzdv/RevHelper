@@ -5,25 +5,27 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-@Entity(tableName = "violations")
-public class Violation {
-    @PrimaryKey(autoGenerate = true)
+public class ViolationForCoach {
     private int id;
-    @ColumnInfo(name = "code")
-    @NonNull
     private int code;
-    @ColumnInfo(name = "name")
-    @NonNull
     private String name;
-    @ColumnInfo(name = "revision_type")
-    @NonNull
     private int revisionType;
+    private int amount;
 
-    public Violation(int id, int code, @NonNull String name, int revisionType) {
+    public ViolationForCoach(int id, int code, @NonNull String name, int revisionType, int amount) {
         this.id = id;
         this.code = code;
         this.name = name;
         this.revisionType = revisionType;
+        this.amount = amount;
+    }
+
+    public void setAmount(int amount) {
+        this.amount = amount;
+    }
+
+    public int getAmount() {
+        return this.amount;
     }
 
     public void setCode(int code) {
@@ -66,7 +68,7 @@ public class Violation {
         if (obj == null || getClass() != obj.getClass()) {
             return false;
         }
-        Violation violation = (Violation) obj;
+        ViolationForCoach violation = (ViolationForCoach) obj;
         return id == violation.id && name.equals(violation.name) && code == violation.code;
     }
 
