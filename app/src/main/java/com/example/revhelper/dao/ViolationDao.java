@@ -3,7 +3,7 @@ package com.example.revhelper.dao;
 import androidx.room.Dao;
 import androidx.room.Query;
 
-import com.example.revhelper.model.Violation;
+import com.example.revhelper.model.violation.Violation;
 
 import java.util.List;
 

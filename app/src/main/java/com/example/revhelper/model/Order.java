@@ -1,5 +1,7 @@
 package com.example.revhelper.model;
 
+import com.example.revhelper.model.train.TrainDto;
+
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;

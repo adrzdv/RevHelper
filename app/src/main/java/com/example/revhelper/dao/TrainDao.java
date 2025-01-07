@@ -2,11 +2,10 @@ package com.example.revhelper.dao;
 
 import androidx.room.Dao;
 import androidx.room.Insert;
-import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 
-import com.example.revhelper.model.Train;
-import com.example.revhelper.model.TrainDto;
+import com.example.revhelper.model.train.Train;
+import com.example.revhelper.model.train.TrainDto;
 
 import java.util.List;
 

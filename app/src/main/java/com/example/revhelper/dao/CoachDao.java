@@ -4,7 +4,7 @@ import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.Query;
 
-import com.example.revhelper.model.Coach;
+import com.example.revhelper.model.coach.Coach;
 
 import java.util.List;
 

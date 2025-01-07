@@ -6,7 +6,7 @@ import android.os.Parcelable;
 
 import androidx.annotation.NonNull;
 
-import com.example.revhelper.model.Violation;
+import com.example.revhelper.model.violation.Violation;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;

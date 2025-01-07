@@ -28,10 +28,10 @@ import com.example.revhelper.fragments.DialogFragmentExitConfirmation;
 import com.example.revhelper.mapper.CoachMapper;
 import com.example.revhelper.mapper.OrderMapper;
 import com.example.revhelper.mapper.ViolationMapper;
-import com.example.revhelper.model.CoachOnRevision;
+import com.example.revhelper.model.coach.CoachOnRevision;
 import com.example.revhelper.model.MainNodesEnum;
 import com.example.revhelper.model.Order;
-import com.example.revhelper.model.ViolationForCoach;
+import com.example.revhelper.model.violation.ViolationForCoach;
 import com.example.revhelper.sys.AppRev;
 
 import java.io.Serializable;

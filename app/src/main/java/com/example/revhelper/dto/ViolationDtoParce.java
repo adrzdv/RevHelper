@@ -31,6 +31,15 @@ public class ViolationDtoParce implements Parcelable {
         amount = in.readInt();
     }
 
+    @Override
+    public void writeToParcel(@NonNull Parcel dest, int flags) {
+        dest.writeInt(id);
+        dest.writeInt(code);
+        dest.writeString(name);
+        dest.writeInt(revisionType);
+        dest.writeInt(amount);
+    }
+
     public static final Creator<ViolationDtoParce> CREATOR = new Creator<ViolationDtoParce>() {
         @Override
         public ViolationDtoParce createFromParcel(Parcel in) {
@@ -87,14 +96,5 @@ public class ViolationDtoParce implements Parcelable {
     @Override
     public int describeContents() {
         return 0;
-    }
-
-    @Override
-    public void writeToParcel(@NonNull Parcel dest, int flags) {
-        dest.writeInt(id);
-        dest.writeInt(code);
-        dest.writeString(name);
-        dest.writeInt(revisionType);
-        dest.writeInt(amount);
     }
 }

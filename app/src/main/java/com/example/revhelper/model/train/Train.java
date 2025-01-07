@@ -1,4 +1,4 @@
-package com.example.revhelper.model;
+package com.example.revhelper.model.train;
 
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;

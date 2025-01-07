@@ -13,17 +13,14 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.revhelper.R;
-import com.example.revhelper.adapters.ViolationAdapter;
 import com.example.revhelper.adapters.ViolationAdapterOnClick;
-import com.example.revhelper.databinding.ActivityOrderBinding;
 import com.example.revhelper.databinding.ActivityViolationListBinding;
 import com.example.revhelper.dto.ViolationDtoParce;
 import com.example.revhelper.mapper.ViolationMapper;
-import com.example.revhelper.model.Violation;
+import com.example.revhelper.model.violation.Violation;
 import com.example.revhelper.sys.AppDatabase;
 import com.example.revhelper.sys.AppRev;
 
-import java.util.Arrays;
 import java.util.List;
 
 public class ViolationListActivity extends AppCompatActivity {

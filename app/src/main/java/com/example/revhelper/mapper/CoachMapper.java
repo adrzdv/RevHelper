@@ -1,7 +1,7 @@
 package com.example.revhelper.mapper;
 
 import com.example.revhelper.dto.CoachOnRevisionParce;
-import com.example.revhelper.model.CoachOnRevision;
+import com.example.revhelper.model.coach.CoachOnRevision;
 
 import java.util.stream.Collectors;
 

@@ -1,4 +1,6 @@
-package com.example.revhelper.model;
+package com.example.revhelper.model.coach;
+
+import com.example.revhelper.model.violation.ViolationForCoach;
 
 import java.time.LocalDateTime;
 import java.util.List;

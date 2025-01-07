@@ -24,8 +24,8 @@ import com.example.revhelper.dto.OrderParcelable;
 import com.example.revhelper.fragments.DialogFragmentExitConfirmation;
 import com.example.revhelper.mapper.OrderMapper;
 import com.example.revhelper.model.Order;
-import com.example.revhelper.model.Train;
-import com.example.revhelper.model.TrainDto;
+import com.example.revhelper.model.train.Train;
+import com.example.revhelper.model.train.TrainDto;
 import com.example.revhelper.sys.AppDatabase;
 import com.example.revhelper.sys.AppRev;
 

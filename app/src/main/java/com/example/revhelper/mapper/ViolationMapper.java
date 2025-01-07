@@ -1,8 +1,8 @@
 package com.example.revhelper.mapper;
 
 import com.example.revhelper.dto.ViolationDtoParce;
-import com.example.revhelper.model.Violation;
-import com.example.revhelper.model.ViolationForCoach;
+import com.example.revhelper.model.violation.Violation;
+import com.example.revhelper.model.violation.ViolationForCoach;
 
 public class ViolationMapper {
 
@@ -39,5 +39,6 @@ public class ViolationMapper {
                 violation.getName(),
                 violation.getRevisionType(),
                 violation.getAmount());
+
     }
 }

@@ -3,8 +3,8 @@ package com.example.revhelper.services;
 import android.text.Editable;
 
 import com.example.revhelper.exceptions.CustomException;
-import com.example.revhelper.model.Coach;
-import com.example.revhelper.model.TrainDto;
+import com.example.revhelper.model.coach.Coach;
+import com.example.revhelper.model.train.TrainDto;
 import com.example.revhelper.sys.AppDatabase;
 
 public class SearchService {

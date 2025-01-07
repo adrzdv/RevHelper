@@ -8,11 +8,11 @@ import com.example.revhelper.dao.MainNodesDao;
 import com.example.revhelper.dao.TrainDao;
 import com.example.revhelper.dao.ViolationDao;
 import com.example.revhelper.model.Branches;
-import com.example.revhelper.model.Coach;
+import com.example.revhelper.model.coach.Coach;
 import com.example.revhelper.model.Deps;
 import com.example.revhelper.model.MainNodes;
-import com.example.revhelper.model.Train;
-import com.example.revhelper.model.Violation;
+import com.example.revhelper.model.train.Train;
+import com.example.revhelper.model.violation.Violation;
 
 @Database(entities = {Train.class, Coach.class, Branches.class, Deps.class,
         MainNodes.class, Violation.class}, version = 2, exportSchema = true)
