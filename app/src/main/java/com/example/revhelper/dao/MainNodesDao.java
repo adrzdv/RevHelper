@@ -3,7 +3,7 @@ package com.example.revhelper.dao;
 import androidx.room.Dao;
 import androidx.room.Query;
 
-import com.example.revhelper.model.MainNodes;
+import com.example.revhelper.model.entity.MainNodes;
 
 import java.util.List;
 

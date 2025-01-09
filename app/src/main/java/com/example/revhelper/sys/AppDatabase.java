@@ -7,12 +7,12 @@ import com.example.revhelper.dao.CoachDao;
 import com.example.revhelper.dao.MainNodesDao;
 import com.example.revhelper.dao.TrainDao;
 import com.example.revhelper.dao.ViolationDao;
-import com.example.revhelper.model.Branches;
-import com.example.revhelper.model.coach.Coach;
-import com.example.revhelper.model.Deps;
-import com.example.revhelper.model.MainNodes;
-import com.example.revhelper.model.train.Train;
-import com.example.revhelper.model.violation.Violation;
+import com.example.revhelper.model.entity.Branches;
+import com.example.revhelper.model.entity.Coach;
+import com.example.revhelper.model.entity.Deps;
+import com.example.revhelper.model.entity.MainNodes;
+import com.example.revhelper.model.entity.Train;
+import com.example.revhelper.model.entity.Violation;
 
 @Database(entities = {Train.class, Coach.class, Branches.class, Deps.class,
         MainNodes.class, Violation.class}, version = 2, exportSchema = true)

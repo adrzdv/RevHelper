@@ -1,28 +1,29 @@
-package com.example.revhelper.model.violation;
+package com.example.revhelper.model.entity;
 
 import androidx.annotation.NonNull;
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
 
-public class ViolationForCoach {
+@Entity(tableName = "violations")
+public class Violation {
+    @PrimaryKey(autoGenerate = true)
     private int id;
+    @ColumnInfo(name = "code")
+    @NonNull
     private int code;
+    @ColumnInfo(name = "name")
+    @NonNull
     private String name;
+    @ColumnInfo(name = "revision_type")
+    @NonNull
     private int revisionType;
-    private int amount;
 
-    public ViolationForCoach(int id, int code, @NonNull String name, int revisionType, int amount) {
+    public Violation(int id, int code, @NonNull String name, int revisionType) {
         this.id = id;
         this.code = code;
         this.name = name;
         this.revisionType = revisionType;
-        this.amount = amount;
-    }
-
-    public void setAmount(int amount) {
-        this.amount = amount;
-    }
-
-    public int getAmount() {
-        return this.amount;
     }
 
     public void setCode(int code) {
@@ -65,7 +66,7 @@ public class ViolationForCoach {
         if (obj == null || getClass() != obj.getClass()) {
             return false;
         }
-        ViolationForCoach violation = (ViolationForCoach) obj;
+        Violation violation = (Violation) obj;
         return id == violation.id && name.equals(violation.name) && code == violation.code;
     }
 

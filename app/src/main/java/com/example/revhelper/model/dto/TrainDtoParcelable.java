@@ -1,4 +1,4 @@
-package com.example.revhelper.dto;
+package com.example.revhelper.model.dto;
 
 import android.os.Parcel;
 import android.os.Parcelable;

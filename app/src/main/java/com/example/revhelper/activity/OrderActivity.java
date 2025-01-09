@@ -20,12 +20,12 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.example.revhelper.R;
 import com.example.revhelper.databinding.ActivityOrderBinding;
-import com.example.revhelper.dto.OrderParcelable;
+import com.example.revhelper.model.dto.OrderParcelable;
 import com.example.revhelper.fragments.DialogFragmentExitConfirmation;
 import com.example.revhelper.mapper.OrderMapper;
-import com.example.revhelper.model.Order;
-import com.example.revhelper.model.train.Train;
-import com.example.revhelper.model.train.TrainDto;
+import com.example.revhelper.model.order.Order;
+import com.example.revhelper.model.entity.Train;
+import com.example.revhelper.model.dto.TrainDto;
 import com.example.revhelper.sys.AppDatabase;
 import com.example.revhelper.sys.AppRev;
 

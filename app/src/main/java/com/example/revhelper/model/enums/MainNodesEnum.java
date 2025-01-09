@@ -1,4 +1,4 @@
-package com.example.revhelper.model;
+package com.example.revhelper.model.enums;
 
 public enum MainNodesEnum {
     AUTO_DOOR,

@@ -1,4 +1,4 @@
-package com.example.revhelper.dto;
+package com.example.revhelper.model.dto;
 
 import android.annotation.SuppressLint;
 import android.os.Parcel;
@@ -6,7 +6,7 @@ import android.os.Parcelable;
 
 import androidx.annotation.NonNull;
 
-import com.example.revhelper.model.violation.Violation;
+import com.example.revhelper.model.entity.Violation;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;

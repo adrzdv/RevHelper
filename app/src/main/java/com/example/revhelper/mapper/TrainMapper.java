@@ -1,7 +1,7 @@
 package com.example.revhelper.mapper;
 
-import com.example.revhelper.dto.TrainDtoParcelable;
-import com.example.revhelper.model.train.TrainDto;
+import com.example.revhelper.model.dto.TrainDtoParcelable;
+import com.example.revhelper.model.dto.TrainDto;
 
 public class TrainMapper {
 

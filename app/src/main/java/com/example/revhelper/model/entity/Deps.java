@@ -1,24 +1,28 @@
-package com.example.revhelper.model;
+package com.example.revhelper.model.entity;
 
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-@Entity(tableName = "branches")
-public class Branches {
+@Entity(tableName = "deps")
+public class Deps {
     @PrimaryKey
-    int id;
+    private int id;
     @ColumnInfo(name = "name")
     @NonNull
-    String name = "";
+    private String name = "";
+    @ColumnInfo(name = "branch")
+    @NonNull
+    private int branch = 0;
+
 
     public void setName(@NonNull String name) {
         this.name = name;
     }
 
-    public int getId() {
-        return id;
+    public void setBranch(int branch) {
+        this.branch = branch;
     }
 
     @NonNull
@@ -26,7 +30,16 @@ public class Branches {
         return name;
     }
 
+    public int getBranch() {
+        return branch;
+    }
+
+    public int getId() {
+        return id;
+    }
+
     public void setId(int id) {
         this.id = id;
     }
 }
+

@@ -17,7 +17,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.revhelper.R;
-import com.example.revhelper.model.violation.ViolationForCoach;
+import com.example.revhelper.model.dto.ViolationForCoach;
 
 import java.util.List;
 

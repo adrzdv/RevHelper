@@ -1,7 +1,7 @@
 package com.example.revhelper.mapper;
 
-import com.example.revhelper.dto.OrderParcelable;
-import com.example.revhelper.model.Order;
+import com.example.revhelper.model.dto.OrderParcelable;
+import com.example.revhelper.model.order.Order;
 
 public class OrderMapper {
 

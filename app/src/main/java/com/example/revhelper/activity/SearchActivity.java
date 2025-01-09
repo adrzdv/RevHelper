@@ -19,8 +19,8 @@ import com.example.revhelper.exceptions.CustomException;
 import com.example.revhelper.sys.AppDatabase;
 import com.example.revhelper.sys.AppRev;
 import com.example.revhelper.R;
-import com.example.revhelper.model.coach.Coach;
-import com.example.revhelper.model.train.TrainDto;
+import com.example.revhelper.model.entity.Coach;
+import com.example.revhelper.model.dto.TrainDto;
 
 
 public class SearchActivity extends AppCompatActivity implements View.OnClickListener {

@@ -13,6 +13,30 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/code_violation_search"
+            style="@style/CustomTextInputTheme"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/SearchHintText"
+            android:padding="8dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/code_violation_search_text_input"
+                style="@style/CustomTextTheme"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:imeOptions="actionDone"
+                android:inputType="textPersonName"
+                android:singleLine="true"
+                android:textCursorDrawable="@color/black" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/darker_gray" />
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/violation_list_recycler_view"
             android:layout_width="match_parent"

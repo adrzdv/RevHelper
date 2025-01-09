@@ -1,8 +1,8 @@
 package com.example.revhelper.mapper;
 
-import com.example.revhelper.dto.ViolationDtoParce;
-import com.example.revhelper.model.violation.Violation;
-import com.example.revhelper.model.violation.ViolationForCoach;
+import com.example.revhelper.model.dto.ViolationDtoParce;
+import com.example.revhelper.model.entity.Violation;
+import com.example.revhelper.model.dto.ViolationForCoach;
 
 public class ViolationMapper {
 

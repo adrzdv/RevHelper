@@ -50,6 +50,7 @@
     <string name="ViolationNameText">Описание нарушения</string>
     <string name="EditAmmountText">Изменить количество</string>
     <string name="UpdateAmountText">Изменить количество</string>
+    <string name="SearchHintText">Поиск...</string>
 
 
 </resources>

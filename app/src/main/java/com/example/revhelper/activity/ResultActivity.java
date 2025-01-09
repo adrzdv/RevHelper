@@ -11,7 +11,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.example.revhelper.R;
 import com.example.revhelper.databinding.ActivityResultBinding;
-import com.example.revhelper.model.MainNodesEnum;
+import com.example.revhelper.model.enums.MainNodesEnum;
 
 import java.io.Serializable;
 import java.util.Map;

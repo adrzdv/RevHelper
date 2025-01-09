@@ -1,6 +1,6 @@
-package com.example.revhelper.model;
+package com.example.revhelper.model.order;
 
-import com.example.revhelper.model.train.TrainDto;
+import com.example.revhelper.model.dto.TrainDto;
 
 import java.time.LocalDate;
 import java.util.HashMap;

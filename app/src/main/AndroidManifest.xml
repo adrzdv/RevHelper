@@ -19,8 +19,8 @@
             android:exported="false" />
         <activity
             android:name=".activity.ViolationListActivity"
-            android:exported="false"
-            android:theme="@style/DialogTheme" />
+            android:exported="false"/>
+            <!--android:theme="@style/DialogTheme" />-->
         <activity
             android:name=".activity.AddMasterActivity"
             android:exported="false"

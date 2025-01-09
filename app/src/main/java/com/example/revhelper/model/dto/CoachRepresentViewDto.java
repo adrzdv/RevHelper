@@ -1,4 +1,4 @@
-package com.example.revhelper.dto;
+package com.example.revhelper.model.dto;
 
 public class CoachRepresentViewDto {
     private String coachNumber;

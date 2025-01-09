@@ -7,8 +7,8 @@ import android.os.Looper;
 import android.widget.Toast;
 
 import com.example.revhelper.exceptions.CustomException;
-import com.example.revhelper.model.coach.Coach;
-import com.example.revhelper.model.train.Train;
+import com.example.revhelper.model.entity.Coach;
+import com.example.revhelper.model.entity.Train;
 import com.example.revhelper.sys.AppDatabase;
 import com.example.revhelper.sys.ResultCallback;
 
