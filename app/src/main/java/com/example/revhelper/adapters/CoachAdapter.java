@@ -42,7 +42,7 @@ public class CoachAdapter extends RecyclerView.Adapter<CoachAdapter.CoachViewHol
     @SuppressLint("NotifyDataSetChanged")
     public void updateData(List<CoachRepresentViewDto> updatedList) {
         this.coachListForRepresent = updatedList;
-        notifyDataSetChanged();  // Обновление данных
+        notifyDataSetChanged();
     }
 
     @NonNull
@@ -71,7 +71,6 @@ public class CoachAdapter extends RecyclerView.Adapter<CoachAdapter.CoachViewHol
     public static class CoachViewHolder extends RecyclerView.ViewHolder {
         TextView coachNumber, coachWorker;
         public ImageButton menuButton;
-
         public CoachViewHolder(@NonNull View itemView) {
             super(itemView);
             coachNumber = itemView.findViewById(R.id.coachNumber);

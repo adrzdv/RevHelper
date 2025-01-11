@@ -118,20 +118,46 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/add_train_team_button"
-                style="@style/CustomButtonStyle"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/OrderTrainTeamButtonText" />
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:padding="8dp">
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/save_order"
-                style="@style/CustomButtonStyle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/SaveInfoTextString" />
+                <ImageButton
+                    android:id="@+id/add_train_team_button"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:background="?attr/selectableItemBackground"
+                    android:contentDescription="@string/AddPerson"
+                    android:src="@drawable/ic_add_person" />
+
+                <ImageButton
+                    android:id="@+id/add_coach"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:background="?attr/selectableItemBackground"
+                    android:contentDescription="@string/AddCoachInfoButtonText"
+                    android:src="@drawable/ic_add_item" />
+
+                <ImageButton
+                    android:id="@+id/clean_list"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:background="?attr/selectableItemBackground"
+                    android:contentDescription="@string/CleanList"
+                    android:src="@drawable/ic_clear_list" />
+
+                <ImageButton
+                    android:id="@+id/save_order"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:background="?attr/selectableItemBackground"
+                    android:contentDescription="@string/CleanList"
+                    android:src="@drawable/ic_save_icon" />
+
+            </LinearLayout>
 
         </LinearLayout>
 
@@ -144,6 +170,20 @@
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/train_info_text_view"
                 style="@style/CustomTextTheme"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="8dp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="8dp">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/coach_recycler_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="8dp" />

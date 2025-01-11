@@ -1,0 +1,83 @@
+package com.example.revhelper.adapters;
+
+import android.annotation.SuppressLint;
+import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageButton;
+import android.widget.PopupMenu;
+import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.revhelper.R;
+import com.example.revhelper.model.dto.CoachOnRevision;
+
+import java.util.List;
+
+public class CoachSingleAdapter extends RecyclerView.Adapter<CoachSingleAdapter.CoachViewHolder> {
+
+    private List<CoachOnRevision> coachList;
+    private Context context;
+
+    public CoachSingleAdapter(Context context, List<CoachOnRevision> coachList) {
+        this.context = context;
+        this.coachList = coachList;
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    public void updateData(List<CoachOnRevision> updatedList) {
+        this.coachList = updatedList;
+        notifyDataSetChanged();
+    }
+
+    @NonNull
+    @Override
+    public CoachViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.coach_item_single_view, parent, false);
+        return new CoachSingleAdapter.CoachViewHolder(view);
+    }
+
+
+    @Override
+    public void onBindViewHolder(@NonNull CoachSingleAdapter.CoachViewHolder holder, int position) {
+        CoachOnRevision coach = coachList.get(position);
+        holder.coachNumber.setText(coach.getCoachNumber());
+        holder.menuButton.setOnClickListener(view -> showPopupMenu(view, position));
+    }
+
+    @Override
+    public int getItemCount() {
+        return coachList.size();
+    }
+
+    public static class CoachViewHolder extends RecyclerView.ViewHolder {
+        TextView coachNumber;
+        public ImageButton menuButton;
+
+        public CoachViewHolder(@NonNull View itemView) {
+            super(itemView);
+            coachNumber = itemView.findViewById(R.id.coach_single_number);
+            menuButton = itemView.findViewById(R.id.menu_button);
+        }
+    }
+
+    private void showPopupMenu(View view, int position) {
+        PopupMenu popupMenu = new PopupMenu(context, view);
+        popupMenu.inflate(R.menu.item_menu_coach);
+
+        popupMenu.setOnMenuItemClickListener(menuItem -> {
+            if (menuItem.getItemId() == R.id.delete_item) {
+                coachList.remove(position);
+                notifyItemRemoved(position);
+                return true;
+            }
+            return false;
+        });
+
+        popupMenu.show();
+    }
+}

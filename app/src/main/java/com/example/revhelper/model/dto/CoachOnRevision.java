@@ -13,6 +13,7 @@ import com.example.revhelper.model.entity.Violation;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @SuppressLint("NewApi")
 public class CoachOnRevision implements Parcelable {
@@ -25,22 +26,59 @@ public class CoachOnRevision implements Parcelable {
     private LocalDateTime revisionTime;
     private List<ViolationForCoach> violationList;
 
-    public CoachOnRevision(String coachNumber,
-                           String coachWorker,
-                           boolean coachSkudopp,
-                           boolean coachAutomaticDoor,
-                           boolean coachEnergySystem,
-                           boolean coachProgressive,
-                           LocalDateTime revisionTime,
-                           List<ViolationForCoach> violationList) {
-        this.coachAutomaticDoor = coachAutomaticDoor;
-        this.coachSkudopp = coachSkudopp;
-        this.coachWorker = coachWorker;
-        this.coachNumber = coachNumber;
-        this.coachEnergySystem = coachEnergySystem;
-        this.coachProgressive = coachProgressive;
-        this.revisionTime = revisionTime;
-        this.violationList = violationList;
+    public static class Builder {
+        private String coachNumber;
+        private String coachWorker;
+        private boolean coachSkudopp;
+        private boolean coachAutomaticDoor;
+        private boolean coachEnergySystem;
+        private boolean coachProgressive;
+        private LocalDateTime revisionTime;
+        private List<ViolationForCoach> violationList = new ArrayList<>();
+
+        public Builder setCoachNumber(String coachNumber) {
+            this.coachNumber = coachNumber;
+            return this;
+        }
+
+        public Builder setCoachWorker(String coachWorker) {
+            this.coachWorker = coachWorker;
+            return this;
+        }
+
+        public Builder setCoachSkudopp(boolean coachSkudopp) {
+            this.coachSkudopp = coachSkudopp;
+            return this;
+        }
+
+        public Builder setCoachAutomaticDoor(boolean coachAutomaticDoor) {
+            this.coachAutomaticDoor = coachAutomaticDoor;
+            return this;
+        }
+
+        public Builder setCoachEnergySystem(boolean coachEnergySystem) {
+            this.coachEnergySystem = coachEnergySystem;
+            return this;
+        }
+
+        public Builder setCoachProgressive(boolean coachProgressive) {
+            this.coachProgressive = coachProgressive;
+            return this;
+        }
+
+        public Builder setRevisionTime(LocalDateTime revisionTime) {
+            this.revisionTime = revisionTime;
+            return this;
+        }
+
+        public Builder setViolationList(List<ViolationForCoach> violationList) {
+            this.violationList = violationList;
+            return this;
+        }
+
+        public CoachOnRevision build() {
+            return new CoachOnRevision(this);
+        }
     }
 
     public void setCoachProgressive(boolean coachProgressive) {
@@ -107,18 +145,6 @@ public class CoachOnRevision implements Parcelable {
         return this.coachAutomaticDoor;
     }
 
-    protected CoachOnRevision(Parcel in) {
-        coachNumber = in.readString();
-        coachWorker = in.readString();
-        coachSkudopp = in.readByte() != 0;
-        coachAutomaticDoor = in.readByte() != 0;
-        coachEnergySystem = in.readByte() != 0;
-        coachProgressive = in.readByte() != 0;
-        revisionTime = LocalDateTime.parse(in.readString());
-        violationList = new ArrayList<>();
-        in.readList(violationList, Violation.class.getClassLoader());
-    }
-
     public static final Creator<CoachOnRevision> CREATOR = new Creator<CoachOnRevision>() {
         @Override
         public CoachOnRevision createFromParcel(Parcel in) {
@@ -146,6 +172,42 @@ public class CoachOnRevision implements Parcelable {
     @Override
     public int describeContents() {
         return 0;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        CoachOnRevision that = (CoachOnRevision) o;
+        return Objects.equals(coachNumber, that.coachNumber);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(coachNumber);
+    }
+
+    protected CoachOnRevision(Parcel in) {
+        coachNumber = in.readString();
+        coachWorker = in.readString();
+        coachSkudopp = in.readByte() != 0;
+        coachAutomaticDoor = in.readByte() != 0;
+        coachEnergySystem = in.readByte() != 0;
+        coachProgressive = in.readByte() != 0;
+        revisionTime = LocalDateTime.parse(in.readString());
+        violationList = new ArrayList<>();
+        in.readList(violationList, Violation.class.getClassLoader());
+    }
+
+    private CoachOnRevision(Builder builder) {
+        this.coachNumber = builder.coachNumber;
+        this.coachWorker = builder.coachWorker;
+        this.coachSkudopp = builder.coachSkudopp;
+        this.coachAutomaticDoor = builder.coachAutomaticDoor;
+        this.coachEnergySystem = builder.coachEnergySystem;
+        this.coachProgressive = builder.coachProgressive;
+        this.revisionTime = builder.revisionTime;
+        this.violationList = builder.violationList;
     }
 
 }

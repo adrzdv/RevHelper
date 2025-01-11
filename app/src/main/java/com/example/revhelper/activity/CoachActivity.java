@@ -83,15 +83,12 @@ public class CoachActivity extends AppCompatActivity {
                     if (result.getResultCode() == RESULT_OK && result.getData() != null) {
                         ViolationForCoach violationForCoach = result.getData().getParcelableExtra("violation");
                         if (violationForCoach != null) {
-                            //Violation violation = ViolationMapper.fromParceToEntity(violationParce);
-                            //ViolationForCoach violationForCoach = ViolationMapper.fromEntityToForCouch(violation);
                             if (violationList.contains(violationForCoach)) {
                                 Toast toast = Toast.makeText(this, "Нарушение уже добавлено",
                                         Toast.LENGTH_LONG);
                                 toast.show();
                                 return;
                             }
-
                             violationList.add(violationForCoach);
                             updateRecyclerView(violationList);
                         }
@@ -102,7 +99,6 @@ public class CoachActivity extends AppCompatActivity {
         RecyclerView rView = binding.violationListRecycler;
         rView.setLayoutManager(new LinearLayoutManager(this));
         rView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
-
         adapter = new ViolationAdapter(this, violationList);
         rView.setAdapter(adapter);
 
@@ -168,13 +164,16 @@ public class CoachActivity extends AppCompatActivity {
 
             // Создаём объект
 
-            CoachOnRevision coachOnRevision = new CoachOnRevision(coachNumber, coachWorker,
-                    mapCoachNodesValue.get(mainNodesList.get(1).getName()),
-                    mapCoachNodesValue.get(mainNodesList.get(2).getName()),
-                    mapCoachNodesValue.get(mainNodesList.get(0).getName()),
-                    mapCoachNodesValue.get(mainNodesList.get(3).getName()),
-                    revStart,
-                    violationList);
+            CoachOnRevision coachOnRevision = new CoachOnRevision.Builder()
+                    .setCoachNumber(coachNumber)
+                    .setCoachWorker(coachWorker)
+                    .setCoachSkudopp(mapCoachNodesValue.get(mainNodesList.get(1).getName()))
+                    .setCoachAutomaticDoor(mapCoachNodesValue.get(mainNodesList.get(2).getName()))
+                    .setCoachEnergySystem(mapCoachNodesValue.get(mainNodesList.get(0).getName()))
+                    .setCoachProgressive(mapCoachNodesValue.get(mainNodesList.get(3).getName()))
+                    .setRevisionTime(revStart)
+                    .setViolationList(violationList)
+                    .build();
 
             // Возвращаем объект в предыдущую активити
             Intent resultIntent = new Intent();
