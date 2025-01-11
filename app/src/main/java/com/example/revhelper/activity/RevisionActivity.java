@@ -21,11 +21,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.revhelper.R;
 import com.example.revhelper.adapters.CoachAdapter;
 import com.example.revhelper.databinding.ActivityRevisionBinding;
-import com.example.revhelper.model.dto.CoachOnRevisionParce;
 import com.example.revhelper.model.dto.CoachRepresentViewDto;
 import com.example.revhelper.model.dto.OrderParcelable;
 import com.example.revhelper.fragments.DialogFragmentExitConfirmation;
-import com.example.revhelper.mapper.CoachMapper;
 import com.example.revhelper.mapper.OrderMapper;
 import com.example.revhelper.mapper.ViolationMapper;
 import com.example.revhelper.model.dto.CoachOnRevision;
@@ -85,7 +83,7 @@ public class RevisionActivity extends AppCompatActivity {
                     if (result.getResultCode() == RESULT_OK && result.getData() != null) {
                         // Получаем объект из результата
                         OrderParcelable orderParce = result.getData().getParcelableExtra("order");
-                        CoachOnRevisionParce coach = result.getData().getParcelableExtra("coach");
+                        CoachOnRevision coach = result.getData().getParcelableExtra("coach");
                         if (coach != null) {
                             if (coaches.stream()
                                     .anyMatch(coachOld -> coachOld.getCoachNumber().equals(coach.getCoachNumber()))) {
@@ -102,9 +100,7 @@ public class RevisionActivity extends AppCompatActivity {
                                     coach.isCoachEnergySystem(),
                                     coach.isCoachProgressive(),
                                     LocalDateTime.now(),
-                                    coach.getViolationList().stream()
-                                            .map(ViolationMapper::fromParceToCoach)
-                                            .collect(Collectors.toList())));
+                                    coach.getViolationList()));
                         } else if (orderParce != null) {
                             order = OrderMapper.fromParcelableToOrder(orderParce);
                             binding.orderTextView.setText(getOrderToShow(order));
@@ -121,8 +117,8 @@ public class RevisionActivity extends AppCompatActivity {
         adapter = new CoachAdapter(this, coaches, coach -> {
             Intent intent = new Intent(RevisionActivity.this, CoachActivity.class);
             if (coachMap.containsKey(coach.getCoachNumber())) {
-                CoachOnRevisionParce coachForSend = CoachMapper.fromCoachOnRevisionToParcelable(coachMap.get(coach.getCoachNumber()));
-                intent.putExtra("coach", coachForSend);
+                CoachOnRevision coachOnRevision = coachMap.get(coach.getCoachNumber());
+                intent.putExtra("coach", coachOnRevision);
                 launcher.launch(intent);
             } else {
                 Toast.makeText(RevisionActivity.this, "Some troubles", Toast.LENGTH_SHORT).show();

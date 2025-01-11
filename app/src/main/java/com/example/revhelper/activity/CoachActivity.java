@@ -22,14 +22,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.revhelper.R;
 import com.example.revhelper.adapters.ViolationAdapter;
 import com.example.revhelper.databinding.ActivityCoachBinding;
-import com.example.revhelper.model.dto.CoachOnRevisionParce;
-import com.example.revhelper.model.dto.ViolationDtoParce;
 import com.example.revhelper.fragments.DialogFragmentExitConfirmation;
-import com.example.revhelper.mapper.CoachMapper;
-import com.example.revhelper.mapper.ViolationMapper;
 import com.example.revhelper.model.dto.CoachOnRevision;
 import com.example.revhelper.model.entity.MainNodes;
-import com.example.revhelper.model.entity.Violation;
 import com.example.revhelper.model.dto.ViolationForCoach;
 import com.example.revhelper.services.CheckService;
 import com.example.revhelper.sys.AppDatabase;
@@ -42,7 +37,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 @SuppressLint("NewApi")
 public class CoachActivity extends AppCompatActivity {
@@ -87,10 +81,10 @@ public class CoachActivity extends AppCompatActivity {
                 new ActivityResultContracts.StartActivityForResult(),
                 result -> {
                     if (result.getResultCode() == RESULT_OK && result.getData() != null) {
-                        ViolationDtoParce violationParce = result.getData().getParcelableExtra("violation");
-                        if (violationParce != null) {
-                            Violation violation = ViolationMapper.fromParceToEntity(violationParce);
-                            ViolationForCoach violationForCoach = ViolationMapper.fromEntityToForCouch(violation);
+                        ViolationForCoach violationForCoach = result.getData().getParcelableExtra("violation");
+                        if (violationForCoach != null) {
+                            //Violation violation = ViolationMapper.fromParceToEntity(violationParce);
+                            //ViolationForCoach violationForCoach = ViolationMapper.fromEntityToForCouch(violation);
                             if (violationList.contains(violationForCoach)) {
                                 Toast toast = Toast.makeText(this, "Нарушение уже добавлено",
                                         Toast.LENGTH_LONG);
@@ -125,7 +119,7 @@ public class CoachActivity extends AppCompatActivity {
 
         //Тут на забыть, что если открываем для редактирования вагон - надо все поля вывести
         if (getIntent().getParcelableExtra("coach") != null) {
-            CoachOnRevisionParce coach = getIntent().getParcelableExtra("coach");
+            CoachOnRevision coach = getIntent().getParcelableExtra("coach");
             revStartString = coach.getRevisionTime().format(formatterToShow);
             binding.coachNumber.setText(coach.getCoachNumber());
             binding.coachWorker.setText(coach.getCoachWorker());
@@ -133,9 +127,7 @@ public class CoachActivity extends AppCompatActivity {
             mapCoachNodesValue.put(mainNodesList.get(1).getName(), coach.isCoachSkudopp());
             mapCoachNodesValue.put(mainNodesList.get(2).getName(), coach.isCoachAutomaticDoor());
             mapCoachNodesValue.put(mainNodesList.get(3).getName(), coach.isCoachProgressive());
-            violationList.addAll(coach.getViolationList().stream()
-                    .map(ViolationMapper::fromParceToCoach)
-                    .collect(Collectors.toList()));
+            violationList.addAll(coach.getViolationList());
 
             binding.showNodesTextRes.setText(new StringBuilder().append("Начало проверки: ")
                     .append(revStartString).append('\n')
@@ -186,7 +178,7 @@ public class CoachActivity extends AppCompatActivity {
 
             // Возвращаем объект в предыдущую активити
             Intent resultIntent = new Intent();
-            resultIntent.putExtra("coach", CoachMapper.fromCoachOnRevisionToParcelable(coachOnRevision));
+            resultIntent.putExtra("coach", coachOnRevision);
             setResult(RESULT_OK, resultIntent);
             // Закрываем SecondActivity
             finish();

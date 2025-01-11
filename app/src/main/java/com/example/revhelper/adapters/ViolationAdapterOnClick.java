@@ -57,4 +57,9 @@ public class ViolationAdapterOnClick extends RecyclerView.Adapter<ViolationAdapt
             violationName = itemView.findViewById(R.id.violation_name);
         }
     }
+
+    public void updateData(List<Violation> newViolationList) {
+        this.violationList = newViolationList;
+        notifyDataSetChanged();
+    }
 }

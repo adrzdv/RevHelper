@@ -1,6 +1,5 @@
 package com.example.revhelper.activity;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
@@ -19,8 +18,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.example.revhelper.R;
 import com.example.revhelper.adapters.ViolationAdapterOnClick;
 import com.example.revhelper.databinding.ActivityViolationListBinding;
-import com.example.revhelper.model.dto.ViolationDtoParce;
 import com.example.revhelper.mapper.ViolationMapper;
+import com.example.revhelper.model.dto.ViolationForCoach;
 import com.example.revhelper.model.entity.Violation;
 import com.example.revhelper.sys.AppDatabase;
 import com.example.revhelper.sys.AppRev;
@@ -53,7 +52,7 @@ public class ViolationListActivity extends AppCompatActivity {
         violationList = appDb.violationDao().getAllViolations();
 
         adapter = new ViolationAdapterOnClick(violationList, violation -> {
-            ViolationDtoParce violationParce = ViolationMapper.fromEntityToParce(violation);
+            ViolationForCoach violationParce = ViolationMapper.fromEntityToForCouch(violation);
             Intent intent = new Intent();
             intent.putExtra("violation", violationParce);
             setResult(RESULT_OK, intent);
@@ -102,7 +101,7 @@ public class ViolationListActivity extends AppCompatActivity {
             }
         }
 
-        adapter.notifyDataSetChanged(); // Обновление списка
+        adapter.updateData(filterdViolationList);
     }
 
     private boolean isNumeric(String str) {
@@ -113,4 +112,6 @@ public class ViolationListActivity extends AppCompatActivity {
             return false;
         }
     }
+
+
 }

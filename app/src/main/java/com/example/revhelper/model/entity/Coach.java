@@ -44,5 +44,10 @@ public class Coach implements Serializable {
         this.id = id;
     }
 
+    @NonNull
+    public String toString() {
+        return this.coachNumber;
+    }
+
 
 }

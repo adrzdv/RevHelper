@@ -51,6 +51,7 @@
     <string name="EditAmmountText">Изменить количество</string>
     <string name="UpdateAmountText">Изменить количество</string>
     <string name="SearchHintText">Поиск...</string>
+    <string name="InputMasterCoachText">Введите номер КРИ</string>
 
 
 </resources>

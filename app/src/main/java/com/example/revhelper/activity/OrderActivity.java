@@ -23,6 +23,7 @@ import com.example.revhelper.databinding.ActivityOrderBinding;
 import com.example.revhelper.model.dto.OrderParcelable;
 import com.example.revhelper.fragments.DialogFragmentExitConfirmation;
 import com.example.revhelper.mapper.OrderMapper;
+import com.example.revhelper.model.entity.Coach;
 import com.example.revhelper.model.order.Order;
 import com.example.revhelper.model.entity.Train;
 import com.example.revhelper.model.dto.TrainDto;
@@ -41,6 +42,7 @@ public class OrderActivity extends AppCompatActivity {
     private AppDatabase appDb;
     private Order order = new Order();
     private TrainDto train;
+    private Coach mainCoach;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +52,9 @@ public class OrderActivity extends AppCompatActivity {
         View view = binding.getRoot();
         setContentView(view);
         appDb = AppRev.getDb();
+
+        List<Train> trainList = appDb.trainDao().getAllTrains();
+        List<Coach> mainCoachList = appDb.coachDao().getAllCoaches();
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
@@ -101,14 +106,23 @@ public class OrderActivity extends AppCompatActivity {
             dialog.show(getSupportFragmentManager(), "dialog");
         }));
 
-        List<Train> trainList = appDb.trainDao().getAllTrains();
+        ArrayAdapter<Train> trainArrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, trainList);
+        binding.trainAutocompliteTextView.setAdapter(trainArrayAdapter);
+        ArrayAdapter<Coach> coachArrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, mainCoachList);
+        binding.coachAutocompliteTextView.setAdapter(coachArrayAdapter);
 
-        ArrayAdapter<Train> adapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, trainList);
-        binding.trainAutocompliteTextView.setAdapter(adapter);
+        binding.coachAutocompliteTextView.setOnItemClickListener((parent, View, position, id) -> {
+            Coach selectedCoach = coachArrayAdapter.getItem(position);
+            if (selectedCoach != null) {
+                mainCoach = appDb.coachDao().findByCoach(selectedCoach.getCoachNumber());
+            }
+        });
 
         binding.trainAutocompliteTextView.setOnItemClickListener((parent, View, position, id) -> {
-            Train selectedTrain = adapter.getItem(position);
-            train = appDb.trainDao().findByNumberWithDep(selectedTrain.getNumber());
+            Train selectedTrain = trainArrayAdapter.getItem(position);
+            if (selectedTrain != null) {
+                train = appDb.trainDao().findByNumberWithDep(selectedTrain.getNumber());
+            }
         });
 
         binding.addTrainTeamButton.setOnClickListener((v -> {
