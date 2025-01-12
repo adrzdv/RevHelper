@@ -19,13 +19,18 @@ import com.example.revhelper.R;
 import com.example.revhelper.adapters.ViolationAdapterOnClick;
 import com.example.revhelper.databinding.ActivityViolationListBinding;
 import com.example.revhelper.mapper.ViolationMapper;
+import com.example.revhelper.model.dto.OrderParcelable;
 import com.example.revhelper.model.dto.ViolationForCoach;
 import com.example.revhelper.model.entity.Violation;
+import com.example.revhelper.model.enums.RevisionType;
 import com.example.revhelper.sys.AppDatabase;
 import com.example.revhelper.sys.AppRev;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class ViolationListActivity extends AppCompatActivity {
 
@@ -33,7 +38,9 @@ public class ViolationListActivity extends AppCompatActivity {
     private AppDatabase appDb;
     ViolationAdapterOnClick adapter;
     private List<Violation> filterdViolationList = new ArrayList<>();
-    private List<Violation> violationList;
+    private List<Violation> violationList = new ArrayList<>();
+    private List<Violation> violationsFromDb;
+    private OrderParcelable order = new OrderParcelable();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +56,26 @@ public class ViolationListActivity extends AppCompatActivity {
             return insets;
         });
 
-        violationList = appDb.violationDao().getAllViolations();
+        if (getIntent().getParcelableExtra("ORDER") != null) {
+            order = getIntent().getParcelableExtra("ORDER");
+        }
+
+        String revisionType = order.getRevisionType();
+
+        //позже поменять алгоритм, в сущность и таблицу добавить доп поля КАССА/ПУТЬ/ПФ/ПО,
+        // типа int, чтоб разбить на типы проверок
+        violationsFromDb = appDb.violationDao().getAllViolations();
+        List<Integer> revisionTypes = getRevisionType(revisionType);
+        if (revisionTypes != null) {
+            for (int type : revisionTypes) {
+                List<Violation> tempList = violationsFromDb.stream()
+                        .filter(violation -> violation.getRevisionType() == type)
+                        .collect(Collectors.toList());
+                violationList.addAll(tempList);
+            }
+        }
+
+        Collections.sort(violationList);
 
         adapter = new ViolationAdapterOnClick(violationList, violation -> {
             ViolationForCoach violationParce = ViolationMapper.fromEntityToForCouch(violation);
@@ -78,7 +104,6 @@ public class ViolationListActivity extends AppCompatActivity {
 
         binding.violationListRecyclerView.setAdapter(adapter);
         binding.violationListRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        binding.violationListRecyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
     }
 
     private void filterData(String query) {
@@ -113,5 +138,15 @@ public class ViolationListActivity extends AppCompatActivity {
         }
     }
 
+    private List<Integer> getRevisionType(String string) {
+        if (string.equals(RevisionType.IN_TRANSIT.getRevisionTypeTitle())) {
+            return new ArrayList<>(List.of(1, 3, 5, 6, 7));
+        } else if (string.equals(RevisionType.AT_START_POINT.getRevisionTypeTitle())) {
+            return new ArrayList<>(List.of(2, 3, 5, 6, 8));
+        } else if (string.equals(RevisionType.AT_TURNROUND_POINT.getRevisionTypeTitle())) {
+            return new ArrayList<>(List.of(2, 3, 5, 7));
+        }
+        return null;
+    }
 
 }

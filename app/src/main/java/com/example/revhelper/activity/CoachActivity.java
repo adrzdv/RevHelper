@@ -24,6 +24,7 @@ import com.example.revhelper.adapters.ViolationAdapter;
 import com.example.revhelper.databinding.ActivityCoachBinding;
 import com.example.revhelper.fragments.DialogFragmentExitConfirmation;
 import com.example.revhelper.model.dto.CoachOnRevision;
+import com.example.revhelper.model.dto.OrderParcelable;
 import com.example.revhelper.model.entity.MainNodes;
 import com.example.revhelper.model.dto.ViolationForCoach;
 import com.example.revhelper.services.CheckService;
@@ -33,6 +34,7 @@ import com.example.revhelper.sys.AppRev;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -41,7 +43,6 @@ import java.util.Objects;
 @SuppressLint("NewApi")
 public class CoachActivity extends AppCompatActivity {
 
-    private final CheckService checkService = new CheckService();
     private ActivityResultLauncher<Intent> launcher;
     private ActivityCoachBinding binding;
     private AppDatabase appDb;
@@ -50,7 +51,8 @@ public class CoachActivity extends AppCompatActivity {
     private List<ViolationForCoach> violationList = new ArrayList<>();
     private final LocalDateTime revStart = LocalDateTime.now();
     private final DateTimeFormatter formatterToShow = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
-    Map<String, Boolean> mapCoachNodesValue = new HashMap<>();
+    private Map<String, Boolean> mapCoachNodesValue = new HashMap<>();
+    private OrderParcelable order = new OrderParcelable();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,10 +110,15 @@ public class CoachActivity extends AppCompatActivity {
                 .map(MainNodes::getName)
                 .toArray(String[]::new);
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, nodeTypes);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        binding.spinnerMainNodes.setAdapter(adapter);
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, nodeTypes);
+        arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        binding.spinnerMainNodes.setAdapter(arrayAdapter);
         String revStartString = "";
+
+        if (getIntent().getParcelableExtra("ORDER") != null) {
+            order = getIntent().getParcelableExtra("ORDER");
+        }
 
         //Тут на забыть, что если открываем для редактирования вагон - надо все поля вывести
         if (getIntent().getParcelableExtra("coach") != null) {
@@ -124,6 +131,7 @@ public class CoachActivity extends AppCompatActivity {
             mapCoachNodesValue.put(mainNodesList.get(2).getName(), coach.isCoachAutomaticDoor());
             mapCoachNodesValue.put(mainNodesList.get(3).getName(), coach.isCoachProgressive());
             violationList.addAll(coach.getViolationList());
+            Collections.sort(violationList);
 
             binding.showNodesTextRes.setText(new StringBuilder().append("Начало проверки: ")
                     .append(revStartString).append('\n')
@@ -155,15 +163,21 @@ public class CoachActivity extends AppCompatActivity {
                 return;
             }
 
-            if (!checkService.checkCoachRegex(coachNumber)) {
+            if (!AppRev.getChecker().checkCoachRegex(coachNumber)) {
                 Toast toast = Toast.makeText(this, "Неверный формат номера вагона",
                         Toast.LENGTH_LONG);
                 toast.show();
                 return;
             }
 
-            // Создаём объект
+            if (!AppRev.getChecker().checkWorkerDataRegex(coachWorker)) {
+                Toast toast = Toast.makeText(this, "Неверный формат ФИО",
+                        Toast.LENGTH_LONG);
+                toast.show();
+                return;
+            }
 
+            // Создаём объект
             CoachOnRevision coachOnRevision = new CoachOnRevision.Builder()
                     .setCoachNumber(coachNumber)
                     .setCoachWorker(coachWorker)
@@ -234,6 +248,7 @@ public class CoachActivity extends AppCompatActivity {
 
         binding.addViolationButton.setOnClickListener(v -> {
             Intent intent = new Intent(CoachActivity.this, ViolationListActivity.class);
+            intent.putExtra("ORDER", order);
             launcher.launch(intent);
         });
 

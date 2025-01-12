@@ -21,10 +21,16 @@ public class CoachSingleAdapter extends RecyclerView.Adapter<CoachSingleAdapter.
 
     private List<CoachOnRevision> coachList;
     private Context context;
+    private final OnSingleCoachDeleteListener deleteListener;
 
-    public CoachSingleAdapter(Context context, List<CoachOnRevision> coachList) {
+    public CoachSingleAdapter(Context context, List<CoachOnRevision> coachList, OnSingleCoachDeleteListener listener) {
         this.context = context;
         this.coachList = coachList;
+        this.deleteListener = listener;
+    }
+
+    public interface OnSingleCoachDeleteListener {
+        void onCoachDelete(CoachOnRevision coach);
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -71,7 +77,9 @@ public class CoachSingleAdapter extends RecyclerView.Adapter<CoachSingleAdapter.
 
         popupMenu.setOnMenuItemClickListener(menuItem -> {
             if (menuItem.getItemId() == R.id.delete_item) {
-                coachList.remove(position);
+                if (deleteListener != null) {
+                    deleteListener.onCoachDelete(coachList.get(position));
+                }
                 notifyItemRemoved(position);
                 return true;
             }

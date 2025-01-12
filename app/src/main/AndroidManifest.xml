@@ -17,7 +17,7 @@
         <activity
             android:name=".activity.AddCoachInOrderActivity"
             android:exported="false"
-            android:theme="@style/DialogTheme" />
+            android:theme="@style/RoundedDialogStyle" />
         <activity
             android:name=".activity.ResultActivity"
             android:exported="false" />

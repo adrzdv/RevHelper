@@ -1,29 +1,43 @@
 package com.example.revhelper.model.entity;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+
 @Entity(tableName = "violations")
-public class Violation {
+public class Violation implements Comparable<Violation> {
     @PrimaryKey(autoGenerate = true)
     private int id;
     @ColumnInfo(name = "code")
     @NonNull
-    private int code;
+    private Integer code;
     @ColumnInfo(name = "name")
     @NonNull
     private String name;
     @ColumnInfo(name = "revision_type")
     @NonNull
-    private int revisionType;
+    private Integer revisionType;
+    @ColumnInfo(name = "conflictive_code", defaultValue = "0")
+    @NonNull
+    private Integer conflictiveCode;
+    @ColumnInfo(name = "active", defaultValue = "1")
+    @NonNull
+    private Integer active;
 
-    public Violation(int id, int code, @NonNull String name, int revisionType) {
+    public Violation(int id, int code, @NonNull String name, int revisionType, int conflictiveCode, int active) {
         this.id = id;
         this.code = code;
         this.name = name;
         this.revisionType = revisionType;
+        this.conflictiveCode = conflictiveCode;
+        this.active = active;
+    }
+
+    public Violation() {
+
     }
 
     public void setCode(int code) {
@@ -77,4 +91,24 @@ public class Violation {
         return result;
     }
 
+    public int getConflictiveCode() {
+        return conflictiveCode;
+    }
+
+    public void setConflictiveCode(int conflictiveCode) {
+        this.conflictiveCode = conflictiveCode;
+    }
+
+    public int getActive() {
+        return active;
+    }
+
+    public void setActive(int active) {
+        this.active = active;
+    }
+
+    @Override
+    public int compareTo(Violation other) {
+        return this.code.compareTo(other.code);
+    }
 }

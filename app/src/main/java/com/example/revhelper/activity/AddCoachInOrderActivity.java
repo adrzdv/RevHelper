@@ -14,10 +14,12 @@ import androidx.core.view.WindowInsetsCompat;
 import com.example.revhelper.R;
 import com.example.revhelper.databinding.ActivityAddCoachInOrderBinding;
 import com.example.revhelper.databinding.ActivityOrderBinding;
+import com.example.revhelper.services.CheckService;
 
 public class AddCoachInOrderActivity extends AppCompatActivity {
 
     private ActivityAddCoachInOrderBinding binding;
+    private CheckService cheker = new CheckService();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +38,12 @@ public class AddCoachInOrderActivity extends AppCompatActivity {
 
             if (binding.coachNumberInput.getText() != null) {
                 String coachNumber = binding.coachNumberInput.getText().toString();
+                if (!cheker.checkCoachRegex(coachNumber)) {
+                    Toast toast = Toast.makeText(this, "Неверный номер вагона",
+                            Toast.LENGTH_LONG);
+                    toast.show();
+                    return;
+                }
                 Intent resultIntent = new Intent();
                 resultIntent.putExtra("COACH", coachNumber);
                 setResult(RESULT_OK, resultIntent);

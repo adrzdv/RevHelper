@@ -39,45 +39,57 @@
                 android:layout_height="wrap_content"
                 android:text="@string/OrderHeaderText" />
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/order_number_text_layout"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/OrderNumberHitText"
-                android:padding="8dp">
+                android:orientation="horizontal"
+                android:weightSum="1.0">
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/order_number_text_input"
-                    style="@style/CustomTextTheme"
-                    android:layout_width="match_parent"
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/order_number_text_layout"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@color/background_color"
-                    android:inputType="text"
-                    android:lines="1"
-                    android:textColor="@color/foreground_color" />
+                    android:layout_weight="0.5"
+                    android:hint="@string/OrderNumberHitText"
+                    android:orientation="horizontal"
+                    android:padding="8dp">
 
-            </com.google.android.material.textfield.TextInputLayout>
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/order_number_text_input"
+                        style="@style/CustomTextTheme"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/background_color"
+                        android:inputType="text"
+                        android:lines="1"
+                        android:textColor="@color/foreground_color" />
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/order_date_text_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/OrderDateInputText"
-                android:padding="8dp">
+                </com.google.android.material.textfield.TextInputLayout>
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/order_date_text_input"
-                    style="@style/CustomTextTheme"
-                    android:layout_width="match_parent"
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/order_date_text_layout"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@color/background_color"
-                    android:clickable="true"
-                    android:focusable="false"
-                    android:inputType="date"
-                    android:lines="1"
-                    android:textColor="@color/foreground_color" />
+                    android:layout_weight="0.5"
+                    android:hint="@string/OrderDateInputText"
+                    android:padding="8dp">
 
-            </com.google.android.material.textfield.TextInputLayout>
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/order_date_text_input"
+                        style="@style/CustomTextTheme"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.5"
+                        android:background="@color/background_color"
+                        android:clickable="true"
+                        android:focusable="false"
+                        android:inputType="date"
+                        android:lines="1"
+                        android:textColor="@color/foreground_color" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+            </LinearLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/train_autocomplite_layout"
@@ -104,6 +116,24 @@
                 android:layout_height="wrap_content"
                 android:padding="8dp">
 
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/route_text_input"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/background_color"
+                    android:hint="@string/RouteTextString"
+                    android:imeOptions="actionDone"
+                    android:inputType="text"
+                    android:padding="16dp"
+                    android:textColor="@color/foreground_color" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="8dp">
+
                 <AutoCompleteTextView
                     android:id="@+id/coach_autocomplite_text_view"
                     style="@style/CustomTextTheme"
@@ -117,6 +147,31 @@
                     android:textColor="@color/foreground_color" />
 
             </com.google.android.material.textfield.TextInputLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="8dp">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="8dp"
+                    android:text="@string/RevisionTypeText" />
+
+                <Spinner
+                    android:id="@+id/revision_type_spinner"
+                    style="@style/CustomSpinnerStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/background_color"
+                    android:padding="8dp"
+                    android:spinnerMode="dropdown"
+                    android:textColor="@color/foreground_color" />
+
+            </LinearLayout>
+
 
             <LinearLayout
                 android:layout_width="match_parent"

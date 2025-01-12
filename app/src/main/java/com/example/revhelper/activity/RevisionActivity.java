@@ -10,6 +10,7 @@ import androidx.activity.EdgeToEdge;
 import androidx.activity.OnBackPressedCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -63,7 +64,6 @@ public class RevisionActivity extends AppCompatActivity {
             return insets;
         });
 
-
         getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
@@ -78,9 +78,8 @@ public class RevisionActivity extends AppCompatActivity {
                 result -> {
                     if (result.getResultCode() == RESULT_OK && result.getData() != null) {
                         // Получаем объект из результата
-                        order = result.getData().getParcelableExtra("order");
-                        CoachOnRevision coach = result.getData().getParcelableExtra("coach");
-                        if (coach != null) {
+                        if (result.getData().getParcelableExtra("coach") != null) {
+                            CoachOnRevision coach = result.getData().getParcelableExtra("coach");
                             if (coaches.stream()
                                     .anyMatch(coachOld -> coachOld.getCoachNumber().equals(coach.getCoachNumber()))) {
                                 coaches = coaches.stream()
@@ -99,7 +98,11 @@ public class RevisionActivity extends AppCompatActivity {
                                     .setRevisionTime(LocalDateTime.now())
                                     .setViolationList(coach.getViolationList())
                                     .build());
-                        } else if (order != null) {
+                        } else if (result.getData().getParcelableExtra("order") != null) {
+                            order = result.getData().getParcelableExtra("order");
+                            coachMap.clear();
+                            coaches.clear();
+                            updateRecyclerView(coaches);
                             binding.orderTextView.setText(getOrderToShow(order));
                             if (order.getCoachMap() != null) {
                                 coachMap = order.getCoachMap();
@@ -123,6 +126,7 @@ public class RevisionActivity extends AppCompatActivity {
             if (coachMap.containsKey(coach.getCoachNumber())) {
                 CoachOnRevision coachOnRevision = coachMap.get(coach.getCoachNumber());
                 intent.putExtra("coach", coachOnRevision);
+                intent.putExtra("ORDER", order);
                 launcher.launch(intent);
             } else {
                 Toast.makeText(RevisionActivity.this, "Some troubles", Toast.LENGTH_SHORT).show();
@@ -140,6 +144,7 @@ public class RevisionActivity extends AppCompatActivity {
                 return;
             }
             Intent intent = new Intent(RevisionActivity.this, CoachActivity.class);
+            intent.putExtra("ORDER", order);
             launcher.launch(intent);
         });
 
@@ -159,9 +164,30 @@ public class RevisionActivity extends AppCompatActivity {
 
         binding.orderButton.setOnClickListener((v -> {
             Intent intent = new Intent(RevisionActivity.this, OrderActivity.class);
+            if (order != null) {
+                intent.putExtra("ORDER", order);
+            }
             launcher.launch(intent);
         }));
 
+    }
+
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        if (order != null) {
+            outState.putParcelable("ORDER", order);
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (getIntent() != null) {
+            if (getIntent().getParcelableExtra("ORDER") != null) {
+                order = getIntent().getParcelableExtra("ORDER");
+            }
+        }
     }
 
     private Map<String, String> makeRevisionResult() {

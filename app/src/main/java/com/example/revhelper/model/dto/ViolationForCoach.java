@@ -10,9 +10,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 @SuppressLint("NewApi")
-public class ViolationForCoach implements Parcelable {
+public class ViolationForCoach implements Parcelable, Comparable<ViolationForCoach> {
     private int id;
-    private int code;
+    private Integer code;
     private String name;
     private int revisionType;
     private int amount;
@@ -136,5 +136,10 @@ public class ViolationForCoach implements Parcelable {
 
     public void setAttributes(List<ViolationAttribute> attributes) {
         this.attributes = attributes;
+    }
+
+    @Override
+    public int compareTo(ViolationForCoach o) {
+        return this.code.compareTo(o.code);
     }
 }

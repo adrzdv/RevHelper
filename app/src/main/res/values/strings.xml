@@ -54,4 +54,6 @@
     <string name="CoachNumberTextHint">Номер вагона</string>
     <string name="AddPerson">Поездная бригада</string>
     <string name="CleanList">Очистить список вагонов</string>
+    <string name="RouteTextString">Маршрут проверки</string>
+    <string name="RevisionTypeText">Тип проверки</string>
 </resources>

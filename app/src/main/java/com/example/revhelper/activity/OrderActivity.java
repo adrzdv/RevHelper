@@ -30,11 +30,15 @@ import com.example.revhelper.model.dto.OrderParcelable;
 import com.example.revhelper.fragments.DialogFragmentExitConfirmation;
 import com.example.revhelper.model.dto.ViolationForCoach;
 import com.example.revhelper.model.entity.Coach;
+import com.example.revhelper.model.entity.MainNodes;
 import com.example.revhelper.model.entity.Train;
 import com.example.revhelper.model.dto.TrainDto;
+import com.example.revhelper.model.enums.RevisionType;
 import com.example.revhelper.sys.AppDatabase;
 import com.example.revhelper.sys.AppRev;
 
+import java.io.Serializable;
+import java.text.DateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -46,6 +50,8 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 @SuppressLint({"DefaultLocale", "NewApi"})
 public class OrderActivity extends AppCompatActivity {
@@ -59,7 +65,7 @@ public class OrderActivity extends AppCompatActivity {
     private ActivityResultLauncher<Intent> launcher;
     private List<CoachOnRevision> coachList = new ArrayList<>();
     private Map<String, CoachOnRevision> coachMap = new HashMap<>();
-    private LocalDateTime now = LocalDateTime.now();
+    private final LocalDateTime now = LocalDateTime.now();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,19 +79,30 @@ public class OrderActivity extends AppCompatActivity {
         List<Train> trainList = appDb.trainDao().getAllTrains();
         List<Coach> mainCoachList = appDb.coachDao().getAllCoaches();
 
-        adapter = new CoachSingleAdapter(this, coachList);
+        adapter = new CoachSingleAdapter(this, coachList, coach -> {
+            coachMap.remove(coach.getCoachNumber());
+            coachList.remove(coach);
+        });
 
         RecyclerView rCoachView = binding.coachRecyclerView;
 
+        rCoachView.setAdapter(adapter);
         rCoachView.setLayoutManager(new LinearLayoutManager(this));
         rCoachView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
-        rCoachView.setAdapter(adapter);
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        String[] revisionTypes = {RevisionType.IN_TRANSIT.getRevisionTypeTitle(),
+                RevisionType.AT_START_POINT.getRevisionTypeTitle(),
+                RevisionType.AT_TURNROUND_POINT.getRevisionTypeTitle()};
+
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, revisionTypes);
+        arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        binding.revisionTypeSpinner.setAdapter(arrayAdapter);
 
         launcher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
@@ -123,6 +140,35 @@ public class OrderActivity extends AppCompatActivity {
                 dialog.show(getSupportFragmentManager(), "dialog");
             }
         });
+
+        if (getIntent().getParcelableExtra("ORDER") != null) {
+            order = getIntent().getParcelableExtra("ORDER");
+            train = TrainMapper.fromParcelableToDto(order.getTrain());
+            coachMap = order.getCoachMap();
+            coachList = new ArrayList<>(coachMap.values());
+            binding.orderNumberTextInput.setText(order.getNumber());
+            binding.routeTextInput.setText(order.getRoute());
+            LocalDate date = LocalDate.of(order.getDate().getYear(), order.getDate().getMonth(), order.getDate().getDayOfMonth());
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            String formattedDate = date.format(formatter);
+            binding.orderDateTextInput.setText(formattedDate);
+            binding.trainAutocompliteTextView.setText(order.getTrain().getNumber());
+            updateRecyclerView(coachList);
+            binding.addCoach.setEnabled(false);
+            binding.addCoach.setAlpha(0.5f);
+            binding.cleanList.setEnabled(false);
+            binding.cleanList.setAlpha(0.5f);
+        }
+
+
+        binding.cleanList.setOnClickListener((v -> {
+            coachList.clear();
+            coachMap.clear();
+            updateRecyclerView(coachList);
+            Toast toast = Toast.makeText(this, "Список вагонов очищен",
+                    Toast.LENGTH_LONG);
+            toast.show();
+        }));
 
         binding.addCoach.setOnClickListener((v -> {
             Intent intent = new Intent(OrderActivity.this, AddCoachInOrderActivity.class);
@@ -207,13 +253,15 @@ public class OrderActivity extends AppCompatActivity {
 
         String orderNumber = Objects.requireNonNull(binding.orderNumberTextInput.getText()).toString();
         String orderDate = Objects.requireNonNull(binding.orderDateTextInput.getText()).toString();
+        String route = Objects.requireNonNull(binding.routeTextInput.getText()).toString();
 
         order.setNumber(orderNumber);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         order.setDate(LocalDate.parse(orderDate, formatter));
-        order.setRoute("null");
+        order.setRoute(route);
         order.setCoachMap(coachMap);
         order.setTrain(TrainMapper.toParceFromDto(train));
+        order.setRevisionType(binding.revisionTypeSpinner.getSelectedItem().toString());
         Intent resultIntent = new Intent();
         resultIntent.putExtra("order", order);
         setResult(RESULT_OK, resultIntent);
