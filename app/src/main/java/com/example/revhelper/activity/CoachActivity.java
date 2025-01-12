@@ -126,6 +126,7 @@ public class CoachActivity extends AppCompatActivity {
             revStartString = coach.getRevisionTime().format(formatterToShow);
             binding.coachNumber.setText(coach.getCoachNumber());
             binding.coachWorker.setText(coach.getCoachWorker());
+            binding.traillingCarCheckbox.setChecked(coach.isTrailingCar());
             mapCoachNodesValue.put(mainNodesList.get(0).getName(), coach.isCoachEnergySystem());
             mapCoachNodesValue.put(mainNodesList.get(1).getName(), coach.isCoachSkudopp());
             mapCoachNodesValue.put(mainNodesList.get(2).getName(), coach.isCoachAutomaticDoor());
@@ -187,6 +188,7 @@ public class CoachActivity extends AppCompatActivity {
                     .setCoachProgressive(mapCoachNodesValue.get(mainNodesList.get(3).getName()))
                     .setRevisionTime(revStart)
                     .setViolationList(violationList)
+                    .setTrailingCar(binding.traillingCarCheckbox.isChecked())
                     .build();
 
             // Возвращаем объект в предыдущую активити

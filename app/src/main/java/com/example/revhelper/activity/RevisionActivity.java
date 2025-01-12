@@ -97,6 +97,7 @@ public class RevisionActivity extends AppCompatActivity {
                                     .setCoachProgressive(coach.isCoachProgressive())
                                     .setRevisionTime(LocalDateTime.now())
                                     .setViolationList(coach.getViolationList())
+                                    .setTrailingCar(coach.isTrailingCar())
                                     .build());
                         } else if (result.getData().getParcelableExtra("order") != null) {
                             order = result.getData().getParcelableExtra("order");
@@ -190,6 +191,7 @@ public class RevisionActivity extends AppCompatActivity {
         }
     }
 
+    //Вынести формирование в результирующую активити, передавать туда Order и с ним работать
     private Map<String, String> makeRevisionResult() {
         Map<String, String> resMap = new HashMap<>();
 

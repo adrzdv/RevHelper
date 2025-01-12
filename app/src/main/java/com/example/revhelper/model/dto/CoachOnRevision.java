@@ -25,6 +25,9 @@ public class CoachOnRevision implements Parcelable {
     private boolean coachProgressive;
     private LocalDateTime revisionTime;
     private List<ViolationForCoach> violationList;
+    private String coachWorkerDep;
+    private boolean isTrailingCar = false;
+
 
     public static class Builder {
         private String coachNumber;
@@ -35,6 +38,18 @@ public class CoachOnRevision implements Parcelable {
         private boolean coachProgressive;
         private LocalDateTime revisionTime;
         private List<ViolationForCoach> violationList = new ArrayList<>();
+        private String coachWorkerDep;
+        private boolean isTrailingCar;
+
+        public Builder setTrailingCar(boolean isTrailingCar) {
+            this.isTrailingCar = isTrailingCar;
+            return this;
+        }
+
+        public Builder setCoachWorkerDep(String workerDep) {
+            this.coachWorkerDep = workerDep;
+            return this;
+        }
 
         public Builder setCoachNumber(String coachNumber) {
             this.coachNumber = coachNumber;
@@ -79,6 +94,22 @@ public class CoachOnRevision implements Parcelable {
         public CoachOnRevision build() {
             return new CoachOnRevision(this);
         }
+    }
+
+    public boolean isTrailingCar() {
+        return isTrailingCar;
+    }
+
+    public void setTrailingCar(boolean trailingCar) {
+        isTrailingCar = trailingCar;
+    }
+
+    public String getCoachWorkerDep() {
+        return coachWorkerDep;
+    }
+
+    public void setCoachWorkerDep(String coachWorkerDep) {
+        this.coachWorkerDep = coachWorkerDep;
     }
 
     public void setCoachProgressive(boolean coachProgressive) {
@@ -167,6 +198,8 @@ public class CoachOnRevision implements Parcelable {
         dest.writeByte((byte) (coachProgressive ? 1 : 0));
         dest.writeString(revisionTime.toString());
         dest.writeList(violationList);
+        dest.writeString(coachWorkerDep);
+        dest.writeBoolean(isTrailingCar);
     }
 
     @Override
@@ -181,6 +214,7 @@ public class CoachOnRevision implements Parcelable {
         CoachOnRevision that = (CoachOnRevision) o;
         return Objects.equals(coachNumber, that.coachNumber);
     }
+
 
     @Override
     public int hashCode() {
@@ -197,6 +231,8 @@ public class CoachOnRevision implements Parcelable {
         revisionTime = LocalDateTime.parse(in.readString());
         violationList = new ArrayList<>();
         in.readList(violationList, Violation.class.getClassLoader());
+        coachWorkerDep = in.readString();
+        isTrailingCar = in.readBoolean();
     }
 
     private CoachOnRevision(Builder builder) {
@@ -208,6 +244,8 @@ public class CoachOnRevision implements Parcelable {
         this.coachProgressive = builder.coachProgressive;
         this.revisionTime = builder.revisionTime;
         this.violationList = builder.violationList;
+        this.coachWorkerDep = builder.coachWorkerDep;
+        this.isTrailingCar = builder.isTrailingCar;
     }
 
 }

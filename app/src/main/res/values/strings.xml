@@ -56,4 +56,5 @@
     <string name="CleanList">Очистить список вагонов</string>
     <string name="RouteTextString">Маршрут проверки</string>
     <string name="RevisionTypeText">Тип проверки</string>
+    <string name="TraillingCarText">Прицепной</string>
 </resources>

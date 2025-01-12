@@ -109,6 +109,14 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/FaultyRadioText" />
+
+                    <com.google.android.material.checkbox.MaterialCheckBox
+                        android:id="@+id/trailling_car_checkbox"
+                        android:layout_width="match_parent"
+                        android:padding="8dp"
+                        android:text="@string/TraillingCarText"
+                        android:layout_height="wrap_content"/>
+
                 </RadioGroup>
 
             </LinearLayout>
