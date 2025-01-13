@@ -27,7 +27,7 @@
         <activity
             android:name=".activity.AddMasterActivity"
             android:exported="false"
-            android:theme="@style/DialogTheme" />
+            android:theme="@style/RoundedDialogStyle" />
         <activity
             android:name=".activity.OrderActivity"
             android:exported="false" />
