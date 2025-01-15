@@ -17,6 +17,7 @@ public class ViolationForCoach implements Parcelable, Comparable<ViolationForCoa
     private int revisionType;
     private int amount;
     private List<ViolationAttribute> attributes = new ArrayList<>();
+    private boolean isResolved = false;
 
     public ViolationForCoach(int id, int code, @NonNull String name, int revisionType, int amount) {
         this.id = id;
@@ -33,6 +34,27 @@ public class ViolationForCoach implements Parcelable, Comparable<ViolationForCoa
         this.revisionType = revisionType;
         this.amount = amount;
         this.attributes = attributes;
+    }
+
+    @Override
+    public void writeToParcel(@NonNull Parcel dest, int flags) {
+        dest.writeInt(id);
+        dest.writeInt(code);
+        dest.writeString(name);
+        dest.writeInt(revisionType);
+        dest.writeInt(amount);
+        dest.writeTypedList(attributes);
+        dest.writeBoolean(isResolved);
+    }
+
+    protected ViolationForCoach(Parcel in) {
+        id = in.readInt();
+        code = in.readInt();
+        name = in.readString();
+        revisionType = in.readInt();
+        amount = in.readInt();
+        attributes = in.createTypedArrayList(ViolationAttribute.CREATOR);
+        isResolved = in.readBoolean();
     }
 
     public void setAmount(int amount) {
@@ -75,6 +97,23 @@ public class ViolationForCoach implements Parcelable, Comparable<ViolationForCoa
         return this.revisionType;
     }
 
+    public List<ViolationAttribute> getAttributes() {
+        return attributes;
+    }
+
+    public void setAttributes(List<ViolationAttribute> attributes) {
+        this.attributes = attributes;
+    }
+
+    public void setCode(Integer code) {
+        this.code = code;
+    }
+
+    @Override
+    public int compareTo(ViolationForCoach o) {
+        return this.code.compareTo(o.code);
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -110,36 +149,4 @@ public class ViolationForCoach implements Parcelable, Comparable<ViolationForCoa
             return new ViolationForCoach[size];
         }
     };
-
-    @Override
-    public void writeToParcel(@NonNull Parcel dest, int flags) {
-        dest.writeInt(id);
-        dest.writeInt(code);
-        dest.writeString(name);
-        dest.writeInt(revisionType);
-        dest.writeInt(amount);
-        dest.writeTypedList(attributes);
-    }
-
-    protected ViolationForCoach(Parcel in) {
-        id = in.readInt();
-        code = in.readInt();
-        name = in.readString();
-        revisionType = in.readInt();
-        amount = in.readInt();
-        attributes = in.createTypedArrayList(ViolationAttribute.CREATOR);
-    }
-
-    public List<ViolationAttribute> getAttributes() {
-        return attributes;
-    }
-
-    public void setAttributes(List<ViolationAttribute> attributes) {
-        this.attributes = attributes;
-    }
-
-    @Override
-    public int compareTo(ViolationForCoach o) {
-        return this.code.compareTo(o.code);
-    }
 }
