@@ -8,6 +8,7 @@ import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.activity.OnBackPressedCallback;
+import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
@@ -27,6 +28,7 @@ import com.example.revhelper.services.ParseTable;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -43,6 +45,10 @@ public class ReinspectionActivity extends AppCompatActivity implements View.OnCl
     private ActivityResultLauncher<Intent> filePickerLauncher;
     private ActivityResultLauncher<Intent> launcher;
     private CoachSingleAdapterWithoutButton adapter;
+    private static String docDate;
+    private static String docNumber;
+    private Toast toast;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,39 +63,15 @@ public class ReinspectionActivity extends AppCompatActivity implements View.OnCl
             return insets;
         });
 
+        if (savedInstanceState != null) {
+            recoverState(savedInstanceState);
+        }
+
         launcher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
                 result -> {
                     if (result.getResultCode() == RESULT_OK && result.getData() != null) {
-                        String coachNumber = result.getData().getStringExtra("COACH");
-                        List<CoachOnRevision> resCoachList = result.getData().getParcelableArrayListExtra("NEW_COACHES");
-
-                        if (coachNumber != null) {
-                            if (previousInspectionCoachMap.containsKey(coachNumber)) {
-                                if (!coachNumbers.contains(coachNumber)) {
-                                    coachNumbers.add(previousInspectionCoachMap.get(coachNumber));
-                                }
-                                existingCoachMap.put(coachNumber, previousInspectionCoachMap.get(coachNumber));
-                                Toast toast = Toast.makeText(this, coachNumber + " добавлен",
-                                        Toast.LENGTH_LONG);
-                                toast.show();
-                                updateRecyclerView(coachNumbers);
-                            } else {
-                                Toast toast = Toast.makeText(this, coachNumber + " не найден в прошлой проверке",
-                                        Toast.LENGTH_LONG);
-                                toast.show();
-                            }
-                        }
-
-                        if (resCoachList != null) {
-                            coachNumbers = resCoachList;
-                            Map<String, CoachOnRevision> oldCoachMap = new HashMap<>(existingCoachMap);
-                            existingCoachMap = oldCoachMap.entrySet()
-                                    .stream()
-                                    .filter(entry -> coachNumbers.contains(entry.getValue()))
-                                    .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
-                            updateRecyclerView(coachNumbers);
-                        }
+                        processResult(result);
                     }
                 }
         );
@@ -98,37 +80,22 @@ public class ReinspectionActivity extends AppCompatActivity implements View.OnCl
                 new ActivityResultContracts.StartActivityForResult(),
                 result -> {
                     if (result.getResultCode() == RESULT_OK && result.getData() != null) {
-                        Uri fileUri = result.getData().getData();
-                        if (fileUri != null) {
-                            previousInspectionCoachMap = readFile(fileUri);
-                            Toast toast = Toast.makeText(this, "Данные загружены",
-                                    Toast.LENGTH_LONG);
-                            toast.show();
-                            StringBuilder docString = new StringBuilder();
-                            docString.append("НОМЕР АКТА: ").append(ParseTable.getDocNumber()).append("\n")
-                                    .append("ДАТА АКТА: ").append(ParseTable.getDocDate());
-                            makeReinspection();
-                            binding.numberDateTextView.setText(docString);
-                        }
+                        processDataAfterDocumentParsing(result);
                     }
                 }
         );
 
+        RecyclerView rCoachView = binding.coachRecyclerViewReinspection;
         adapter = new CoachSingleAdapterWithoutButton(this, coachNumbers, coach -> {
             if (coach.getViolationList() != null && !coach.getViolationList().isEmpty()) {
                 Intent intent = new Intent(ReinspectionActivity.this, ReinspectionCoachView.class);
                 intent.putExtra("COACH", coach);
                 launcher.launch(intent);
             } else {
-                Toast toast = Toast.makeText(this, "Список нарушений пуст",
-                        Toast.LENGTH_LONG);
-                toast.show();
+                showToast("Список нарушений пуст");
             }
 
         });
-
-        RecyclerView rCoachView = binding.coachRecyclerViewReinspection;
-
         rCoachView.setAdapter(adapter);
         rCoachView.setLayoutManager(new LinearLayoutManager(this));
         rCoachView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
@@ -159,6 +126,74 @@ public class ReinspectionActivity extends AppCompatActivity implements View.OnCl
             addCoach();
         } else if (v.getId() == R.id.show_entered_coach_list) {
             showEnteredCoachList();
+        }
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+
+        super.onSaveInstanceState(outState);
+        if (!existingCoachMap.isEmpty() && !previousInspectionCoachMap.isEmpty()
+                && coachNumbers.isEmpty() && !docNumber.isBlank() && !docDate.isBlank()) {
+            outState.putSerializable("EXISTING", (Serializable) existingCoachMap);
+            outState.putSerializable("PREVIOUS", (Serializable) previousInspectionCoachMap);
+            outState.putSerializable("NUMBERS", (Serializable) coachNumbers);
+            outState.putSerializable("DOCNMB", docNumber);
+            outState.putSerializable("DOCDATE", docDate);
+        }
+
+    }
+
+    private void recoverState(Bundle savedInstanceState) {
+        existingCoachMap = (Map<String, CoachOnRevision>) savedInstanceState.getSerializable("EXISTING");
+        previousInspectionCoachMap = (Map<String, CoachOnRevision>) savedInstanceState.getSerializable("PREVIOUS");
+        coachNumbers = (List<CoachOnRevision>) savedInstanceState.getSerializable("NUMBERS");
+        docDate = savedInstanceState.getSerializable("DOCNMB").toString();
+        docNumber = savedInstanceState.getSerializable("DOCDATE").toString();
+    }
+
+    private void processDataAfterDocumentParsing(ActivityResult result) {
+
+        Uri fileUri = result.getData().getData();
+        if (fileUri != null) {
+            previousInspectionCoachMap = readFile(fileUri);
+            showToast("Данные загружены");
+            docNumber = ParseTable.getDocNumber();
+            docDate = ParseTable.getDocDate();
+            StringBuilder docString = new StringBuilder();
+            docString.append("НОМЕР АКТА: ").append(ParseTable.getDocNumber()).append("\n")
+                    .append("ДАТА АКТА: ").append(ParseTable.getDocDate());
+            makeReinspection();
+            binding.numberDateTextView.setText(docString);
+        }
+
+    }
+
+    private void processResult(ActivityResult result) {
+
+        if (result.getData().getStringExtra("COACH") != null) {
+            String coachNumber = result.getData().getStringExtra("COACH");
+            if (previousInspectionCoachMap.containsKey(coachNumber)) {
+                if (!coachNumbers.contains(coachNumber)) {
+                    coachNumbers.add(previousInspectionCoachMap.get(coachNumber));
+                }
+                existingCoachMap.put(coachNumber, previousInspectionCoachMap.get(coachNumber));
+                showToast(coachNumber + " добавлен");
+                updateRecyclerView(coachNumbers);
+            } else {
+                showToast(coachNumber + " не найден в прошлой проверке");
+            }
+        }
+
+        if (result.getData().getParcelableArrayListExtra("NEW_COACHES") != null) {
+            List<CoachOnRevision> resCoachList = result.getData().getParcelableArrayListExtra("NEW_COACHES");
+            coachNumbers = resCoachList;
+            Map<String, CoachOnRevision> oldCoachMap = new HashMap<>(existingCoachMap);
+            existingCoachMap = oldCoachMap.entrySet()
+                    .stream()
+                    .filter(entry -> coachNumbers.contains(entry.getValue()))
+                    .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+            updateRecyclerView(coachNumbers);
         }
 
     }
@@ -220,5 +255,13 @@ public class ReinspectionActivity extends AppCompatActivity implements View.OnCl
         if (adapter != null) {
             adapter.updateData(updatedCoachList);
         }
+    }
+
+    private void showToast(String message) {
+        if (toast != null) {
+            toast.cancel();
+        }
+        toast = Toast.makeText(this, message, Toast.LENGTH_LONG);
+        toast.show();
     }
 }

@@ -113,6 +113,7 @@
                 style="@style/CustomButtonStyle"
                 android:layout_width="150dp"
                 android:layout_height="60dp"
+                android:visibility="invisible"
                 android:text="@string/CheckButtonText" />
 
             <com.google.android.material.button.MaterialButton
