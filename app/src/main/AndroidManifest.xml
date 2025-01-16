@@ -15,6 +15,12 @@
         tools:ignore="NightMode"
         tools:targetApi="31">
         <activity
+            android:name=".ReinspectionCoachView"
+            android:exported="false" />
+        <activity
+            android:name=".activity.ReinspectionActivity"
+            android:exported="false" />
+        <activity
             android:name=".activity.AddCoachInOrderActivity"
             android:exported="false"
             android:theme="@style/RoundedDialogStyle" />

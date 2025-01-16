@@ -37,7 +37,6 @@ public class ParseXml {
         Handler handler = new Handler(Looper.getMainLooper());
         final StringBuilder resThreed = new StringBuilder();
 
-
         ResultCallback callback = message -> {
             resThreed.append(message);
         };

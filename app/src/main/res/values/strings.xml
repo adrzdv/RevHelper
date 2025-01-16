@@ -57,4 +57,7 @@
     <string name="RouteTextString">Маршрут проверки</string>
     <string name="RevisionTypeText">Тип проверки</string>
     <string name="TraillingCarText">Прицепной</string>
+    <string name="ReinspectionButtonText">Проверка худшего поезда</string>
+    <string name="ReinspectionTextViewString">Проверка худшего поезда</string>
+    <string name="CheckButtonText">Проверить</string>
 </resources>

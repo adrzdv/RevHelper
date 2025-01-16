@@ -149,4 +149,12 @@ public class ViolationForCoach implements Parcelable, Comparable<ViolationForCoa
             return new ViolationForCoach[size];
         }
     };
+
+    public boolean isResolved() {
+        return isResolved;
+    }
+
+    public void setResolved(boolean resolved) {
+        isResolved = resolved;
+    }
 }
