@@ -1,4 +1,4 @@
-package com.example.revhelper;
+package com.example.revhelper.activity;
 
 import android.os.Bundle;
 import android.view.View;
@@ -10,6 +10,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.example.revhelper.R;
 import com.example.revhelper.adapters.ViolationAdapterForReinspection;
 import com.example.revhelper.databinding.ActivityReinspectionCoachViewBinding;
 import com.example.revhelper.model.dto.CoachOnRevision;

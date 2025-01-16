@@ -15,7 +15,10 @@
         tools:ignore="NightMode"
         tools:targetApi="31">
         <activity
-            android:name=".ReinspectionCoachView"
+            android:name=".activity.ShowEnteredCoachesActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.ReinspectionCoachView"
             android:exported="false" />
         <activity
             android:name=".activity.ReinspectionActivity"

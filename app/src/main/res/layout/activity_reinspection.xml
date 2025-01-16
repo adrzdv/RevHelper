@@ -105,15 +105,22 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center"
-            android:orientation="vertical"
+            android:orientation="horizontal"
             android:padding="8dp">
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/start_reinspection"
                 style="@style/CustomButtonStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="150dp"
+                android:layout_height="60dp"
                 android:text="@string/CheckButtonText" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/show_entered_coach_list"
+                style="@style/CustomButtonStyle"
+                android:layout_width="150dp"
+                android:layout_height="60dp"
+                android:text="Список вагонов" />
 
         </LinearLayout>
 
