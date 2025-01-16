@@ -183,8 +183,6 @@ public class ReinspectionActivity extends AppCompatActivity implements View.OnCl
 
     private void makeReinspection() {
 
-        //coachNumbers.clear();
-        //updateRecyclerView(coachNumbers);
         coachNumbers.addAll(existingCoachMap.values());
         updateRecyclerView(coachNumbers);
     }
