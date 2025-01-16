@@ -15,6 +15,9 @@ import androidx.core.view.WindowInsetsCompat;
 import com.example.revhelper.R;
 import com.example.revhelper.databinding.ActivityAddMasterBinding;
 import com.example.revhelper.databinding.ActivityOrderBinding;
+import com.example.revhelper.model.enums.WorkerJob;
+import com.example.revhelper.services.CheckService;
+import com.example.revhelper.sys.AppRev;
 
 public class AddMasterActivity extends AppCompatActivity {
 
@@ -27,7 +30,10 @@ public class AddMasterActivity extends AppCompatActivity {
         View view = binding.getRoot();
         setContentView(view);
 
-        String[] masterTypes = {"Начальник поезда", "ПЭМ", "ДВР", "Менеджер ВБ"};
+        String[] masterTypes = {WorkerJob.LNP.getJobTitle(),
+                WorkerJob.PEM.getJobTitle(),
+                WorkerJob.DVR.getJobTitle(),
+                WorkerJob.MVB.getJobTitle()};
 
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.custom_spinner_item, masterTypes);
         adapter.setDropDownViewResource(R.layout.custom_spinner_item);
@@ -39,6 +45,11 @@ public class AddMasterActivity extends AppCompatActivity {
 
             if (surname.isEmpty() || surname.isBlank()) {
                 Toast toast = Toast.makeText(this, "Введите ФИО работника",
+                        Toast.LENGTH_LONG);
+                toast.show();
+                return;
+            } else if (!AppRev.getChecker().checkWorkerDataRegex(surname)) {
+                Toast toast = Toast.makeText(this, "Неверный формат ФИО",
                         Toast.LENGTH_LONG);
                 toast.show();
                 return;

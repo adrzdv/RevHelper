@@ -9,22 +9,17 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.revhelper.R;
-import com.example.revhelper.model.entity.Violation;
+import com.example.revhelper.model.dto.ViolationAttribute;
+import com.example.revhelper.model.dto.ViolationForCoach;
 
 import java.util.List;
 
-public class ViolationAdapterOnClick extends RecyclerView.Adapter<ViolationAdapterOnClick.ViolationViewHolder> {
+public class ViolationAdapterForReinspection extends RecyclerView.Adapter<ViolationAdapterForReinspection.ViolationViewHolder> {
 
-    private List<Violation> violationList;
-    private ViolationAdapterOnClick.OnItemClickListener listener;
+    private List<ViolationForCoach> violationList;
 
-    public ViolationAdapterOnClick(List<Violation> violationList, ViolationAdapterOnClick.OnItemClickListener listener) {
+    public ViolationAdapterForReinspection(List<ViolationForCoach> violationList) {
         this.violationList = violationList;
-        this.listener = listener;
-    }
-
-    public interface OnItemClickListener {
-        void onItemClick(Violation violationString);
     }
 
     @NonNull
@@ -32,15 +27,23 @@ public class ViolationAdapterOnClick extends RecyclerView.Adapter<ViolationAdapt
     public ViolationViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.violation_item_view_without_button, parent, false);
-        return new ViolationAdapterOnClick.ViolationViewHolder(view);
+        return new ViolationAdapterForReinspection.ViolationViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViolationAdapterOnClick.ViolationViewHolder holder, int position) {
-        Violation violation = violationList.get(position);
+    public void onBindViewHolder(@NonNull ViolationAdapterForReinspection.ViolationViewHolder holder, int position) {
+        ViolationForCoach violation = violationList.get(position);
         holder.violationCode.setText(String.valueOf(violation.getCode()));
-        holder.violationName.setText(violation.getName());
-        holder.itemView.setOnClickListener(v -> listener.onItemClick(violation));
+        StringBuilder attribs = new StringBuilder();
+        if (violation.getAttributes() != null && !violation.getAttributes().isEmpty()) {
+            for (ViolationAttribute attrib : violation.getAttributes()) {
+                attribs.append(attrib.getAttrib()).append(" ");
+            }
+            holder.violationName.setText(violation.getName() + "\n\nПризнаки:\n" + attribs);
+        } else {
+            holder.violationName.setText(violation.getName());
+        }
+
     }
 
     @Override
@@ -58,7 +61,7 @@ public class ViolationAdapterOnClick extends RecyclerView.Adapter<ViolationAdapt
         }
     }
 
-    public void updateData(List<Violation> newViolationList) {
+    public void updateData(List<ViolationForCoach> newViolationList) {
         this.violationList = newViolationList;
         notifyDataSetChanged();
     }

@@ -5,11 +5,14 @@ import android.app.Application;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.room.Room;
 
+import com.example.revhelper.services.CheckService;
+
 
 public class AppRev extends Application {
 
     private static AppRev instance;
     private static AppDatabase db;
+    private static CheckService checker;
 
     public static AppRev getInstance() {
         return instance;
@@ -20,6 +23,7 @@ public class AppRev extends Application {
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         super.onCreate();
         instance = this;
+        checker = new CheckService();
         db = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "dbtrain")
                 .allowMainThreadQueries()
                 .fallbackToDestructiveMigration()
@@ -30,6 +34,11 @@ public class AppRev extends Application {
     public static AppDatabase getDb() {
 
         return db;
+    }
+
+    public static CheckService getChecker() {
+
+        return checker;
     }
 
 

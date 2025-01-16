@@ -6,4 +6,5 @@
     <color name="grey_corp_2">#9DA3A6</color>
     <color name="foreground_color">#6E6B75</color>
     <color name="background_color">#FFFFFF</color>
+    <color name="corporate_red">#E21A1A</color>
 </resources>

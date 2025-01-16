@@ -7,6 +7,7 @@
 
     <style name="Theme.RevHelper" parent="Base.Theme.RevHelper">
         <item name="android:fontFamily">@font/fsrail55</item>
+        <item name="popupMenuStyle">@style/CustomPopupMenuStyle</item>
     </style>
 
     <style name="Theme.RevHelper.NoActionBar">
@@ -14,13 +15,17 @@
         <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="DialogTheme" parent="Theme.MaterialComponents.Dialog">
-        <!-- Настройка внешнего вида диалога -->
-        <item name="android:windowMinWidthMajor">90%</item>
-        <item name="android:windowMinWidthMinor">90%</item>
+    <style name="RoundedDialogStyle" parent="Theme.MaterialComponents.Dialog">
+        <item name="android:windowBackground">@drawable/rounded_dialog_background</item>
+        <item name="android:backgroundDimEnabled">true</item>
         <item name="android:windowIsFloating">true</item>
         <item name="android:windowNoTitle">true</item>
-        <item name="android:windowBackground">@android:color/background_light</item>
+        <item name="android:windowMinWidthMajor">80%</item> <!-- Устанавливаем ширину диалога -->
+        <item name="android:windowMinWidthMinor">80%</item>
+    </style>
+
+    <style name="CustomPopupMenuStyle" parent="Widget.MaterialComponents.PopupMenu">
+        <item name="android:popupBackground">@drawable/rounded_menu_item</item>
     </style>
 
     <style name="CustomTextInputTheme" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
@@ -62,7 +67,7 @@
 
     <style name="CustomButtonStyle" parent="Widget.Material3.Button">
         <!-- Цвет фона -->
-        <item name="android:backgroundTint">#E21A1A</item>
+        <item name="android:backgroundTint">@color/corporate_red</item>
         <!-- Цвет текста -->
         <item name="android:textColor">@color/white</item>
         <!-- Размер текста -->

@@ -13,6 +13,9 @@ public interface CoachDao {
     @Query("SELECT * FROM informators WHERE informators.coach_number LIKE :coach")
     Coach findByCoach(String coach);
 
+    @Query("SELECT * FROM informators")
+    List<Coach> getAllCoaches();
+
     @Insert
     void insertCoaches(List<Coach> coaches);
 

@@ -1,7 +1,6 @@
 package com.example.revhelper.model.enums;
 
 public enum WorkerJob {
-
     LNP("Начальник поезда"),
     PEM("Поездной электромеханик"),
     DVR("Директор вагона-ресторана"),

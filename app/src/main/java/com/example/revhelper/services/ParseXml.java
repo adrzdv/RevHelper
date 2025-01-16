@@ -9,6 +9,7 @@ import android.widget.Toast;
 import com.example.revhelper.exceptions.CustomException;
 import com.example.revhelper.model.entity.Coach;
 import com.example.revhelper.model.entity.Train;
+import com.example.revhelper.model.entity.Violation;
 import com.example.revhelper.sys.AppDatabase;
 import com.example.revhelper.sys.ResultCallback;
 
@@ -35,7 +36,6 @@ public class ParseXml {
         Executor executor = Executors.newSingleThreadExecutor();
         Handler handler = new Handler(Looper.getMainLooper());
         final StringBuilder resThreed = new StringBuilder();
-
 
         ResultCallback callback = message -> {
             resThreed.append(message);
@@ -94,10 +94,12 @@ public class ParseXml {
 
                     List<Train> trains;
                     List<Coach> coaches;
+                    List<Violation> violations;
 
                     try {
                         trains = getTrainListFromDoc(document);
                         coaches = getCoachesListFromDoc(document);
+                        violations = getViolationListFromDoc(document);
                         if (!trains.isEmpty()) {
                             appDb.trainDao().cleanTrainTable();
                             appDb.trainDao().cleanKeys();
@@ -107,6 +109,11 @@ public class ParseXml {
                             appDb.coachDao().cleanCoachTable();
                             appDb.coachDao().cleanKeys();
                             appDb.coachDao().insertCoaches(coaches);
+                        }
+                        if (!violations.isEmpty()) {
+                            appDb.violationDao().cleanViolationTable();
+                            appDb.violationDao().cleanKeys();
+                            appDb.violationDao().insertViolations(violations);
                         }
                         temp = "Данные успешно загружены";
                     } catch (CustomException e) {
@@ -131,6 +138,27 @@ public class ParseXml {
         } catch (Exception e) {
             Toast.makeText(context, e.getMessage(), Toast.LENGTH_LONG).show();
         }
+    }
+
+    private List<Violation> getViolationListFromDoc(Document doc) throws CustomException {
+
+        List<Violation> violationList = new ArrayList<>();
+
+        NodeList nodeList = doc.getElementsByTagName("violation");
+        for (int i = 0; i < nodeList.getLength(); i++) {
+            Element element = (Element) nodeList.item(i);
+            Violation violation = new Violation();
+            violation.setName(element.getElementsByTagName("name").item(0).getTextContent());
+            violation.setCode(Integer.parseInt(element.getElementsByTagName("code").item(0).getTextContent()));
+            violation.setConflictiveCode(element.getElementsByTagName("conflictive_code").item(0) == null ? 0 :
+                    Integer.parseInt(element.getElementsByTagName("conflictive_code").item(0).getTextContent()));
+            violation.setRevisionType(Integer.parseInt(element.getElementsByTagName("revision_type").item(0).getTextContent()));
+            violation.setActive(element.getElementsByTagName("active").item(0) == null ? 1 :
+                    Integer.parseInt(element.getElementsByTagName("active").item(0).getTextContent()));
+            violationList.add(violation);
+        }
+
+        return violationList;
     }
 
     private List<Train> getTrainListFromDoc(Document doc) throws CustomException {

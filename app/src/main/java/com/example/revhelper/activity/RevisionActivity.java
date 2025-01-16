@@ -10,6 +10,7 @@ import androidx.activity.EdgeToEdge;
 import androidx.activity.OnBackPressedCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -21,16 +22,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.revhelper.R;
 import com.example.revhelper.adapters.CoachAdapter;
 import com.example.revhelper.databinding.ActivityRevisionBinding;
-import com.example.revhelper.model.dto.CoachOnRevisionParce;
+import com.example.revhelper.mapper.CoachMapper;
 import com.example.revhelper.model.dto.CoachRepresentViewDto;
 import com.example.revhelper.model.dto.OrderParcelable;
 import com.example.revhelper.fragments.DialogFragmentExitConfirmation;
-import com.example.revhelper.mapper.CoachMapper;
-import com.example.revhelper.mapper.OrderMapper;
 import com.example.revhelper.mapper.ViolationMapper;
 import com.example.revhelper.model.dto.CoachOnRevision;
 import com.example.revhelper.model.enums.MainNodesEnum;
-import com.example.revhelper.model.order.Order;
 import com.example.revhelper.model.dto.ViolationForCoach;
 import com.example.revhelper.sys.AppRev;
 
@@ -51,7 +49,7 @@ public class RevisionActivity extends AppCompatActivity {
     private List<CoachRepresentViewDto> coaches = new ArrayList<>();
     private ActivityRevisionBinding binding;
     private CoachAdapter adapter;
-    private Order order;
+    private OrderParcelable order;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,10 +63,6 @@ public class RevisionActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-
-        if (order != null) {
-            binding.orderTextView.setText(getOrderToShow(order));
-        }
 
         getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
             @Override
@@ -84,9 +78,8 @@ public class RevisionActivity extends AppCompatActivity {
                 result -> {
                     if (result.getResultCode() == RESULT_OK && result.getData() != null) {
                         // Получаем объект из результата
-                        OrderParcelable orderParce = result.getData().getParcelableExtra("order");
-                        CoachOnRevisionParce coach = result.getData().getParcelableExtra("coach");
-                        if (coach != null) {
+                        if (result.getData().getParcelableExtra("coach") != null) {
+                            CoachOnRevision coach = result.getData().getParcelableExtra("coach");
                             if (coaches.stream()
                                     .anyMatch(coachOld -> coachOld.getCoachNumber().equals(coach.getCoachNumber()))) {
                                 coaches = coaches.stream()
@@ -95,19 +88,30 @@ public class RevisionActivity extends AppCompatActivity {
                             }
                             coaches.add(new CoachRepresentViewDto(coach.getCoachNumber(), coach.getCoachWorker()));
                             updateRecyclerView(coaches); //обновляем RecyclerView
-                            coachMap.put(coach.getCoachNumber(), new CoachOnRevision(coach.getCoachNumber(),
-                                    coach.getCoachWorker(),
-                                    coach.isCoachSkudopp(),
-                                    coach.isCoachAutomaticDoor(),
-                                    coach.isCoachEnergySystem(),
-                                    coach.isCoachProgressive(),
-                                    LocalDateTime.now(),
-                                    coach.getViolationList().stream()
-                                            .map(ViolationMapper::fromParceToCoach)
-                                            .collect(Collectors.toList())));
-                        } else if (orderParce != null) {
-                            order = OrderMapper.fromParcelableToOrder(orderParce);
+                            coachMap.put(coach.getCoachNumber(), new CoachOnRevision.Builder()
+                                    .setCoachNumber(coach.getCoachNumber())
+                                    .setCoachWorker(coach.getCoachWorker())
+                                    .setCoachSkudopp(coach.isCoachSkudopp())
+                                    .setCoachAutomaticDoor(coach.isCoachAutomaticDoor())
+                                    .setCoachEnergySystem(coach.isCoachEnergySystem())
+                                    .setCoachProgressive(coach.isCoachProgressive())
+                                    .setRevisionTime(LocalDateTime.now())
+                                    .setViolationList(coach.getViolationList())
+                                    .setTrailingCar(coach.isTrailingCar())
+                                    .build());
+                        } else if (result.getData().getParcelableExtra("order") != null) {
+                            order = result.getData().getParcelableExtra("order");
+                            coachMap.clear();
+                            coaches.clear();
+                            updateRecyclerView(coaches);
                             binding.orderTextView.setText(getOrderToShow(order));
+                            if (order.getCoachMap() != null) {
+                                coachMap = order.getCoachMap();
+                                coaches.addAll(coachMap.values().stream()
+                                        .map(CoachMapper::fromOnRevisionToRepresentDto)
+                                        .collect(Collectors.toList()));
+                                updateRecyclerView(coaches);
+                            }
                         }
                     }
                 }
@@ -121,8 +125,9 @@ public class RevisionActivity extends AppCompatActivity {
         adapter = new CoachAdapter(this, coaches, coach -> {
             Intent intent = new Intent(RevisionActivity.this, CoachActivity.class);
             if (coachMap.containsKey(coach.getCoachNumber())) {
-                CoachOnRevisionParce coachForSend = CoachMapper.fromCoachOnRevisionToParcelable(coachMap.get(coach.getCoachNumber()));
-                intent.putExtra("coach", coachForSend);
+                CoachOnRevision coachOnRevision = coachMap.get(coach.getCoachNumber());
+                intent.putExtra("coach", coachOnRevision);
+                intent.putExtra("ORDER", order);
                 launcher.launch(intent);
             } else {
                 Toast.makeText(RevisionActivity.this, "Some troubles", Toast.LENGTH_SHORT).show();
@@ -140,6 +145,7 @@ public class RevisionActivity extends AppCompatActivity {
                 return;
             }
             Intent intent = new Intent(RevisionActivity.this, CoachActivity.class);
+            intent.putExtra("ORDER", order);
             launcher.launch(intent);
         });
 
@@ -159,11 +165,33 @@ public class RevisionActivity extends AppCompatActivity {
 
         binding.orderButton.setOnClickListener((v -> {
             Intent intent = new Intent(RevisionActivity.this, OrderActivity.class);
+            if (order != null) {
+                intent.putExtra("ORDER", order);
+            }
             launcher.launch(intent);
         }));
 
     }
 
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        if (order != null) {
+            outState.putParcelable("ORDER", order);
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (getIntent() != null) {
+            if (getIntent().getParcelableExtra("ORDER") != null) {
+                order = getIntent().getParcelableExtra("ORDER");
+            }
+        }
+    }
+
+    //Вынести формирование в результирующую активити, передавать туда Order и с ним работать
     private Map<String, String> makeRevisionResult() {
         Map<String, String> resMap = new HashMap<>();
 
@@ -228,7 +256,7 @@ public class RevisionActivity extends AppCompatActivity {
         }
     }
 
-    private static StringBuilder getOrderToShow(Order order) {
+    private static StringBuilder getOrderToShow(OrderParcelable order) {
 
         StringBuilder res = new StringBuilder();
 

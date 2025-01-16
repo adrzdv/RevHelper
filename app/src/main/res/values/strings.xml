@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">Revisor Help</string>
     <string name="InstructionText">Для продолжения введите номер поезда в формате ХХХА и номер штабного вагона</string>
-    <string name="Greating">Добро пожаловать</string>
-    <string name="startButtonName">Старт</string>
+    <string name="Greating">Добро</string>
+    <string name="StartTextButton">Старт</string>
     <string name="CoachNumberText">Номер вагона</string>
     <string name="StartButtonText">Загрузить</string>
     <string name="CoachTextViewValue">Номер КРИ</string>
@@ -25,7 +25,6 @@
     <string name="TrainRevisionHeader">Проверка поезда</string>
     <string name="CoachWorkerText">Проводник</string>
     <string name="SaveInfoTextString">Сохранить</string>
-    <string name="ReturnBackTextString">Назад</string>
     <string name="MakeResultButtonText">Результат</string>
     <string name="DeleteStringText">Удалить</string>
     <string name="OrderButtonText">Уведомление</string>
@@ -51,6 +50,14 @@
     <string name="EditAmmountText">Изменить количество</string>
     <string name="UpdateAmountText">Изменить количество</string>
     <string name="SearchHintText">Поиск...</string>
-
-
+    <string name="InputMasterCoachText">Введите номер КРИ</string>
+    <string name="CoachNumberTextHint">Номер вагона</string>
+    <string name="AddPerson">Поездная бригада</string>
+    <string name="CleanList">Очистить список вагонов</string>
+    <string name="RouteTextString">Маршрут проверки</string>
+    <string name="RevisionTypeText">Тип проверки</string>
+    <string name="TraillingCarText">Прицепной</string>
+    <string name="ReinspectionButtonText">Проверка худшего поезда</string>
+    <string name="ReinspectionTextViewString">Проверка худшего поезда</string>
+    <string name="CheckButtonText">Проверить</string>
 </resources>

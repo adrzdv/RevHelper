@@ -15,16 +15,25 @@
         tools:ignore="NightMode"
         tools:targetApi="31">
         <activity
+            android:name=".ReinspectionCoachView"
+            android:exported="false" />
+        <activity
+            android:name=".activity.ReinspectionActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.AddCoachInOrderActivity"
+            android:exported="false"
+            android:theme="@style/RoundedDialogStyle" />
+        <activity
             android:name=".activity.ResultActivity"
             android:exported="false" />
         <activity
             android:name=".activity.ViolationListActivity"
-            android:exported="false"/>
-            <!--android:theme="@style/DialogTheme" />-->
+            android:exported="false" /> <!-- android:theme="@style/DialogTheme" /> -->
         <activity
             android:name=".activity.AddMasterActivity"
             android:exported="false"
-            android:theme="@style/DialogTheme" />
+            android:theme="@style/RoundedDialogStyle" />
         <activity
             android:name=".activity.OrderActivity"
             android:exported="false" />
