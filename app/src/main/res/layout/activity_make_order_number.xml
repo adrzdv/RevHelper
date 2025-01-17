@@ -119,10 +119,10 @@
 
                 <Spinner
                     android:id="@+id/order_spinner_revtype"
-                    style="@style/RegularText"
+                    style="@style/SpinnerWithGreyBorder"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="8dp" />
+                    android:padding="16dp" />
 
             </LinearLayout>
 
