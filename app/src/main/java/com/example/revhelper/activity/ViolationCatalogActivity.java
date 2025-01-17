@@ -205,7 +205,7 @@ public class ViolationCatalogActivity extends AppCompatActivity implements View.
         } else {
             if (isNumeric(query)) {
                 for (ViolationDto violation : currentViolationList) {
-                    if (violation.getCode() == Integer.parseInt(query)) {
+                    if (String.valueOf(violation.getCode()).contains(query)) {
                         filteredList.add(violation);
                     }
                 }
