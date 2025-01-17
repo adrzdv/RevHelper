@@ -8,8 +8,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:gravity="center_vertical"
+        android:orientation="horizontal"
         android:weightSum="1">
 
         <TextView
@@ -18,6 +18,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="0.2"
             android:ellipsize="end"
+            android:padding="8dp"
             android:singleLine="true"
             android:textColor="@android:color/black"
             android:textSize="18sp" />
@@ -29,6 +30,7 @@
             android:layout_weight="0.8"
             android:ellipsize="none"
             android:maxLines="10"
+            android:padding="8dp"
             android:scrollHorizontally="false"
             android:singleLine="false"
             android:textColor="@android:color/black"

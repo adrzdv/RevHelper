@@ -3,7 +3,9 @@ package com.example.revhelper.model.enums;
 public enum RevisionType {
     IN_TRANSIT("В пути"),
     AT_START_POINT("В пункте формирования"),
-    AT_TURNROUND_POINT("В пункте оборота");
+    AT_TURNROUND_POINT("В пункте оборота"),
+    ALL("Полный список"),
+    AT_TICKET_OFFICE("В кассе");
 
     private final String revisionTypeTitle;
 

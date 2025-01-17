@@ -68,9 +68,7 @@ public class ViolationListActivity extends AppCompatActivity {
         List<Integer> revisionTypes = getRevisionType(revisionType);
         if (revisionTypes != null) {
             for (int type : revisionTypes) {
-                List<Violation> tempList = violationsFromDb.stream()
-                        .filter(violation -> violation.getRevisionType() == type)
-                        .collect(Collectors.toList());
+                List<Violation> tempList = new ArrayList<>(violationsFromDb);
                 violationList.addAll(tempList);
             }
         }

@@ -15,9 +15,6 @@ public interface ViolationDao {
     @Query("SELECT * FROM violations WHERE active = 1")
     List<Violation> getAllViolations();
 
-    @Query("SELECT * FROM violations WHERE revision_type= :revisionType AND active = 1")
-    List<Violation> getViolationsByRevisionType(int revisionType);
-
     @Insert
     void insertViolations(List<Violation> violations);
 
