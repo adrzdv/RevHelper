@@ -8,10 +8,10 @@ import androidx.room.PrimaryKey;
 @Entity(tableName = "branches")
 public class Branches {
     @PrimaryKey
-    int id;
+    private int id;
     @ColumnInfo(name = "name")
     @NonNull
-    String name = "";
+    private String name = "";
 
     public void setName(@NonNull String name) {
         this.name = name;
