@@ -65,6 +65,13 @@
                 android:text="@string/ServiceText" />
 
             <Button
+                android:id="@+id/open_violation_catalog"
+                style="@style/CustomButtonStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/ViolationCatalogButtonText" />
+
+            <Button
                 android:id="@+id/exitButton"
                 style="@style/CustomButtonStyle"
                 android:layout_width="match_parent"

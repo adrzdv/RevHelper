@@ -152,7 +152,9 @@ public class ParseXml {
             violation.setCode(Integer.parseInt(element.getElementsByTagName("code").item(0).getTextContent()));
             violation.setConflictiveCode(element.getElementsByTagName("conflictive_code").item(0) == null ? 0 :
                     Integer.parseInt(element.getElementsByTagName("conflictive_code").item(0).getTextContent()));
-            violation.setRevisionType(Integer.parseInt(element.getElementsByTagName("revision_type").item(0).getTextContent()));
+            violation.setInTransit(Integer.parseInt(element.getElementsByTagName("in_transit").item(0).getTextContent()));
+            violation.setAtStartPoint(Integer.parseInt(element.getElementsByTagName("at_start_point").item(0).getTextContent()));
+            violation.setAtTurnroundPoint(Integer.parseInt(element.getElementsByTagName("at_turnround_point").item(0).getTextContent()));
             violation.setActive(element.getElementsByTagName("active").item(0) == null ? 1 :
                     Integer.parseInt(element.getElementsByTagName("active").item(0).getTextContent()));
             violationList.add(violation);

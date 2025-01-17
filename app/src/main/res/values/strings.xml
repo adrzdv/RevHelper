@@ -60,4 +60,5 @@
     <string name="ReinspectionButtonText">Проверка худшего поезда</string>
     <string name="ReinspectionTextViewString">Проверка худшего поезда</string>
     <string name="CheckButtonText">Проверить</string>
+    <string name="ViolationCatalogButtonText">Классификатор</string>
 </resources>
