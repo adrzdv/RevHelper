@@ -76,4 +76,5 @@
     <string name="PortalText">Попутчик</string>
     <string name="CrewListHeaderText">Список работников</string>
     <string name="CoachListHeaderText">Список вагонов</string>
+    <string name="QualityPassportTextString">Наличие паспорта качества</string>
 </resources>

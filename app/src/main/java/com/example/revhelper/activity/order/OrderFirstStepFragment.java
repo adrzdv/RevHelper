@@ -124,9 +124,9 @@ public class OrderFirstStepFragment extends Fragment implements View.OnClickList
         TextInputLayout orderRouteLayout = getView().findViewById(R.id.order_input_route);
         Spinner orderRevTypeSpinner = getView().findViewById(R.id.order_spinner_revtype_stepOne);
 
-        if (!orderRouteLayout.getEditText().equals("") ||
-                !orderDateLayout.getEditText().equals("") ||
-                !orderNumberLayout.getEditText().equals("")) {
+        if (!orderRouteLayout.getEditText().getText().toString().equals("") &&
+                !orderDateLayout.getEditText().getText().toString().equals("") &&
+                !orderNumberLayout.getEditText().getText().toString().equals("")) {
 
             String orderNumber = orderNumberLayout.getEditText().getText().toString();
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
@@ -164,5 +164,18 @@ public class OrderFirstStepFragment extends Fragment implements View.OnClickList
 
         return new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, revisionTypes);
 
+    }
+
+    private boolean checkOrder(OrderDtoParcelable order) {
+        if (order.getNumber().isBlank()) {
+            return false;
+        } else if (order.getRoute().isBlank()) {
+            return false;
+        } else if (order.getDate() == null) {
+            return false;
+        } else if (order.getRevisionType() == null) {
+            return false;
+        }
+        return true;
     }
 }

@@ -16,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -26,6 +27,8 @@ import com.example.revhelper.adapters.WorkerRecyclerViewAdapter;
 import com.example.revhelper.model.Worker;
 import com.example.revhelper.model.dto.OrderDtoParcelable;
 import com.example.revhelper.model.enums.WorkerJob;
+import com.example.revhelper.services.CheckService;
+import com.example.revhelper.sys.AppRev;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -107,6 +110,12 @@ public class OrderSecondStepFragment extends Fragment implements View.OnClickLis
 
         if (!crewSurnameLayout.getEditText().getText().toString().equals("")) {
             String workerName = crewSurnameLayout.getEditText().getText().toString();
+
+            if (!AppRev.getChecker().checkWorkerDataRegex(workerName)) {
+                showToast("Неверный формат ввода ФИО");
+                return;
+            }
+
             Spinner workerJob = getView().findViewById(R.id.order_crew_type_spinner);
             crewMap.put(workerJob.getSelectedItem().toString(),
                     new Worker(workerName, workerJob.getSelectedItem().toString()));
@@ -138,6 +147,8 @@ public class OrderSecondStepFragment extends Fragment implements View.OnClickLis
         }
 
         order.setCrewLeaders(crewMap);
+        CheckBox qualityPassportCheckBox = getView().findViewById(R.id.order_has_quality_passport);
+        order.setQualityPassport(qualityPassportCheckBox.isChecked());
         sharedViewModel.setOrder(order);
         Navigation.findNavController(v).navigate(R.id.action_to_stepThree);
     }

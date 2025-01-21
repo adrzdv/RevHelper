@@ -23,9 +23,11 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.revhelper.R;
 import com.example.revhelper.activity.AddCoachInOrderActivity;
+import com.example.revhelper.activity.RevisionActivity;
 import com.example.revhelper.activity.SharedViewModel;
 import com.example.revhelper.adapters.CoachSingleAdapter;
 import com.example.revhelper.mapper.TrainMapper;
@@ -81,8 +83,8 @@ public class OrderThirdStepFragment extends Fragment implements AdapterView.OnIt
             Intent intent = new Intent(requireContext(), AddCoachInOrderActivity.class);
             launcher.launch(intent);
         } else if (v.getId() == R.id.to_start_revision_process) {
-            saveOrder();
-            Intent intent = new Intent(requireContext(), AddCoachInOrderActivity.class);
+            checkAndSaveOrder();
+            Intent intent = new Intent(requireContext(), RevisionActivity.class); //ЗАМЕНИТЬ ОТКРЫВАЮЩУЮСЯ АКТИВИТИ
             intent.putExtra("ORDER", order);
             launcher.launch(intent);
         } else if (v.getId() == R.id.order_clear_coach_list) {
@@ -142,8 +144,10 @@ public class OrderThirdStepFragment extends Fragment implements AdapterView.OnIt
 
         ImageButton addCoachButton = getView().findViewById(R.id.order_add_new_coach);
         FloatingActionButton saveOrderButton = getView().findViewById(R.id.to_start_revision_process);
+        ImageButton clearCoachList = getView().findViewById(R.id.order_clear_coach_list);
         addCoachButton.setOnClickListener(this);
         saveOrderButton.setOnClickListener(this);
+        clearCoachList.setOnClickListener(this);
 
         launcher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
@@ -241,13 +245,21 @@ public class OrderThirdStepFragment extends Fragment implements AdapterView.OnIt
         }
     }
 
-    private void saveOrder() {
-        if (train == null) {
+    private void checkAndSaveOrder() {
+        if (order.getTrain() == null) {
+            showToast("Не введен поезд");
+        } else if (order.getCoachMap().isEmpty() || order.getCoachMap() == null) {
+            showToast("Список вагонов пуст");
+        }
 
+        if (sharedViewModel.getInformator() == null) {
+            order.setAutoinformator(false);
         }
     }
 
     private void showToast(String message) {
-
+        Toast toast = Toast.makeText(getContext(), message,
+                Toast.LENGTH_LONG);
+        toast.show();
     }
 }

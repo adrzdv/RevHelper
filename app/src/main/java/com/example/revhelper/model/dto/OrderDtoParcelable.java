@@ -24,6 +24,7 @@ public class OrderDtoParcelable implements Parcelable {
     private Map<String, CoachOnRevision> coachMap;
     private boolean isQualityPassport;
     private boolean isPrice;
+    private boolean isAutoinformator;
 
     public OrderDtoParcelable(String number, LocalDate date, String route, String revisionType) {
 
@@ -49,6 +50,7 @@ public class OrderDtoParcelable implements Parcelable {
         train = in.readParcelable(TrainDtoParcelable.class.getClassLoader());
         isQualityPassport = in.readBoolean();
         isPrice = in.readBoolean();
+        isAutoinformator = in.readBoolean();
     }
 
     @Override
@@ -61,6 +63,7 @@ public class OrderDtoParcelable implements Parcelable {
         dest.writeParcelable(train, flags);
         dest.writeBoolean(isQualityPassport);
         dest.writeBoolean(isPrice);
+        dest.writeBoolean(isAutoinformator);
     }
 
     public static final Creator<OrderDtoParcelable> CREATOR = new Creator<OrderDtoParcelable>() {
@@ -145,6 +148,14 @@ public class OrderDtoParcelable implements Parcelable {
 
     public void setPrice(boolean price) {
         isPrice = price;
+    }
+
+    public boolean isAutoinformator() {
+        return isAutoinformator;
+    }
+
+    public void setAutoinformator(boolean autoinformator) {
+        isAutoinformator = autoinformator;
     }
 
     @Override
