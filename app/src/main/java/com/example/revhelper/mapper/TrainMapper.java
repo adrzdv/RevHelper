@@ -2,6 +2,7 @@ package com.example.revhelper.mapper;
 
 import com.example.revhelper.model.dto.TrainDtoParcelable;
 import com.example.revhelper.model.dto.TrainDto;
+import com.example.revhelper.model.entity.Train;
 
 public class TrainMapper {
 
@@ -25,4 +26,5 @@ public class TrainMapper {
                 train.getHasProgressive(),
                 train.getHasPortal());
     }
+
 }

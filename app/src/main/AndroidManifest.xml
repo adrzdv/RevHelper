@@ -15,6 +15,9 @@
         tools:ignore="NightMode"
         tools:targetApi="31">
         <activity
+            android:name=".activity.order.OrderHostActivity"
+            android:exported="false" />
+        <activity
             android:name=".activity.order.MakeOrderNumberActivity"
             android:exported="false" />
         <activity

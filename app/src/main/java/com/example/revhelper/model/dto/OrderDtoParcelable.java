@@ -6,6 +6,8 @@ import android.os.Parcelable;
 
 import androidx.annotation.NonNull;
 
+import com.example.revhelper.model.Worker;
+
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
@@ -18,7 +20,7 @@ public class OrderDtoParcelable implements Parcelable {
     private String route;
     private String revisionType;
     private TrainDtoParcelable train;
-    private Map<String, String> crewLeaders;
+    private Map<String, Worker> crewLeaders;
     private Map<String, CoachOnRevision> coachMap;
     private boolean isQualityPassport;
     private boolean isPrice;
@@ -40,9 +42,25 @@ public class OrderDtoParcelable implements Parcelable {
         number = in.readString();
         route = in.readString();
         revisionType = in.readString();
+        crewLeaders = new HashMap<>();
+        in.readMap(crewLeaders, Worker.class.getClassLoader());
+        coachMap = new HashMap<>();
+        in.readMap(coachMap, CoachOnRevision.class.getClassLoader());
         train = in.readParcelable(TrainDtoParcelable.class.getClassLoader());
         isQualityPassport = in.readBoolean();
         isPrice = in.readBoolean();
+    }
+
+    @Override
+    public void writeToParcel(@NonNull Parcel dest, int flags) {
+        dest.writeString(number);
+        dest.writeString(route);
+        dest.writeString(revisionType);
+        dest.writeMap(crewLeaders);
+        dest.writeMap(coachMap);
+        dest.writeParcelable(train, flags);
+        dest.writeBoolean(isQualityPassport);
+        dest.writeBoolean(isPrice);
     }
 
     public static final Creator<OrderDtoParcelable> CREATOR = new Creator<OrderDtoParcelable>() {
@@ -97,11 +115,11 @@ public class OrderDtoParcelable implements Parcelable {
         this.train = train;
     }
 
-    public Map<String, String> getCrewLeaders() {
+    public Map<String, Worker> getCrewLeaders() {
         return crewLeaders;
     }
 
-    public void setCrewLeaders(Map<String, String> crewLeaders) {
+    public void setCrewLeaders(Map<String, Worker> crewLeaders) {
         this.crewLeaders = crewLeaders;
     }
 
@@ -145,15 +163,5 @@ public class OrderDtoParcelable implements Parcelable {
     @Override
     public int describeContents() {
         return 0;
-    }
-
-    @Override
-    public void writeToParcel(@NonNull Parcel dest, int flags) {
-        dest.writeString(number);
-        dest.writeString(route);
-        dest.writeString(revisionType);
-        dest.writeParcelable(train, flags);
-        dest.writeBoolean(isQualityPassport);
-        dest.writeBoolean(isPrice);
     }
 }

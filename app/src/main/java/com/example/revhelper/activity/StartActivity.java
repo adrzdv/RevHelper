@@ -15,6 +15,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.revhelper.R;
+import com.example.revhelper.activity.order.OrderHostActivity;
 import com.example.revhelper.databinding.ActivityStartBinding;
 import com.example.revhelper.exceptions.CustomException;
 import com.example.revhelper.services.CheckService;
@@ -76,7 +77,7 @@ public class StartActivity extends AppCompatActivity implements View.OnClickList
             Intent intent = new Intent(StartActivity.this, SearchActivity.class);
             startActivity(intent);
         } else if (v.getId() == R.id.revisionButton) {
-            Intent intent = new Intent(StartActivity.this, RevisionActivity.class);
+            Intent intent = new Intent(StartActivity.this, OrderHostActivity.class);
             startActivity(intent);
         } else if (v.getId() == R.id.serviceMenu) {
             importData();

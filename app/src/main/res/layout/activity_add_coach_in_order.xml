@@ -50,7 +50,7 @@
 
             <Button
                 android:id="@+id/save_coach"
-                style="@style/CustomButtonStyle"
+                style="@style/DarkBlueButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/SaveInfoTextString" />
