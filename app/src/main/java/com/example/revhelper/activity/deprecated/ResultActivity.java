@@ -1,4 +1,4 @@
-package com.example.revhelper.activity;
+package com.example.revhelper.activity.deprecated;
 
 import android.os.Bundle;
 import android.view.View;

@@ -1,12 +1,9 @@
 package com.example.revhelper.activity.revision;
 
-import static android.app.Activity.RESULT_OK;
-
 import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -19,15 +16,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.revhelper.R;
-import com.example.revhelper.activity.CoachActivity;
-import com.example.revhelper.activity.RevisionActivity;
-import com.example.revhelper.activity.SharedViewModel;
+import com.example.revhelper.sys.SharedViewModel;
 import com.example.revhelper.adapters.CoachSingleAdapterWithoutButton;
 import com.example.revhelper.model.dto.CoachOnRevision;
 import com.example.revhelper.model.dto.OrderDtoParcelable;
@@ -35,12 +28,9 @@ import com.example.revhelper.model.dto.TrainDtoParcelable;
 import com.example.revhelper.sys.AppRev;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import org.w3c.dom.Text;
-
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Pattern;
 
 
 public class RevisionFirstFragment extends Fragment implements CoachSingleAdapterWithoutButton.OnItemClickListener, View.OnClickListener {
@@ -84,6 +74,12 @@ public class RevisionFirstFragment extends Fragment implements CoachSingleAdapte
             AppRev.showToast(requireContext(), "Не реализовано");
         } else if (v.getId() == R.id.revision_make_result) {
             //RUN new Activity with resulting
+
+            Intent intent = new Intent(requireContext(), NEW_ACTIVITY.class);
+            intent.putExtra("ORDER", order);
+            launcher.launch(intent);
+            requireActivity().finish();
+
         } else if (v.getId() == R.id.bck_img_bttn_make_revision_main) {
             sharedViewModel.setOrder(order);
             sharedViewModel.setTrain(order.getTrain());

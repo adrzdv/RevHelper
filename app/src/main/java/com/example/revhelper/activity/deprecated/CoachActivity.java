@@ -1,4 +1,4 @@
-package com.example.revhelper.activity;
+package com.example.revhelper.activity.deprecated;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -20,14 +20,14 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.revhelper.R;
+import com.example.revhelper.activity.revision.ViolationListActivity;
 import com.example.revhelper.adapters.ViolationAdapter;
 import com.example.revhelper.databinding.ActivityCoachBinding;
 import com.example.revhelper.fragments.DialogFragmentExitConfirmation;
 import com.example.revhelper.model.dto.CoachOnRevision;
-import com.example.revhelper.model.dto.OrderParcelable;
+import com.example.revhelper.model.deprecated.OrderParcelable;
 import com.example.revhelper.model.entity.MainNodes;
 import com.example.revhelper.model.dto.ViolationForCoach;
-import com.example.revhelper.services.CheckService;
 import com.example.revhelper.sys.AppDatabase;
 import com.example.revhelper.sys.AppRev;
 

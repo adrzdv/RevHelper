@@ -1,4 +1,4 @@
-package com.example.revhelper.activity;
+package com.example.revhelper.activity.deprecated;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -24,7 +24,7 @@ import com.example.revhelper.adapters.CoachAdapter;
 import com.example.revhelper.databinding.ActivityRevisionBinding;
 import com.example.revhelper.mapper.CoachMapper;
 import com.example.revhelper.model.dto.CoachRepresentViewDto;
-import com.example.revhelper.model.dto.OrderParcelable;
+import com.example.revhelper.model.deprecated.OrderParcelable;
 import com.example.revhelper.fragments.DialogFragmentExitConfirmation;
 import com.example.revhelper.mapper.ViolationMapper;
 import com.example.revhelper.model.dto.CoachOnRevision;

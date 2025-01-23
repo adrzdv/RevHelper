@@ -1,4 +1,4 @@
-package com.example.revhelper.activity;
+package com.example.revhelper.activity.revision;
 
 import android.content.Intent;
 import android.os.Bundle;

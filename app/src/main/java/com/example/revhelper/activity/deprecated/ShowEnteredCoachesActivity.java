@@ -1,4 +1,4 @@
-package com.example.revhelper.activity;
+package com.example.revhelper.activity.deprecated;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,16 +16,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.revhelper.R;
 import com.example.revhelper.adapters.CoachSingleAdapter;
-import com.example.revhelper.adapters.CoachSingleAdapterWithoutButton;
-import com.example.revhelper.adapters.CoachSingleAdapterWithoutButtonWithoutAction;
-import com.example.revhelper.databinding.ActivityReinspectionBinding;
 import com.example.revhelper.databinding.ActivityShowEnteredCoachesBinding;
-import com.example.revhelper.fragments.DialogFragmentExitConfirmation;
 import com.example.revhelper.model.dto.CoachOnRevision;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Deprecated
 public class ShowEnteredCoachesActivity extends AppCompatActivity {
 
     private ActivityShowEnteredCoachesBinding binding;

@@ -25,20 +25,15 @@ import android.widget.ImageButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.revhelper.R;
-import com.example.revhelper.activity.CoachActivity;
-import com.example.revhelper.activity.SharedViewModel;
-import com.example.revhelper.activity.ViolationListActivity;
+import com.example.revhelper.sys.SharedViewModel;
 import com.example.revhelper.adapters.ViolationAdapter;
 import com.example.revhelper.model.dto.CoachOnRevision;
 import com.example.revhelper.model.dto.ViolationForCoach;
-import com.example.revhelper.model.entity.Coach;
 import com.example.revhelper.model.entity.MainNodes;
 import com.example.revhelper.model.enums.AdditionalParams;
 import com.example.revhelper.sys.AppRev;
-import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
 import java.time.LocalDateTime;

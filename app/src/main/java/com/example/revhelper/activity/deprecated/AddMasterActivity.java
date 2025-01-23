@@ -1,4 +1,4 @@
-package com.example.revhelper.activity;
+package com.example.revhelper.activity.deprecated;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -6,19 +6,14 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import com.example.revhelper.R;
 import com.example.revhelper.databinding.ActivityAddMasterBinding;
-import com.example.revhelper.databinding.ActivityOrderBinding;
 import com.example.revhelper.model.enums.WorkerJob;
-import com.example.revhelper.services.CheckService;
 import com.example.revhelper.sys.AppRev;
 
+@Deprecated
 public class AddMasterActivity extends AppCompatActivity {
 
     private ActivityAddMasterBinding binding;

@@ -1,4 +1,4 @@
-package com.example.revhelper.activity;
+package com.example.revhelper.activity.reinspection;
 
 import android.os.Bundle;
 import android.view.View;

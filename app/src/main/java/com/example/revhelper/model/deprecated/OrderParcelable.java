@@ -1,4 +1,4 @@
-package com.example.revhelper.model.dto;
+package com.example.revhelper.model.deprecated;
 
 import android.annotation.SuppressLint;
 import android.os.Parcel;
@@ -6,9 +6,11 @@ import android.os.Parcelable;
 
 import androidx.annotation.NonNull;
 
+import com.example.revhelper.model.dto.CoachOnRevision;
+import com.example.revhelper.model.dto.TrainDtoParcelable;
+
 import java.time.LocalDate;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 

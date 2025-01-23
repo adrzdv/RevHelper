@@ -1,4 +1,4 @@
-package com.example.revhelper.activity;
+package com.example.revhelper.activity.deprecated;
 
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
@@ -22,37 +22,30 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.revhelper.R;
+import com.example.revhelper.activity.AddCoachInOrderActivity;
 import com.example.revhelper.adapters.CoachSingleAdapter;
 import com.example.revhelper.databinding.ActivityOrderBinding;
 import com.example.revhelper.mapper.TrainMapper;
 import com.example.revhelper.model.dto.CoachOnRevision;
-import com.example.revhelper.model.dto.OrderParcelable;
+import com.example.revhelper.model.deprecated.OrderParcelable;
 import com.example.revhelper.fragments.DialogFragmentExitConfirmation;
-import com.example.revhelper.model.dto.ViolationForCoach;
 import com.example.revhelper.model.entity.Coach;
-import com.example.revhelper.model.entity.MainNodes;
 import com.example.revhelper.model.entity.Train;
 import com.example.revhelper.model.dto.TrainDto;
 import com.example.revhelper.model.enums.RevisionType;
 import com.example.revhelper.sys.AppDatabase;
 import com.example.revhelper.sys.AppRev;
 
-import java.io.Serializable;
-import java.text.DateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.Set;
-import java.util.TreeSet;
-import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
+@Deprecated
 @SuppressLint({"DefaultLocale", "NewApi"})
 public class OrderActivity extends AppCompatActivity {
 

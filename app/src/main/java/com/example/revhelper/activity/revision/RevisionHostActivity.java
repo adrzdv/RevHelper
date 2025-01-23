@@ -9,7 +9,7 @@ import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.revhelper.R;
-import com.example.revhelper.activity.SharedViewModel;
+import com.example.revhelper.sys.SharedViewModel;
 import com.example.revhelper.fragments.DialogFragmentExitConfirmation;
 import com.example.revhelper.model.dto.OrderDtoParcelable;
 

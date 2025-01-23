@@ -24,12 +24,10 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.revhelper.R;
 import com.example.revhelper.activity.AddCoachInOrderActivity;
-import com.example.revhelper.activity.RevisionActivity;
-import com.example.revhelper.activity.SharedViewModel;
+import com.example.revhelper.sys.SharedViewModel;
 import com.example.revhelper.activity.revision.RevisionHostActivity;
 import com.example.revhelper.adapters.CoachSingleAdapter;
 import com.example.revhelper.mapper.TrainMapper;
@@ -43,8 +41,6 @@ import com.example.revhelper.sys.AppDatabase;
 import com.example.revhelper.sys.AppRev;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;

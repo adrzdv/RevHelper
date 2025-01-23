@@ -24,36 +24,36 @@
             android:name=".activity.order.OrderHostActivity"
             android:exported="false" />
         <activity
-            android:name=".activity.ShowEnteredCoachesActivity"
+            android:name=".activity.deprecated.ShowEnteredCoachesActivity"
             android:exported="false" />
         <activity
-            android:name=".activity.ReinspectionCoachView"
+            android:name=".activity.reinspection.ReinspectionCoachView"
             android:exported="false" />
         <activity
-            android:name=".activity.ReinspectionActivity"
+            android:name=".activity.reinspection.ReinspectionActivity"
             android:exported="false" />
         <activity
             android:name=".activity.AddCoachInOrderActivity"
             android:exported="false"
             android:theme="@style/RoundedDialogStyle" />
         <activity
-            android:name=".activity.ResultActivity"
+            android:name=".activity.deprecated.ResultActivity"
             android:exported="false" />
         <activity
-            android:name=".activity.ViolationListActivity"
+            android:name=".activity.revision.ViolationListActivity"
             android:exported="false" /> <!-- android:theme="@style/DialogTheme" /> -->
         <activity
-            android:name=".activity.AddMasterActivity"
+            android:name=".activity.deprecated.AddMasterActivity"
             android:exported="false"
             android:theme="@style/RoundedDialogStyle" />
         <activity
-            android:name=".activity.OrderActivity"
+            android:name=".activity.deprecated.OrderActivity"
             android:exported="false" />
         <activity
-            android:name=".activity.RevisionActivity"
+            android:name=".activity.deprecated.RevisionActivity"
             android:exported="false" />
         <activity
-            android:name=".activity.CoachActivity"
+            android:name=".activity.deprecated.CoachActivity"
             android:exported="false" />
         <activity
             android:name=".activity.StartActivity"

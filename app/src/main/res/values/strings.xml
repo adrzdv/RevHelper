@@ -91,4 +91,5 @@
     <string name="ShowInfoAboutObjectDescription">Show info about object of revision</string>
     <string name="FinishRevisionDescription">Закончить проверку</string>
     <string name="ViolationCatalogButtonText">Классификатор</string>
+    <string name="CoachNumberHeaderText">Номер вагона</string>
 </resources>

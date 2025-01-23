@@ -4,14 +4,11 @@ import android.os.Bundle;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.revhelper.R;
-import com.example.revhelper.activity.SharedViewModel;
 import com.example.revhelper.fragments.DialogFragmentExitConfirmation;
-import com.example.revhelper.model.dto.OrderDtoParcelable;
 
 public class OrderHostActivity extends AppCompatActivity {
 

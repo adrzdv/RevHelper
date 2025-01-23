@@ -3,7 +3,6 @@ package com.example.revhelper.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,8 +12,8 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.example.revhelper.R;
 import com.example.revhelper.databinding.ActivityAddCoachInOrderBinding;
-import com.example.revhelper.databinding.ActivityOrderBinding;
 import com.example.revhelper.services.CheckService;
+import com.example.revhelper.sys.AppRev;
 
 public class AddCoachInOrderActivity extends AppCompatActivity {
 
@@ -35,26 +34,19 @@ public class AddCoachInOrderActivity extends AppCompatActivity {
         });
 
         binding.saveCoach.setOnClickListener((v -> {
-
             if (binding.coachNumberInput.getText() != null) {
                 String coachNumber = binding.coachNumberInput.getText().toString();
                 if (!cheker.checkCoachRegex(coachNumber)) {
-                    Toast toast = Toast.makeText(this, "Неверный номер вагона",
-                            Toast.LENGTH_LONG);
-                    toast.show();
+                    AppRev.showToast(this, "Неверный номер вагона");
                     return;
                 }
                 Intent resultIntent = new Intent();
                 resultIntent.putExtra("COACH", coachNumber);
                 setResult(RESULT_OK, resultIntent);
                 finish();
-
             } else {
-                Toast toast = Toast.makeText(this, "Введите номер вагона",
-                        Toast.LENGTH_LONG);
-                toast.show();
+                AppRev.showToast(this, "Введите номер вагона");
             }
-
         }));
     }
 }
