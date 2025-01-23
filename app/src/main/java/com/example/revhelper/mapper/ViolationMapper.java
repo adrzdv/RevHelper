@@ -1,11 +1,8 @@
 package com.example.revhelper.mapper;
 
-import com.example.revhelper.model.dto.ViolationAttribute;
+import com.example.revhelper.model.dto.ViolationDto;
 import com.example.revhelper.model.entity.Violation;
 import com.example.revhelper.model.dto.ViolationForCoach;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class ViolationMapper {
 
@@ -13,7 +10,19 @@ public class ViolationMapper {
         return new ViolationForCoach(violation.getId(),
                 violation.getCode(),
                 violation.getName(),
-                violation.getRevisionType(),
+                1,
                 1);
+    }
+
+    public static ViolationDto fromEntityToDto(Violation violation) {
+        return new ViolationDto(violation.getId(),
+                violation.getCode(),
+                violation.getName(),
+                violation.getInTransit() == 1,
+                violation.getAtStartPoint() == 1,
+                violation.getAtTurnroundPoint() == 1,
+                violation.getAtTicketOffice() == 1,
+                violation.getConflictiveCode(),
+                violation.getActive() == 1);
     }
 }

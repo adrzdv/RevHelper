@@ -71,16 +71,14 @@ public class ViolationListActivity extends AppCompatActivity {
 
         //позже поменять алгоритм, в сущность и таблицу добавить доп поля КАССА/ПУТЬ/ПФ/ПО,
         // типа int, чтоб разбить на типы проверок
-
-//        List<Integer> revisionTypes = getRevisionType(revisionType);
-//        if (revisionTypes != null) {
-//            for (int type : revisionTypes) {
-//                List<Violation> tempList = violationsFromDb.stream()
-//                        .filter(violation -> violation.getRevisionType() == type)
-//                        .collect(Collectors.toList());
-//                violationList.addAll(tempList);
-//            }
-//        }
+        violationsFromDb = appDb.violationDao().getAllViolations();
+        List<Integer> revisionTypes = getRevisionType(revisionType);
+        if (revisionTypes != null) {
+            for (int type : revisionTypes) {
+                List<Violation> tempList = new ArrayList<>(violationsFromDb);
+                violationList.addAll(tempList);
+            }
+        }
 
         Collections.sort(violationList);
 

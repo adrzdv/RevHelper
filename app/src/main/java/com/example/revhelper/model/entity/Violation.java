@@ -17,31 +17,40 @@ public class Violation implements Comparable<Violation> {
     @ColumnInfo(name = "name")
     @NonNull
     private String name;
-    @ColumnInfo(name = "revision_type")
+    @ColumnInfo(name = "in_transit", defaultValue = "0")
     @NonNull
-    private Integer revisionType;
+    private Integer inTransit;
+    @ColumnInfo(name = "at_start_point", defaultValue = "0")
+    @NonNull
+    private Integer atStartPoint;
+    @ColumnInfo(name = "at_turnround_point", defaultValue = "0")
+    @NonNull
+    private Integer atTurnroundPoint;
     @ColumnInfo(name = "conflictive_code", defaultValue = "0")
     @NonNull
     private Integer conflictiveCode;
+    @ColumnInfo(name = "at_ticket_office", defaultValue = "0")
+    @NonNull
+    private Integer atTicketOffice;
     @ColumnInfo(name = "active", defaultValue = "1")
     @NonNull
     private Integer active;
 
-    public Violation(int id, int code, @NonNull String name, int revisionType, int conflictiveCode, int active) {
+    public Violation(int id, int code, @NonNull String name, int inTransit, int atStartPoint,
+                     int atTurnroundPoint, int conflictiveCode, int atTicketOffice, int active) {
         this.id = id;
         this.code = code;
         this.name = name;
-        this.revisionType = revisionType;
+        this.inTransit = inTransit;
+        this.atStartPoint = atStartPoint;
+        this.atTurnroundPoint = atTurnroundPoint;
+        this.atTicketOffice = atTicketOffice;
         this.conflictiveCode = conflictiveCode;
         this.active = active;
     }
 
     public Violation() {
 
-    }
-
-    public void setCode(int code) {
-        this.code = code;
     }
 
     public int getCode() {
@@ -56,10 +65,6 @@ public class Violation implements Comparable<Violation> {
         this.name = name;
     }
 
-    public void setRevisionType(int revisionType) {
-        this.revisionType = revisionType;
-    }
-
     public int getId() {
         return this.id;
     }
@@ -68,8 +73,56 @@ public class Violation implements Comparable<Violation> {
         return this.name;
     }
 
-    public int getRevisionType() {
-        return this.revisionType;
+    public int getConflictiveCode() {
+        return conflictiveCode;
+    }
+
+    public void setConflictiveCode(Integer conflictiveCode) {
+        this.conflictiveCode = conflictiveCode;
+    }
+
+    public int getActive() {
+        return active;
+    }
+
+    public void setActive(Integer active) {
+        this.active = active;
+    }
+
+    @Override
+    public int compareTo(Violation other) {
+        return this.code.compareTo(other.code);
+    }
+
+    public void setCode(@NonNull Integer code) {
+        this.code = code;
+    }
+
+    @NonNull
+    public Integer getInTransit() {
+        return inTransit;
+    }
+
+    public void setInTransit(@NonNull Integer inTransit) {
+        this.inTransit = inTransit;
+    }
+
+    @NonNull
+    public Integer getAtStartPoint() {
+        return atStartPoint;
+    }
+
+    public void setAtStartPoint(@NonNull Integer atStartPoint) {
+        this.atStartPoint = atStartPoint;
+    }
+
+    @NonNull
+    public Integer getAtTurnroundPoint() {
+        return atTurnroundPoint;
+    }
+
+    public void setAtTurnroundPoint(@NonNull Integer atTurnroundPoint) {
+        this.atTurnroundPoint = atTurnroundPoint;
     }
 
     @Override
@@ -81,7 +134,7 @@ public class Violation implements Comparable<Violation> {
             return false;
         }
         Violation violation = (Violation) obj;
-        return id == violation.id && name.equals(violation.name) && code == violation.code;
+        return id == violation.id && name.equals(violation.name) && code.longValue() == violation.code;
     }
 
     @Override
@@ -91,24 +144,12 @@ public class Violation implements Comparable<Violation> {
         return result;
     }
 
-    public int getConflictiveCode() {
-        return conflictiveCode;
+    @NonNull
+    public Integer getAtTicketOffice() {
+        return atTicketOffice;
     }
 
-    public void setConflictiveCode(int conflictiveCode) {
-        this.conflictiveCode = conflictiveCode;
-    }
-
-    public int getActive() {
-        return active;
-    }
-
-    public void setActive(int active) {
-        this.active = active;
-    }
-
-    @Override
-    public int compareTo(Violation other) {
-        return this.code.compareTo(other.code);
+    public void setAtTicketOffice(@NonNull Integer atTicketOffice) {
+        this.atTicketOffice = atTicketOffice;
     }
 }

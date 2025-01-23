@@ -68,6 +68,7 @@ public class StartActivity extends AppCompatActivity implements View.OnClickList
         binding.loadData.setOnClickListener(this);
         binding.revisionButton.setOnClickListener(this);
         binding.reinspectionButton.setOnClickListener(this);
+        binding.openViolationCatalog.setOnClickListener(this);
     }
 
     @Override
@@ -85,6 +86,9 @@ public class StartActivity extends AppCompatActivity implements View.OnClickList
             this.finish();
         } else if (v.getId() == R.id.reinspection_button) {
             Intent intent = new Intent(StartActivity.this, ReinspectionActivity.class);
+            startActivity(intent);
+        } else if (v.getId() == R.id.open_violation_catalog) {
+            Intent intent = new Intent(StartActivity.this, ViolationCatalogActivity.class);
             startActivity(intent);
         }
     }
