@@ -1,6 +1,5 @@
-package com.example.revhelper.activity;
+package com.example.revhelper.activity.information;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;

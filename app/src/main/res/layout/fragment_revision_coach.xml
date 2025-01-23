@@ -86,6 +86,22 @@
                 android:padding="8dp">
 
                 <Spinner
+                    android:id="@+id/revision_spinner_worker_depo"
+                    style="@style/SpinnerWithGreyBorder"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="16dp"
+                    android:spinnerMode="dropdown" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/background_color"
+                android:padding="8dp">
+
+                <Spinner
                     android:id="@+id/revision_spinner_additional_nodes"
                     style="@style/SpinnerWithGreyBorder"
                     android:layout_width="match_parent"

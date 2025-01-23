@@ -1,7 +1,7 @@
 package com.example.revhelper.mapper;
 
 import com.example.revhelper.model.dto.CoachOnRevision;
-import com.example.revhelper.model.dto.CoachRepresentViewDto;
+import com.example.revhelper.model.deprecated.CoachRepresentViewDto;
 
 public class CoachMapper {
 

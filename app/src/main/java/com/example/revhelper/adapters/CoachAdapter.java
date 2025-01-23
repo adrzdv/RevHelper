@@ -13,10 +13,11 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.revhelper.R;
-import com.example.revhelper.model.dto.CoachRepresentViewDto;
+import com.example.revhelper.model.deprecated.CoachRepresentViewDto;
 
 import java.util.List;
 
+@Deprecated
 public class CoachAdapter extends RecyclerView.Adapter<CoachAdapter.CoachViewHolder> {
 
     private List<CoachRepresentViewDto> coachListForRepresent;

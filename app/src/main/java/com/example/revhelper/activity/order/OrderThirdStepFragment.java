@@ -26,7 +26,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.example.revhelper.R;
-import com.example.revhelper.activity.AddCoachInOrderActivity;
+import com.example.revhelper.fragments.AddCoachInOrderActivity;
 import com.example.revhelper.sys.SharedViewModel;
 import com.example.revhelper.activity.revision.RevisionHostActivity;
 import com.example.revhelper.adapters.CoachSingleAdapter;

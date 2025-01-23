@@ -110,6 +110,12 @@
         <item name="android:textColor">@color/black</item>
     </style>
 
+    <style name="BlackHeaderForLightBackMedium16">
+        <item name="android:fontFamily">@font/fsrail75</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
     <style name="RegularText">
         <item name="android:fontFamily">@font/fsrail55</item>
         <item name="android:textSize">16sp</item>

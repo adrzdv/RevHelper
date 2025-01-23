@@ -92,4 +92,13 @@
     <string name="FinishRevisionDescription">Закончить проверку</string>
     <string name="ViolationCatalogButtonText">Классификатор</string>
     <string name="CoachNumberHeaderText">Номер вагона</string>
+    <string name="EndWorkTextDescription">Завершить проверку</string>
+    <string name="TrailingGroupText">Прицепная группа</string>
+    <string name="MainTrainText">Основной состав</string>
+    <string name="ViolationsText">Нарушения</string>
+    <string name="ResultTextHeader">Результат проверки</string>
+    <string name="MainStatsText">Основные данные</string>
+    <string name="TrainInfoText">Информация по поезду</string>
+    <string name="PriceTextString">Полный перечень товаров, выполненный шрифтом Брайля</string>
+    <string name="RadioTextString">Радиоустановка</string>
 </resources>

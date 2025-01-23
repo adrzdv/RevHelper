@@ -113,9 +113,11 @@ public class RevisionCoachFragment extends Fragment implements View.OnClickListe
                 coach.setRevisionTime(revisionStart);
             }
             if (coach.getRevisionEndTime() == null) {
-                coach.setRevisionTime(LocalDateTime.now());
+                coach.setRevisionEndTime(LocalDateTime.now());
             }
             sharedViewModel.setCoachOnRevision(coach);
+            Navigation.findNavController(v).navigateUp();
+        } else if (v.getId() == R.id.bck_img_bttn_coach_fragment) {
             Navigation.findNavController(v).navigateUp();
         }
 

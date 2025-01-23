@@ -16,10 +16,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.example.revhelper.R;
+import com.example.revhelper.activity.information.ResultRevisionActivity;
 import com.example.revhelper.sys.SharedViewModel;
 import com.example.revhelper.adapters.CoachSingleAdapterWithoutButton;
 import com.example.revhelper.model.dto.CoachOnRevision;
@@ -38,7 +40,6 @@ public class RevisionFirstFragment extends Fragment implements CoachSingleAdapte
     private SharedViewModel sharedViewModel;
     private OrderDtoParcelable order;
     private List<CoachOnRevision> coachList;
-    private ActivityResultLauncher<Intent> launcher;
     private CoachSingleAdapterWithoutButton coachAdapter;
 
 
@@ -73,11 +74,17 @@ public class RevisionFirstFragment extends Fragment implements CoachSingleAdapte
         if (v.getId() == R.id.revision_take_train_info) {
             AppRev.showToast(requireContext(), "Не реализовано");
         } else if (v.getId() == R.id.revision_make_result) {
-            //RUN new Activity with resulting
 
-            Intent intent = new Intent(requireContext(), NEW_ACTIVITY.class);
+            //RUN new Activity with resulting
+            CheckBox priceCheckBox = getView().findViewById(R.id.revision_price_checkbox);
+            CheckBox radioCheckBox = getView().findViewById(R.id.revision_radio_good);
+
+            order.setRadio(radioCheckBox.isChecked());
+            order.setPrice(priceCheckBox.isChecked());
+
+            Intent intent = new Intent(requireContext(), ResultRevisionActivity.class);
             intent.putExtra("ORDER", order);
-            launcher.launch(intent);
+            startActivity(intent);
             requireActivity().finish();
 
         } else if (v.getId() == R.id.bck_img_bttn_make_revision_main) {

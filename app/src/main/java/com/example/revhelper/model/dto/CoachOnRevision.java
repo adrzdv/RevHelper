@@ -27,7 +27,7 @@ public class CoachOnRevision implements Parcelable {
     private LocalDateTime revisionEndTime;
     private List<ViolationForCoach> violationList;
     private String coachWorkerDep;
-    private boolean isTrailingCar = false;
+    private boolean isTrailingCar;
 
 
     public static class Builder {
@@ -41,7 +41,7 @@ public class CoachOnRevision implements Parcelable {
         private LocalDateTime revisionEndTime;
         private List<ViolationForCoach> violationList = new ArrayList<>();
         private String coachWorkerDep;
-        private boolean isTrailingCar;
+        private boolean isTrailingCar = false;
 
         public Builder setTrailingCar(boolean isTrailingCar) {
             this.isTrailingCar = isTrailingCar;

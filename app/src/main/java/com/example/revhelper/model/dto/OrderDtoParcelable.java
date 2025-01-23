@@ -21,9 +21,10 @@ public class OrderDtoParcelable implements Parcelable {
     private TrainDtoParcelable train;
     private Map<String, Worker> crewLeaders;
     private Map<String, CoachOnRevision> coachMap;
-    private boolean isQualityPassport;
-    private boolean isPrice;
-    private boolean isAutoinformator;
+    private Boolean isQualityPassport;
+    private Boolean isPrice;
+    private Boolean isAutoinformator;
+    private Boolean isRadio;
 
     public OrderDtoParcelable(String number, LocalDate date, String route, String revisionType) {
 
@@ -34,7 +35,6 @@ public class OrderDtoParcelable implements Parcelable {
         this.crewLeaders = new HashMap<>();
         this.coachMap = new HashMap<>();
         this.isQualityPassport = false;
-        this.isPrice = false;
 
     }
 
@@ -56,6 +56,7 @@ public class OrderDtoParcelable implements Parcelable {
         isQualityPassport = in.readBoolean();
         isPrice = in.readBoolean();
         isAutoinformator = in.readBoolean();
+        isRadio = in.readBoolean();
     }
 
     @Override
@@ -74,6 +75,7 @@ public class OrderDtoParcelable implements Parcelable {
         dest.writeBoolean(isQualityPassport);
         dest.writeBoolean(isPrice);
         dest.writeBoolean(isAutoinformator);
+        dest.writeBoolean(isRadio);
     }
 
     public static final Creator<OrderDtoParcelable> CREATOR = new Creator<OrderDtoParcelable>() {
@@ -144,24 +146,44 @@ public class OrderDtoParcelable implements Parcelable {
         this.coachMap = coachMap;
     }
 
-    public boolean isQualityPassport() {
+    public Boolean isQualityPassport() {
         return isQualityPassport;
     }
 
-    public void setQualityPassport(boolean qualityPassport) {
+    public void setQualityPassport(Boolean qualityPassport) {
         isQualityPassport = qualityPassport;
     }
 
-    public boolean isPrice() {
+    public Boolean isPrice() {
         return isPrice;
     }
 
-    public void setPrice(boolean price) {
+    public void setPrice(Boolean price) {
         isPrice = price;
     }
 
     public boolean isAutoinformator() {
         return isAutoinformator;
+    }
+
+    public Boolean getIsPrice() {
+        return this.isPrice;
+    }
+
+    public Boolean getIsQualityPassport() {
+        return this.isQualityPassport;
+    }
+
+    public Boolean getIsAutoinformator() {
+        return this.isAutoinformator;
+    }
+
+    public Boolean getRadio() {
+        return isRadio;
+    }
+
+    public void setRadio(Boolean radio) {
+        isRadio = radio;
     }
 
     public void setAutoinformator(boolean autoinformator) {
@@ -185,4 +207,6 @@ public class OrderDtoParcelable implements Parcelable {
     public int describeContents() {
         return 0;
     }
+
+
 }

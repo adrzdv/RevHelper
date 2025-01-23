@@ -20,7 +20,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.revhelper.R;
-import com.example.revhelper.activity.AddCoachInOrderActivity;
+import com.example.revhelper.fragments.AddCoachInOrderActivity;
 import com.example.revhelper.activity.deprecated.ShowEnteredCoachesActivity;
 import com.example.revhelper.adapters.CoachSingleAdapterWithoutButton;
 import com.example.revhelper.databinding.ActivityReinspectionBinding;

@@ -23,7 +23,7 @@ import com.example.revhelper.R;
 import com.example.revhelper.adapters.CoachAdapter;
 import com.example.revhelper.databinding.ActivityRevisionBinding;
 import com.example.revhelper.mapper.CoachMapper;
-import com.example.revhelper.model.dto.CoachRepresentViewDto;
+import com.example.revhelper.model.deprecated.CoachRepresentViewDto;
 import com.example.revhelper.model.deprecated.OrderParcelable;
 import com.example.revhelper.fragments.DialogFragmentExitConfirmation;
 import com.example.revhelper.mapper.ViolationMapper;
