@@ -16,7 +16,7 @@ public class ViolationForCoach implements Parcelable, Comparable<ViolationForCoa
     private String name;
     private int revisionType;
     private int amount;
-    private List<ViolationAttribute> attributes = new ArrayList<>();
+    private List<ViolationAttribute> attributes;
     private boolean isResolved = false;
 
     public ViolationForCoach(int id, int code, @NonNull String name, int revisionType, int amount) {
@@ -25,6 +25,7 @@ public class ViolationForCoach implements Parcelable, Comparable<ViolationForCoa
         this.name = name;
         this.revisionType = revisionType;
         this.amount = amount;
+        attributes = new ArrayList<>();
     }
 
     public ViolationForCoach(int id, int code, @NonNull String name, int revisionType, int amount, List<ViolationAttribute> attributes) {

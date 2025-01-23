@@ -8,18 +8,18 @@ import android.view.View;
 import android.widget.EditText;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
-import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.revhelper.R;
 import com.example.revhelper.adapters.ViolationAdapterOnClick;
 import com.example.revhelper.databinding.ActivityViolationListBinding;
 import com.example.revhelper.mapper.ViolationMapper;
-import com.example.revhelper.model.dto.OrderParcelable;
+import com.example.revhelper.model.dto.ViolationDto;
 import com.example.revhelper.model.dto.ViolationForCoach;
 import com.example.revhelper.model.entity.Violation;
 import com.example.revhelper.model.enums.RevisionType;
@@ -27,7 +27,6 @@ import com.example.revhelper.sys.AppDatabase;
 import com.example.revhelper.sys.AppRev;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -37,9 +36,8 @@ public class ViolationListActivity extends AppCompatActivity {
     private ActivityViolationListBinding binding;
     private AppDatabase appDb;
     ViolationAdapterOnClick adapter;
-    private List<Violation> filterdViolationList = new ArrayList<>();
-    private List<Violation> violationList = new ArrayList<>();
-    private List<Violation> violationsFromDb;
+    private List<ViolationDto> filterdViolationList;
+    private List<ViolationDto> violationList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,48 +46,38 @@ public class ViolationListActivity extends AppCompatActivity {
         binding = ActivityViolationListBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
         setContentView(view);
-        appDb = AppRev.getDb();
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
 
-        //ВСЕ ПЕРЕПИСАТЬ С УЧЕТОМ ИЗМЕНЕНИЯ В БД
+        initData();
 
-        if (getIntent().getStringExtra("REVTYPE") != null) {
-            String revisionType = getIntent().getStringExtra("REVTYPE");
-            violationsFromDb = appDb.violationDao().getAllViolations();
-            if (revisionType.equals(RevisionType.IN_TRANSIT.getRevisionTypeTitle())) {
-
-            } else if (revisionType.equals(RevisionType.AT_TURNROUND_POINT.getRevisionTypeTitle())) {
-
-            } else if (revisionType.equals(RevisionType.AT_START_POINT.getRevisionTypeTitle())) {
-
+        String revisionType = getIntent().getStringExtra("REVTYPE");
+        if (revisionType != null) {
+            if (!revisionType.isBlank()) {
+                initViolationList(revisionType);
             }
         }
 
-        //позже поменять алгоритм, в сущность и таблицу добавить доп поля КАССА/ПУТЬ/ПФ/ПО,
-        // типа int, чтоб разбить на типы проверок
-        violationsFromDb = appDb.violationDao().getAllViolations();
-        //List<Integer> revisionTypes = getRevisionType(revisionType);
-//        if (revisionTypes != null) {
-//            for (int type : revisionTypes) {
-//                List<Violation> tempList = new ArrayList<>(violationsFromDb);
-//                violationList.addAll(tempList);
-//            }
-//        }
+        binding.violationListRecyclerView.setAdapter(adapter);
+        binding.violationListRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+    }
 
-        Collections.sort(violationList);
+    private void initData() {
 
-        adapter = new ViolationAdapterOnClick(violationList, violation -> {
-            ViolationForCoach violationParce = ViolationMapper.fromEntityToForCouch(violation);
-            Intent intent = new Intent();
-            intent.putExtra("violation", violationParce);
-            setResult(RESULT_OK, intent);
-            finish();
-        });
+        appDb = AppRev.getDb();
+        filterdViolationList = new ArrayList<>();
+        violationList = new ArrayList<>();
 
+        initAdapters();
+        initFilters();
+
+    }
+
+    private void initFilters() {
         // Настройка фильтрации
         EditText searchInput = binding.codeViolationSearch.getEditText();
         searchInput.addTextChangedListener(new TextWatcher() {
@@ -106,24 +94,55 @@ public class ViolationListActivity extends AppCompatActivity {
             public void afterTextChanged(Editable s) {
             }
         });
-
-        binding.violationListRecyclerView.setAdapter(adapter);
-        binding.violationListRecyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
 
-    private void filterData(String query) {
+    private void initAdapters() {
+
+        adapter = new ViolationAdapterOnClick(violationList, violation -> {
+            ViolationForCoach violationParce = ViolationMapper.fromDtoFromForCoach(violation);
+            Intent intent = new Intent();
+            intent.putExtra("VIOLATION", violationParce);
+            setResult(RESULT_OK, intent);
+            finish();
+        });
+
+    }
+
+    private void initViolationList(@NonNull String revisionType) {
+        List<Violation> violationsFromDb = appDb.violationDao().getAllViolations();
+        if (revisionType.equals(RevisionType.IN_TRANSIT.getRevisionTypeTitle())) {
+            violationList = violationsFromDb.stream()
+                    .map(ViolationMapper::fromEntityToDto)
+                    .filter(ViolationDto::isInTransit)
+                    .collect(Collectors.toList());
+        } else if (revisionType.equals(RevisionType.AT_TURNROUND_POINT.getRevisionTypeTitle())) {
+            violationList = violationsFromDb.stream()
+                    .map(ViolationMapper::fromEntityToDto)
+                    .filter(ViolationDto::isAtTurnroundPoint)
+                    .collect(Collectors.toList());
+        } else if (revisionType.equals(RevisionType.AT_START_POINT.getRevisionTypeTitle())) {
+            violationList = violationsFromDb.stream()
+                    .map(ViolationMapper::fromEntityToDto)
+                    .filter(ViolationDto::isAtStartPoint)
+                    .collect(Collectors.toList());
+        }
+        Collections.sort(violationList);
+        adapter.updateData(violationList);
+    }
+
+    private void filterData(@NonNull String query) {
         filterdViolationList.clear();
         if (query.isEmpty()) {
             filterdViolationList.addAll(violationList);
         } else {
             if (isNumeric(query)) {
-                for (Violation violation : violationList) {
-                    if (violation.getCode() == Integer.parseInt(query)) {
+                for (ViolationDto violation : violationList) {
+                    if (String.valueOf(violation.getCode()).contains(query)) {
                         filterdViolationList.add(violation);
                     }
                 }
             } else {
-                for (Violation violation : violationList) {
+                for (ViolationDto violation : violationList) {
                     if (violation.getName().toLowerCase().contains(query.toLowerCase())) {
                         filterdViolationList.add(violation);
                     }
@@ -141,17 +160,6 @@ public class ViolationListActivity extends AppCompatActivity {
         } catch (NumberFormatException e) {
             return false;
         }
-    }
-
-    private List<Integer> getRevisionType(String string) {
-        if (string.equals(RevisionType.IN_TRANSIT.getRevisionTypeTitle())) {
-            return new ArrayList<>(List.of(1, 3, 5, 6, 7));
-        } else if (string.equals(RevisionType.AT_START_POINT.getRevisionTypeTitle())) {
-            return new ArrayList<>(List.of(2, 3, 5, 6, 8));
-        } else if (string.equals(RevisionType.AT_TURNROUND_POINT.getRevisionTypeTitle())) {
-            return new ArrayList<>(List.of(2, 3, 5, 7));
-        }
-        return null;
     }
 
 }

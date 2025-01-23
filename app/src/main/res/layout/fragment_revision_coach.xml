@@ -146,6 +146,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/background_color"
+                android:orientation="horizontal"
                 android:padding="8dp">
 
                 <com.google.android.material.checkbox.MaterialCheckBox
@@ -155,6 +156,14 @@
                     android:layout_height="wrap_content"
                     android:padding="8dp"
                     android:text="@string/TraillingCarText" />
+
+                <TextView
+                    android:id="@+id/revision_coach_info_add_params"
+                    style="@style/RegularText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="8dp" />
+
             </LinearLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
