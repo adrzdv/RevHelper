@@ -18,6 +18,12 @@
             android:name=".activity.ViolationCatalogActivity"
             android:exported="false" />
         <activity
+            android:name=".activity.revision.RevisionHostActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.order.OrderHostActivity"
+            android:exported="false" />
+        <activity
             android:name=".activity.ShowEnteredCoachesActivity"
             android:exported="false" />
         <activity

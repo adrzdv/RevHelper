@@ -24,6 +24,7 @@ public class CoachOnRevision implements Parcelable {
     private boolean coachEnergySystem;
     private boolean coachProgressive;
     private LocalDateTime revisionTime;
+    private LocalDateTime revisionEndTime;
     private List<ViolationForCoach> violationList;
     private String coachWorkerDep;
     private boolean isTrailingCar = false;
@@ -37,6 +38,7 @@ public class CoachOnRevision implements Parcelable {
         private boolean coachEnergySystem;
         private boolean coachProgressive;
         private LocalDateTime revisionTime;
+        private LocalDateTime revisionEndTime;
         private List<ViolationForCoach> violationList = new ArrayList<>();
         private String coachWorkerDep;
         private boolean isTrailingCar;
@@ -78,6 +80,11 @@ public class CoachOnRevision implements Parcelable {
 
         public Builder setCoachProgressive(boolean coachProgressive) {
             this.coachProgressive = coachProgressive;
+            return this;
+        }
+
+        public Builder setRevisionEndTime(LocalDateTime revisionEndTime) {
+            this.revisionEndTime = revisionEndTime;
             return this;
         }
 
@@ -144,6 +151,14 @@ public class CoachOnRevision implements Parcelable {
         return this.revisionTime;
     }
 
+    public void setRevisionEndTime(LocalDateTime revisionEndTime) {
+        this.revisionEndTime = revisionEndTime;
+    }
+
+    public LocalDateTime getRevisionEndTime() {
+        return this.revisionEndTime;
+    }
+
     public void setCoachNumber(String coachNumber) {
         this.coachNumber = coachNumber;
     }
@@ -196,7 +211,16 @@ public class CoachOnRevision implements Parcelable {
         dest.writeByte((byte) (coachAutomaticDoor ? 1 : 0));
         dest.writeByte((byte) (coachEnergySystem ? 1 : 0));
         dest.writeByte((byte) (coachProgressive ? 1 : 0));
-        dest.writeString(revisionTime.toString());
+        if (revisionTime != null) {
+            dest.writeString(revisionTime.toString());
+        } else {
+            dest.writeString(null);
+        }
+        if (revisionEndTime != null) {
+            dest.writeString(revisionEndTime.toString());
+        } else {
+            dest.writeString(null);
+        }
         dest.writeList(violationList);
         dest.writeString(coachWorkerDep);
         dest.writeBoolean(isTrailingCar);
@@ -228,7 +252,18 @@ public class CoachOnRevision implements Parcelable {
         coachAutomaticDoor = in.readByte() != 0;
         coachEnergySystem = in.readByte() != 0;
         coachProgressive = in.readByte() != 0;
-        revisionTime = LocalDateTime.parse(in.readString());
+        String dateString = in.readString();
+        if (dateString != null) {
+            revisionTime = LocalDateTime.parse(dateString);
+        } else {
+            revisionTime = null;
+        }
+        String dateEndString = in.readString();
+        if (dateString != null) {
+            revisionEndTime = LocalDateTime.parse(dateEndString);
+        } else {
+            revisionEndTime = null;
+        }
         violationList = new ArrayList<>();
         in.readList(violationList, Violation.class.getClassLoader());
         coachWorkerDep = in.readString();
@@ -243,6 +278,7 @@ public class CoachOnRevision implements Parcelable {
         this.coachEnergySystem = builder.coachEnergySystem;
         this.coachProgressive = builder.coachProgressive;
         this.revisionTime = builder.revisionTime;
+        this.revisionEndTime = builder.revisionEndTime;
         this.violationList = builder.violationList;
         this.coachWorkerDep = builder.coachWorkerDep;
         this.isTrailingCar = builder.isTrailingCar;

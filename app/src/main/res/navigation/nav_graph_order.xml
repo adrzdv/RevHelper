@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph_order"
+    android:background="@color/white"
+    app:startDestination="@+id/orderStepOneFragment">
+
+    <fragment
+        android:id="@+id/orderStepOneFragment"
+        android:name="com.example.revhelper.activity.order.OrderFirstStepFragment"
+        android:label="Step One"
+        tools:layout="@layout/fragment_order_first_step">
+        <action
+            android:id="@+id/action_to_stepTwo"
+            app:destination="@id/orderStepTwoFragment" />
+        <argument
+            android:name="order"
+            app:argType="com.example.revhelper.model.dto.OrderDtoParcelable" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/orderStepTwoFragment"
+        android:name="com.example.revhelper.activity.order.OrderSecondStepFragment"
+        android:label="Step Two"
+        tools:layout="@layout/fragment_order_second_step">
+        <action
+            android:id="@+id/action_to_stepThree"
+            app:destination="@+id/orderStepThreeFragment" />
+        <argument
+            android:name="order"
+            app:argType="com.example.revhelper.model.dto.OrderDtoParcelable" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/orderStepThreeFragment"
+        android:name="com.example.revhelper.activity.order.OrderThirdStepFragment"
+        android:label="Step Three"
+        tools:layout="@layout/fragment_order_third_step" />
+
+</navigation>

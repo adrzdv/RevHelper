@@ -40,7 +40,6 @@ public class ViolationListActivity extends AppCompatActivity {
     private List<Violation> filterdViolationList = new ArrayList<>();
     private List<Violation> violationList = new ArrayList<>();
     private List<Violation> violationsFromDb;
-    private OrderParcelable order = new OrderParcelable();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,22 +55,30 @@ public class ViolationListActivity extends AppCompatActivity {
             return insets;
         });
 
-        if (getIntent().getParcelableExtra("ORDER") != null) {
-            order = getIntent().getParcelableExtra("ORDER");
-        }
+        //ВСЕ ПЕРЕПИСАТЬ С УЧЕТОМ ИЗМЕНЕНИЯ В БД
 
-        String revisionType = order.getRevisionType();
+        if (getIntent().getStringExtra("REVTYPE") != null) {
+            String revisionType = getIntent().getStringExtra("REVTYPE");
+            violationsFromDb = appDb.violationDao().getAllViolations();
+            if (revisionType.equals(RevisionType.IN_TRANSIT.getRevisionTypeTitle())) {
+
+            } else if (revisionType.equals(RevisionType.AT_TURNROUND_POINT.getRevisionTypeTitle())) {
+
+            } else if (revisionType.equals(RevisionType.AT_START_POINT.getRevisionTypeTitle())) {
+
+            }
+        }
 
         //позже поменять алгоритм, в сущность и таблицу добавить доп поля КАССА/ПУТЬ/ПФ/ПО,
         // типа int, чтоб разбить на типы проверок
         violationsFromDb = appDb.violationDao().getAllViolations();
-        List<Integer> revisionTypes = getRevisionType(revisionType);
-        if (revisionTypes != null) {
-            for (int type : revisionTypes) {
-                List<Violation> tempList = new ArrayList<>(violationsFromDb);
-                violationList.addAll(tempList);
-            }
-        }
+        //List<Integer> revisionTypes = getRevisionType(revisionType);
+//        if (revisionTypes != null) {
+//            for (int type : revisionTypes) {
+//                List<Violation> tempList = new ArrayList<>(violationsFromDb);
+//                violationList.addAll(tempList);
+//            }
+//        }
 
         Collections.sort(violationList);
 

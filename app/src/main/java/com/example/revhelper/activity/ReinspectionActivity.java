@@ -112,6 +112,7 @@ public class ReinspectionActivity extends AppCompatActivity implements View.OnCl
         binding.startReinspection.setOnClickListener(this);
         binding.addExistingCoach.setOnClickListener(this);
         binding.showEnteredCoachList.setOnClickListener(this);
+        binding.bckImageButton.setOnClickListener(this);
 
     }
 
@@ -126,6 +127,8 @@ public class ReinspectionActivity extends AppCompatActivity implements View.OnCl
             addCoach();
         } else if (v.getId() == R.id.show_entered_coach_list) {
             showEnteredCoachList();
+        } else if (v.getId() == R.id.bckImageButton) {
+            getBack();
         }
     }
 
@@ -142,6 +145,11 @@ public class ReinspectionActivity extends AppCompatActivity implements View.OnCl
             outState.putSerializable("DOCDATE", docDate);
         }
 
+    }
+
+    private void getBack() {
+        DialogFragmentExitConfirmation dialog = new DialogFragmentExitConfirmation();
+        dialog.show(getSupportFragmentManager(), "dialog");
     }
 
     private void recoverState(Bundle savedInstanceState) {
@@ -166,7 +174,6 @@ public class ReinspectionActivity extends AppCompatActivity implements View.OnCl
             makeReinspection();
             binding.numberDateTextView.setText(docString);
         }
-
     }
 
     private void processResult(ActivityResult result) {

@@ -3,11 +3,14 @@
     <style name="Base.Theme.RevHelper" parent="Theme.Material3.Light.NoActionBar">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="popupMenuStyle">@style/CustomPopupMenuStyle</item>
+        <!--<item name="colorPrimary">@color/white</item>
+        <item name="colorPrimaryVariant">@color/white</item>-->
+        <item name="android:statusBarColor">@color/white</item>
     </style>
 
     <style name="Theme.RevHelper" parent="Base.Theme.RevHelper">
         <item name="android:fontFamily">@font/fsrail55</item>
-        <item name="popupMenuStyle">@style/CustomPopupMenuStyle</item>
     </style>
 
     <style name="Theme.RevHelper.NoActionBar">
@@ -88,4 +91,45 @@
         <item name="android:textColor">@color/black</item>
         <item name="buttonStyle">@style/CustomButtonStyle</item>
     </style>
+
+    <style name="WhiteHeaderForBrightBack">
+        <item name="android:fontFamily">@font/fsrail75</item>
+        <item name="android:textSize">24sp</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="BlackHeaderForLightBack">
+        <item name="android:fontFamily">@font/fsrail75</item>
+        <item name="android:textSize">24sp</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="BlackHeaderForLightBackMedium">
+        <item name="android:fontFamily">@font/fsrail75</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="RegularText">
+        <item name="android:fontFamily">@font/fsrail55</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="SpinnerWithGreyBorder">
+        <item name="android:background">@drawable/spinner_border</item>
+        <item name="android:padding">8dp</item>
+        <item name="android:fontFamily">@font/fsrail55</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="DarkBlueButton" parent="Widget.Material3.Button">
+        <item name="android:backgroundTint">@color/dark_blue</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:fontFamily">@font/fsrail75</item>
+    </style>
+
+
 </resources>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph_revision"
+    android:background="@color/white"
+    app:startDestination="@+id/revisionFirstFragment">
+
+    <fragment
+        android:id="@+id/revisionFirstFragment"
+        android:name="com.example.revhelper.activity.revision.RevisionFirstFragment"
+        android:label="Main revision fragment"
+        tools:layout="@layout/fragment_revision_first">
+        <action
+            android:id="@+id/action_to_coach_revision"
+            app:destination="@+id/revisionCoachFragment" />
+        <argument
+            android:name="coach"
+            app:argType="com.example.revhelper.model.dto.CoachOnRevision" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/revisionCoachFragment"
+        android:name="com.example.revhelper.activity.revision.RevisionCoachFragment"
+        android:label="Coach fragment"
+        tools:layout="@layout/fragment_revision_coach">
+        <action
+            android:id="@+id/action_to_first_fragment"
+            app:destination="@id/revisionFirstFragment" />
+        <argument
+            android:name="coach"
+            app:argType="com.example.revhelper.model.dto.CoachOnRevision" />
+    </fragment>
+
+</navigation>

@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.revision.RevisionCoachFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:background="@color/dark_blue"
+            android:orientation="horizontal"
+            android:padding="8dp">
+
+            <ImageButton
+                android:id="@+id/bck_img_bttn_coach_fragment"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:background="?attr/selectableItemBackground"
+                android:contentDescription="@string/BackText"
+                android:src="@drawable/ic_back_32_white" />
+
+            <com.google.android.material.textview.MaterialTextView
+                style="@style/WhiteHeaderForBrightBack"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="end"
+                android:padding="8dp"
+                android:text="@string/CoachActivityHeader" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/headerLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/revision_coach_number_text_view"
+                style="@style/RegularText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/background_color"
+                android:hint="@string/CoachNumberText"
+                android:padding="8dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:enabled="false"
+                    android:inputType="text"
+                    android:lines="1" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/revision_coach_worker_text_view"
+                style="@style/RegularText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/background_color"
+                android:hint="@string/CoachWorkerText"
+                android:padding="8dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="text"
+                    android:lines="1" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/background_color"
+                android:padding="8dp">
+
+                <Spinner
+                    android:id="@+id/revision_spinner_additional_nodes"
+                    style="@style/SpinnerWithGreyBorder"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="16dp"
+                    android:spinnerMode="dropdown" />
+
+            </LinearLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/background_color"
+                android:padding="8dp">
+
+                <RadioGroup
+                    android:id="@+id/revision_radio_group_status"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/background_color"
+                    android:orientation="horizontal"
+                    android:padding="8dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/revision_save_additional_param">
+
+                    <RadioButton
+                        android:id="@+id/revision_radio_good"
+                        style="@style/RegularText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/PositiveHasRadioText" />
+
+                    <RadioButton
+                        android:id="@+id/revision_radio_faulty"
+                        style="@style/RegularText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/NegativeHasRadioText" />
+
+                </RadioGroup>
+
+                <ImageButton
+                    android:id="@+id/revision_save_additional_param"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:background="@drawable/rounded_img_button"
+                    android:contentDescription="@string/SaveAdditionalParameterDescriptionText"
+                    android:src="@drawable/ic_add_itew_white"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/background_color"
+                android:padding="8dp">
+
+                <com.google.android.material.checkbox.MaterialCheckBox
+                    android:id="@+id/trailing_car_checkbox"
+                    style="@style/RegularText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="8dp"
+                    android:text="@string/TraillingCarText" />
+            </LinearLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/background_color"
+                android:padding="8dp">
+
+                <com.google.android.material.textview.MaterialTextView
+                    style="@style/RegularText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/background_color"
+                    android:padding="8dp"
+                    android:text="@string/ViolationListHeaderText"
+                    app:layout_constraintBottom_toTopOf="@+id/revision_violation_list_recycler"
+                    tools:layout_editor_absoluteX="8dp" />
+
+
+                <ImageButton
+                    android:id="@+id/revision_add_new_violation"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:background="@drawable/rounded_img_button"
+                    android:contentDescription="@string/AddViolationForCoachTextDescription"
+                    android:src="@drawable/ic_add_itew_white"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/revision_violation_list_recycler"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="8dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/revision_add_new_violation" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/background_color"
+            android:orientation="vertical">
+
+
+        </LinearLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="24dp">
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/revision_end_coach_revision"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/MakeRevisionResultDescriptionText"
+                android:src="@drawable/ic_save_48_white"
+                app:backgroundTint="@color/dark_blue"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:tint="@null" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </LinearLayout>
+
+</ScrollView>

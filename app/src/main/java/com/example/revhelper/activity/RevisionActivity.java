@@ -28,7 +28,7 @@ import com.example.revhelper.model.dto.OrderParcelable;
 import com.example.revhelper.fragments.DialogFragmentExitConfirmation;
 import com.example.revhelper.mapper.ViolationMapper;
 import com.example.revhelper.model.dto.CoachOnRevision;
-import com.example.revhelper.model.enums.MainNodesEnum;
+import com.example.revhelper.model.enums.AdditionalParams;
 import com.example.revhelper.model.dto.ViolationForCoach;
 import com.example.revhelper.sys.AppRev;
 
@@ -41,7 +41,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-
+@Deprecated
 @SuppressLint("NewApi")
 public class RevisionActivity extends AppCompatActivity {
 
@@ -205,10 +205,10 @@ public class RevisionActivity extends AppCompatActivity {
 
         resMap.put("TOTAL", String.valueOf(total));
 
-        resMap.put(MainNodesEnum.AUTO_DOOR.name(), String.valueOf(coachMap.values().stream()
+        resMap.put(AdditionalParams.AUTO_DOOR.name(), String.valueOf(coachMap.values().stream()
                 .filter(CoachOnRevision::isCoachAutomaticDoor)
                 .count()));
-        resMap.put(MainNodesEnum.SKUDOPP.name(), String.valueOf(coachMap.values().stream()
+        resMap.put(AdditionalParams.SKUDOPP.name(), String.valueOf(coachMap.values().stream()
                 .filter(CoachOnRevision::isCoachSkudopp)
                 .count()));
 
@@ -223,7 +223,7 @@ public class RevisionActivity extends AppCompatActivity {
             progressiveCoaches.append(coachNumber).append(" ");
         }
 
-        resMap.put(MainNodesEnum.PROGRESS.name(), progressiveCoaches.toString());
+        resMap.put(AdditionalParams.PROGRESS.name(), progressiveCoaches.toString());
 
         List<ViolationForCoach> violationList = AppRev.getDb().violationDao().getAllViolations().stream()
                 .map(ViolationMapper::fromEntityToForCouch)

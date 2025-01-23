@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.order.OrderSecondStepFragment">
+
+    <LinearLayout
+        android:id="@+id/linearLayoutSecondStep"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:background="@color/dark_blue"
+            android:orientation="horizontal"
+            android:padding="8dp">
+
+            <ImageButton
+                android:id="@+id/bck_img_bttn_make_order_second_step"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:background="?attr/selectableItemBackground"
+                android:contentDescription="@string/BackText"
+                android:src="@drawable/ic_back_32_white" />
+
+            <com.google.android.material.textview.MaterialTextView
+                style="@style/WhiteHeaderForBrightBack"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="end"
+                android:padding="8dp"
+                android:text="@string/OrderHeaderString" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="24dp">
+
+            <com.google.android.material.textview.MaterialTextView
+                style="@style/BlackHeaderForLightBackMedium"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/StepTwoOfThreeOrder" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@android:color/darker_gray" />
+
+            <com.google.android.material.textview.MaterialTextView
+                style="@style/RegularText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp"
+                android:text="@string/GreetingTextTwoStep" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/order_surname_crew_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/background_color"
+                android:hint="@string/SurnameCrewInputText"
+                android:padding="8dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/background_color"
+                android:padding="8dp">
+
+                <Spinner
+                    android:id="@+id/order_crew_type_spinner"
+                    style="@style/SpinnerWithGreyBorder"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="16dp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/background_color">
+
+                <com.google.android.material.checkbox.MaterialCheckBox
+                    android:id="@+id/order_has_quality_passport"
+                    style="@style/RegularText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/QualityPassportTextString" />
+
+            </LinearLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/background_color"
+                android:padding="8dp">
+
+                <TextView
+                    style="@style/RegularText"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="@string/CrewListHeaderText"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent" />
+
+                <ImageButton
+                    android:id="@+id/add_crew"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:background="@drawable/rounded_img_button"
+                    android:contentDescription="@string/AddWorkerInOrder"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/ic_add_itew_white"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="8dp">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/order_crew_recycler_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </LinearLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="24dp">
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/to_step_three_order"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/ToAnotherStepText"
+                android:src="@drawable/ic_forward_32_white"
+                app:backgroundTint="@color/dark_blue"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:tint="@null" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </LinearLayout>
+
+</FrameLayout>

@@ -160,7 +160,6 @@ public class OrderActivity extends AppCompatActivity {
             binding.cleanList.setAlpha(0.5f);
         }
 
-
         binding.cleanList.setOnClickListener((v -> {
             coachList.clear();
             coachMap.clear();

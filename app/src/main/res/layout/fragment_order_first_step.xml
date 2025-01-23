@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.order.OrderFirstStepFragment">
+
+    <LinearLayout
+        android:id="@+id/linearLayoutFirstStep"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:background="@color/dark_blue"
+            android:orientation="horizontal"
+            android:padding="8dp">
+
+            <ImageButton
+                android:id="@+id/bck_img_bttn_make_order_first_step"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:background="?attr/selectableItemBackground"
+                android:contentDescription="@string/BackText"
+                android:src="@drawable/ic_back_32_white" />
+
+            <com.google.android.material.textview.MaterialTextView
+                style="@style/WhiteHeaderForBrightBack"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="end"
+                android:padding="8dp"
+                android:text="@string/OrderHeaderString" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="24dp">
+
+            <com.google.android.material.textview.MaterialTextView
+                style="@style/BlackHeaderForLightBackMedium"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/StepOneOfThreeOrder" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@android:color/darker_gray" />
+
+            <com.google.android.material.textview.MaterialTextView
+                style="@style/RegularText"
+                android:layout_width="match_parent"
+                android:padding="16dp"
+                android:layout_height="wrap_content"
+                android:text="@string/GreetingTextOneStep" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/order_input_number"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/background_color"
+                android:hint="@string/OrderNumberHitText"
+                android:padding="8dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    style="@style/RegularText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:imeOptions="actionDone"
+                    android:inputType="text"
+                    android:singleLine="true" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/order_input_data"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/background_color"
+                android:hint="@string/OrderDateInputText"
+                android:padding="8dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/order_input_data_edit_text"
+                    style="@style/RegularText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:imeOptions="actionDone"
+                    android:inputType="date"
+                    android:singleLine="true" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/order_input_route"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/background_color"
+                android:hint="@string/OrderRouteInputText"
+                android:padding="8dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    style="@style/RegularText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:imeOptions="actionDone"
+                    android:inputType="text"
+                    android:singleLine="true" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/background_color"
+                android:padding="8dp">
+
+                <Spinner
+                    android:id="@+id/order_spinner_revtype_stepOne"
+                    style="@style/SpinnerWithGreyBorder"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="16dp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="24dp">
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/to_step_two_order"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/ToAnotherStepText"
+                android:src="@drawable/ic_forward_32_white"
+                app:backgroundTint="@color/dark_blue"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:tint="@null" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </LinearLayout>
+
+
+</FrameLayout>
