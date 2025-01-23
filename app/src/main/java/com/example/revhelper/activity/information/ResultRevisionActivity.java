@@ -125,7 +125,7 @@ public class ResultRevisionActivity extends AppCompatActivity {
                     coachString.append(coach.getCoachNumber()).append(" ")
                             .append(coach.getRevisionTime().format(formatter))
                             .append(" ").append(coach.getCoachWorker()).append(" ")
-                            .append(coach.getCoachWorker()).append("\n");
+                            .append(coach.getCoachWorkerDep()).append("\n");
                     coachStringList.add(coachString.toString());
                     resStringMap.put(violation.getName(), coachStringList);
                 }
@@ -242,7 +242,7 @@ public class ResultRevisionActivity extends AppCompatActivity {
             trainInfoString.append("Н/Д");
         }
 
-        trainInfoString.append("\n").append("Автоинформатор: ");
+        trainInfoString.append("\n").append("Радиоустановка: ");
 
         if (order.getIsAutoinformator() != null) {
             if (order.isAutoinformator()) {
@@ -253,6 +253,14 @@ public class ResultRevisionActivity extends AppCompatActivity {
 
         } else {
             trainInfoString.append("Н/Д");
+        }
+
+        trainInfoString.append("\n").append("Автоинформатор: ");
+
+        if (train.getHasAutoinformator() == 1) {
+            trainInfoString.append(yesString);
+        } else if (!order.isAutoinformator()) {
+            trainInfoString.append(noString);
         }
 
         trainInfoString.append("\n").append("Паспорт качества: ");

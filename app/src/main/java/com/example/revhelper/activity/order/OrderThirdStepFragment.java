@@ -22,6 +22,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -123,9 +124,17 @@ public class OrderThirdStepFragment extends Fragment implements AdapterView.OnIt
         if (coach != null) {
             TextView informatorCell = getView().findViewById(R.id.train_informator_cell);
             informatorCell.setText("ДА");
+            if (train != null) {
+                train.setHasAutoinformator(1);
+            }
+
         } else {
             TextView informatorCell = getView().findViewById(R.id.train_informator_cell);
             informatorCell.setText("НЕТ");
+            if (train != null) {
+                train.setHasAutoinformator(1);
+            }
+
         }
     }
 
@@ -254,6 +263,8 @@ public class OrderThirdStepFragment extends Fragment implements AdapterView.OnIt
         } else if (order.getCoachMap().isEmpty() || order.getCoachMap() == null) {
             AppRev.showToast(requireContext(), "Список вагонов пуст");
         }
+
+        AutoCompleteTextView mainCoachTextView = getView().findViewById(R.id.order_coach_number_input);
 
         if (sharedViewModel.getInformator() == null) {
             order.setAutoinformator(false);

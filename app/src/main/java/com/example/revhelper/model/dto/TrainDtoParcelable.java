@@ -14,6 +14,7 @@ public class TrainDtoParcelable implements Parcelable {
     private int hasRegistrator;
     private int hasProgressive;
     private int hasPortal;
+    private int hasAutoinformator;
 
     public TrainDtoParcelable(String number, String route, String depName,
                               String branchName, int hasRegistrator, int hasProgressive, int hasPortal) {
@@ -34,6 +35,7 @@ public class TrainDtoParcelable implements Parcelable {
         hasProgressive = in.readInt();
         hasRegistrator = in.readInt();
         hasPortal = in.readInt();
+        hasAutoinformator = in.readInt();
     }
 
     public static final Creator<TrainDtoParcelable> CREATOR = new Creator<TrainDtoParcelable>() {
@@ -100,6 +102,14 @@ public class TrainDtoParcelable implements Parcelable {
         return hasPortal;
     }
 
+    public int getHasAutoinformator() {
+        return hasAutoinformator;
+    }
+
+    public void setHasAutoinformator(int hasAutoinformator) {
+        this.hasAutoinformator = hasAutoinformator;
+    }
+
     public void setHasPortal(int hasPortal) {
         this.hasPortal = hasPortal;
     }
@@ -118,5 +128,6 @@ public class TrainDtoParcelable implements Parcelable {
         dest.writeInt(hasProgressive);
         dest.writeInt(hasRegistrator);
         dest.writeInt(hasPortal);
+        dest.writeInt(hasAutoinformator);
     }
 }

@@ -217,7 +217,7 @@ public class RevisionCoachFragment extends Fragment implements View.OnClickListe
         additionalParamsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         additionalParamsSpinner.setAdapter(additionalParamsAdapter);
 
-        ArrayAdapter<String> depoNamesAdapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_item, depoNamesStringList);
+        ArrayAdapter<String> depoNamesAdapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_dropdown_item_1line, depoNamesStringList);
         depoNameTextView.setAdapter(depoNamesAdapter);
 
         isTrailingCar.setChecked(coach.isTrailingCar());
