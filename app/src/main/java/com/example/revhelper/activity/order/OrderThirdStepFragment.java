@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -29,6 +30,7 @@ import com.example.revhelper.R;
 import com.example.revhelper.activity.AddCoachInOrderActivity;
 import com.example.revhelper.activity.RevisionActivity;
 import com.example.revhelper.activity.SharedViewModel;
+import com.example.revhelper.activity.revision.RevisionHostActivity;
 import com.example.revhelper.adapters.CoachSingleAdapter;
 import com.example.revhelper.mapper.TrainMapper;
 import com.example.revhelper.model.dto.CoachOnRevision;
@@ -41,6 +43,7 @@ import com.example.revhelper.sys.AppDatabase;
 import com.example.revhelper.sys.AppRev;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -72,38 +75,43 @@ public class OrderThirdStepFragment extends Fragment implements AdapterView.OnIt
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_order_third_step, container, false);
     }
 
     @Override
-    public void onClick(View v) {
+    public void onClick(@NonNull View v) {
         if (v.getId() == R.id.order_add_new_coach) {
             Intent intent = new Intent(requireContext(), AddCoachInOrderActivity.class);
             launcher.launch(intent);
         } else if (v.getId() == R.id.to_start_revision_process) {
             checkAndSaveOrder();
-            Intent intent = new Intent(requireContext(), RevisionActivity.class); //ЗАМЕНИТЬ ОТКРЫВАЮЩУЮСЯ АКТИВИТИ
+            Intent intent = new Intent(requireContext(), RevisionHostActivity.class);
             intent.putExtra("ORDER", order);
             launcher.launch(intent);
+            requireActivity().finish();
         } else if (v.getId() == R.id.order_clear_coach_list) {
             coachList.clear();
             updateCoachRecyclerView(coachList);
+        } else if (v.getId() == R.id.bck_img_bttn_make_order_third_step) {
+            sharedViewModel.setOrder(order);
+            Navigation.findNavController(v).navigateUp();
         }
     }
 
     @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+    public void onItemClick(@NonNull AdapterView<?> parent, View view, int position, long id) {
 
         Object object = parent.getItemAtPosition(position);
         if (object.getClass() == Train.class) {
             Train selectedTrain = (Train) parent.getItemAtPosition(position);
             if (selectedTrain != null) {
                 TrainDto trainFromDb = appDb.trainDao().findByNumberWithDep(selectedTrain.getNumber());
-                order.setTrain(TrainMapper.toParceFromDto(trainFromDb));
+                train = TrainMapper.toParceFromDto(trainFromDb);
+                order.setTrain(train);
                 sharedViewModel.setOrder(order);
-                sharedViewModel.setTrain(TrainMapper.toParceFromDto(trainFromDb));
+                sharedViewModel.setTrain(train);
                 updatePreResultView(view, TrainMapper.toParceFromDto(trainFromDb), null);
             }
         } else if (object.getClass() == Coach.class) {
@@ -156,7 +164,6 @@ public class OrderThirdStepFragment extends Fragment implements AdapterView.OnIt
                         String coachNumber = result.getData().getStringExtra("COACH");
                         if (coachNumber != null) {
                             CoachOnRevision newCoach = new CoachOnRevision.Builder().setCoachNumber(coachNumber)
-                                    .setRevisionTime(LocalDateTime.now())
                                     .build();
                             order.getCoachMap().put(coachNumber, newCoach);
                             if (!coachList.contains(newCoach)) {
@@ -177,7 +184,7 @@ public class OrderThirdStepFragment extends Fragment implements AdapterView.OnIt
 
     }
 
-    private void initAutocompliteFields(AppDatabase appDb) {
+    private void initAutocompliteFields(@NonNull AppDatabase appDb) {
 
         List<Train> trainList = appDb.trainDao().getAllTrains();
         List<Coach> mainCoachList = appDb.coachDao().getAllCoaches();
@@ -196,7 +203,7 @@ public class OrderThirdStepFragment extends Fragment implements AdapterView.OnIt
         crewCoachTextView.setOnItemClickListener(this);
     }
 
-    private void initUi(View view) {
+    private void initUi(@NonNull View view) {
         TextView dateCell = view.findViewById(R.id.order_date_cell);
         TextView numberCell = view.findViewById(R.id.order_number_cell);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
@@ -212,7 +219,7 @@ public class OrderThirdStepFragment extends Fragment implements AdapterView.OnIt
         setCoachTextView(sharedViewModel.getInformator());
     }
 
-    private void initUiTrain(TrainDtoParcelable train) {
+    private void initUiTrain(@NonNull TrainDtoParcelable train) {
 
         TextView progressCell = getView().findViewById(R.id.train_progress_cell);
         TextView videoCell = getView().findViewById(R.id.train_video_cell);
@@ -247,19 +254,16 @@ public class OrderThirdStepFragment extends Fragment implements AdapterView.OnIt
 
     private void checkAndSaveOrder() {
         if (order.getTrain() == null) {
-            showToast("Не введен поезд");
+            AppRev.showToast(requireContext(), "Не введен поезд");
         } else if (order.getCoachMap().isEmpty() || order.getCoachMap() == null) {
-            showToast("Список вагонов пуст");
+            AppRev.showToast(requireContext(), "Список вагонов пуст");
         }
 
         if (sharedViewModel.getInformator() == null) {
             order.setAutoinformator(false);
         }
+        order.setTrain(train);
+
     }
 
-    private void showToast(String message) {
-        Toast toast = Toast.makeText(getContext(), message,
-                Toast.LENGTH_LONG);
-        toast.show();
-    }
 }

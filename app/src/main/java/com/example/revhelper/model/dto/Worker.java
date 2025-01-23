@@ -1,8 +1,13 @@
-package com.example.revhelper.model;
+package com.example.revhelper.model.dto;
+
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import androidx.annotation.NonNull;
 
 import java.util.Objects;
 
-public class Worker {
+public class Worker implements Parcelable {
     private String id;
     private String name;
     private String jobTitle;
@@ -12,6 +17,24 @@ public class Worker {
         this.jobTitle = jobTitle;
     }
 
+
+    protected Worker(Parcel in) {
+        id = in.readString();
+        name = in.readString();
+        jobTitle = in.readString();
+    }
+
+    public static final Creator<Worker> CREATOR = new Creator<Worker>() {
+        @Override
+        public Worker createFromParcel(Parcel in) {
+            return new Worker(in);
+        }
+
+        @Override
+        public Worker[] newArray(int size) {
+            return new Worker[size];
+        }
+    };
 
     public String getName() {
         return name;
@@ -48,5 +71,17 @@ public class Worker {
     @Override
     public int hashCode() {
         return Objects.hash(id, name);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(@NonNull Parcel dest, int flags) {
+        dest.writeString(id);
+        dest.writeString(name);
+        dest.writeString(jobTitle);
     }
 }

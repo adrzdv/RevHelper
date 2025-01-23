@@ -1,4 +1,4 @@
-package com.example.revhelper.activity.order;
+package com.example.revhelper.activity.revision;
 
 import android.os.Bundle;
 
@@ -13,16 +13,24 @@ import com.example.revhelper.activity.SharedViewModel;
 import com.example.revhelper.fragments.DialogFragmentExitConfirmation;
 import com.example.revhelper.model.dto.OrderDtoParcelable;
 
-public class OrderHostActivity extends AppCompatActivity {
+public class RevisionHostActivity extends AppCompatActivity {
 
+    private OrderDtoParcelable order;
+    private SharedViewModel sharedViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_order_host);
+        setContentView(R.layout.activity_revision_host);
+
+        if (getIntent().getParcelableExtra("ORDER") != null) {
+            order = getIntent().getParcelableExtra("ORDER");
+            sharedViewModel = new ViewModelProvider(this).get(SharedViewModel.class);
+            sharedViewModel.setOrder(order);
+        }
 
         NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.nav_host_fragment);
+                .findFragmentById(R.id.nav_host_fragment_on_revision);
 
         if (navHostFragment != null) {
             NavController navController = navHostFragment.getNavController();
@@ -31,7 +39,7 @@ public class OrderHostActivity extends AppCompatActivity {
                 @Override
                 public void handleOnBackPressed() {
                     if (navController.getCurrentDestination() != null &&
-                            navController.getCurrentDestination().getId() == R.id.orderStepOneFragment) {
+                            navController.getCurrentDestination().getId() == R.id.revisionFirstFragment) {
                         DialogFragmentExitConfirmation dialog = new DialogFragmentExitConfirmation();
                         dialog.show(getSupportFragmentManager(), "dialog");
                     } else {
@@ -45,7 +53,7 @@ public class OrderHostActivity extends AppCompatActivity {
     @Override
     public boolean onSupportNavigateUp() {
         NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.nav_host_fragment);
+                .findFragmentById(R.id.nav_host_fragment_on_revision);
         if (navHostFragment != null) {
             NavController navController = navHostFragment.getNavController();
             return navController.navigateUp() || super.onSupportNavigateUp();

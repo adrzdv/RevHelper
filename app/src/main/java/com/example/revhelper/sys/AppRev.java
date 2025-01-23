@@ -1,6 +1,8 @@
 package com.example.revhelper.sys;
 
 import android.app.Application;
+import android.content.Context;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.room.Room;
@@ -39,6 +41,11 @@ public class AppRev extends Application {
     public static CheckService getChecker() {
 
         return checker;
+    }
+
+    public static void showToast(Context context, String message) {
+        Toast toast = Toast.makeText(context, message, Toast.LENGTH_LONG);
+        toast.show();
     }
 
 

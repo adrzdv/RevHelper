@@ -1,7 +1,5 @@
 package com.example.revhelper.activity.order;
 
-import android.app.DatePickerDialog;
-import android.icu.util.Calendar;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -24,10 +22,9 @@ import android.widget.Toast;
 import com.example.revhelper.R;
 import com.example.revhelper.activity.SharedViewModel;
 import com.example.revhelper.adapters.WorkerRecyclerViewAdapter;
-import com.example.revhelper.model.Worker;
+import com.example.revhelper.model.dto.Worker;
 import com.example.revhelper.model.dto.OrderDtoParcelable;
 import com.example.revhelper.model.enums.WorkerJob;
-import com.example.revhelper.services.CheckService;
 import com.example.revhelper.sys.AppRev;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputLayout;
@@ -112,7 +109,7 @@ public class OrderSecondStepFragment extends Fragment implements View.OnClickLis
             String workerName = crewSurnameLayout.getEditText().getText().toString();
 
             if (!AppRev.getChecker().checkWorkerDataRegex(workerName)) {
-                showToast("Неверный формат ввода ФИО");
+                AppRev.showToast(requireContext(), "Неверный формат ввода ФИО");
                 return;
             }
 
@@ -125,7 +122,7 @@ public class OrderSecondStepFragment extends Fragment implements View.OnClickLis
             order.setCrewLeaders(crewMap);
             crewSurnameLayout.getEditText().setText("");
         } else {
-            showToast("Данные работника не должны быть пустыми");
+            AppRev.showToast(requireContext(), "Данные работника не должны быть пустыми");
         }
     }
 
@@ -138,11 +135,11 @@ public class OrderSecondStepFragment extends Fragment implements View.OnClickLis
     private void addDataToOrder(View v) {
 
         if (crewMap.isEmpty()) {
-            showToast("Список поездной бригады не заполнен");
+            AppRev.showToast(requireContext(), "Список поездной бригады не заполнен");
             return;
         } else if (!crewMap.containsKey(WorkerJob.LNP.getJobTitle())
                 || !crewMap.containsKey(WorkerJob.PEM.getJobTitle())) {
-            showToast("Не указаны ЛНП/ПЭМ");
+            AppRev.showToast(requireContext(), "Не указаны ЛНП/ПЭМ");
             return;
         }
 
@@ -151,11 +148,6 @@ public class OrderSecondStepFragment extends Fragment implements View.OnClickLis
         order.setQualityPassport(qualityPassportCheckBox.isChecked());
         sharedViewModel.setOrder(order);
         Navigation.findNavController(v).navigate(R.id.action_to_stepThree);
-    }
-
-    private void showToast(String message) {
-        Toast toast = Toast.makeText(getContext(), message, Toast.LENGTH_LONG);
-        toast.show();
     }
 
     private void initSpinner() {

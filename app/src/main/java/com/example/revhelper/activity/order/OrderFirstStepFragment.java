@@ -16,12 +16,12 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import com.example.revhelper.R;
 import com.example.revhelper.activity.SharedViewModel;
 import com.example.revhelper.model.dto.OrderDtoParcelable;
 import com.example.revhelper.model.enums.RevisionType;
+import com.example.revhelper.sys.AppRev;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -37,7 +37,6 @@ public class OrderFirstStepFragment extends Fragment implements View.OnClickList
     private SharedViewModel sharedViewModel;
 
     public OrderFirstStepFragment() {
-
     }
 
     @Nullable
@@ -55,7 +54,7 @@ public class OrderFirstStepFragment extends Fragment implements View.OnClickList
 
         if (order != null) {
             sharedViewModel.setOrder(order);
-            initUi(view, spinnerAdapter);
+            initUi(spinnerAdapter);
         }
 
         spinnerAdapter = initSpinnerAdapter();
@@ -82,12 +81,12 @@ public class OrderFirstStepFragment extends Fragment implements View.OnClickList
         bckButton.setOnClickListener(this);
     }
 
-    private void initUi(View view, ArrayAdapter<String> spinnerAdapter) {
+    private void initUi(@NonNull ArrayAdapter<String> spinnerAdapter) {
 
         TextInputLayout orderNumber = getView().findViewById(R.id.order_input_number);
         TextInputLayout orderDate = getView().findViewById(R.id.order_input_data);
         TextInputLayout orderRoute = getView().findViewById(R.id.order_input_route);
-        Spinner orderRevType = getView().findViewById(R.id.order_spinner_revtype);
+        Spinner orderRevType = getView().findViewById(R.id.order_spinner_revtype_stepOne);
         orderNumber.getEditText().setText(order.getNumber());
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         orderDate.getEditText().setText(order.getDate().format(formatter));
@@ -97,15 +96,13 @@ public class OrderFirstStepFragment extends Fragment implements View.OnClickList
     }
 
     @Override
-    public void onClick(View v) {
+    public void onClick(@NonNull View v) {
         if (v.getId() == R.id.to_step_two_order) {
 
             order = goNext();
 
             if (order == null) {
-                Toast toast = Toast.makeText(getContext(), "Не все поля заполнены",
-                        Toast.LENGTH_LONG);
-                toast.show();
+                AppRev.showToast(requireContext(), "Не все поля заполнены");
                 return;
             }
 
@@ -117,6 +114,7 @@ public class OrderFirstStepFragment extends Fragment implements View.OnClickList
         }
     }
 
+    @Nullable
     private OrderDtoParcelable goNext() {
 
         TextInputLayout orderNumberLayout = getView().findViewById(R.id.order_input_number);
@@ -148,7 +146,7 @@ public class OrderFirstStepFragment extends Fragment implements View.OnClickList
         return null;
     }
 
-    private void initSpinner(ArrayAdapter<String> adapter) {
+    private void initSpinner(@NonNull ArrayAdapter<String> adapter) {
 
         Spinner revTypeSpinner = getView().findViewById(R.id.order_spinner_revtype_stepOne);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -156,6 +154,7 @@ public class OrderFirstStepFragment extends Fragment implements View.OnClickList
 
     }
 
+    @NonNull
     private ArrayAdapter<String> initSpinnerAdapter() {
 
         List<String> revisionTypes = List.of(RevisionType.IN_TRANSIT.getRevisionTypeTitle(),
@@ -166,16 +165,4 @@ public class OrderFirstStepFragment extends Fragment implements View.OnClickList
 
     }
 
-    private boolean checkOrder(OrderDtoParcelable order) {
-        if (order.getNumber().isBlank()) {
-            return false;
-        } else if (order.getRoute().isBlank()) {
-            return false;
-        } else if (order.getDate() == null) {
-            return false;
-        } else if (order.getRevisionType() == null) {
-            return false;
-        }
-        return true;
-    }
 }

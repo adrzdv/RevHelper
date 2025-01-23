@@ -6,9 +6,8 @@ import android.os.Parcelable;
 
 import androidx.annotation.NonNull;
 
-import com.example.revhelper.model.Worker;
-
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -41,6 +40,12 @@ public class OrderDtoParcelable implements Parcelable {
 
     protected OrderDtoParcelable(Parcel in) {
         number = in.readString();
+        String dateString = in.readString();
+        if (dateString != null) {
+            date = LocalDate.parse(dateString);
+        } else {
+            date = null;
+        }
         route = in.readString();
         revisionType = in.readString();
         crewLeaders = new HashMap<>();
@@ -56,6 +61,11 @@ public class OrderDtoParcelable implements Parcelable {
     @Override
     public void writeToParcel(@NonNull Parcel dest, int flags) {
         dest.writeString(number);
+        if (date != null) {
+            dest.writeString(date.toString());
+        } else {
+            dest.writeString(null);
+        }
         dest.writeString(route);
         dest.writeString(revisionType);
         dest.writeMap(crewLeaders);

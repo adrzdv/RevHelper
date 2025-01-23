@@ -11,11 +11,12 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.example.revhelper.R;
 import com.example.revhelper.databinding.ActivityResultBinding;
-import com.example.revhelper.model.enums.MainNodesEnum;
+import com.example.revhelper.model.enums.AdditionalParams;
 
 import java.io.Serializable;
 import java.util.Map;
 
+@Deprecated
 public class ResultActivity extends AppCompatActivity {
 
     private ActivityResultBinding binding;
@@ -60,16 +61,16 @@ public class ResultActivity extends AppCompatActivity {
         resultText.append("ВСЕГО НАРУШЕНИЙ: ").append(map.get("TOTAL")).append("\n");
 
         resultText.append("АВТОМАТИЧЕСКИЕ ДВЕРИ: ")
-                .append(map.get(MainNodesEnum.AUTO_DOOR.name()))
+                .append(map.get(AdditionalParams.AUTO_DOOR.name()))
                 .append("\n")
                 .append("СКУДОПП: ")
-                .append(map.get(MainNodesEnum.SKUDOPP.name()))
+                .append(map.get(AdditionalParams.SKUDOPP.name()))
                 .append("\n");
 
         for (String key : map.keySet()) {
-            if (!(key.equals(MainNodesEnum.SKUDOPP.name())
-                    || key.equals("TOTAL") || key.equals(MainNodesEnum.PROGRESS.name())
-                    || key.equals(MainNodesEnum.AUTO_DOOR.name()))) {
+            if (!(key.equals(AdditionalParams.SKUDOPP.name())
+                    || key.equals("TOTAL") || key.equals(AdditionalParams.PROGRESS.name())
+                    || key.equals(AdditionalParams.AUTO_DOOR.name()))) {
                 resultText.append("\n")
                         .append(key)
                         .append("\nВагоны:\n")
@@ -78,8 +79,8 @@ public class ResultActivity extends AppCompatActivity {
             }
         }
 
-        if (resMap.containsKey(MainNodesEnum.PROGRESS.name())) {
-            resultText.append("ПРОГРЕССИВНЫЕ НОРМЫ:\n").append(map.get(MainNodesEnum.PROGRESS.name()))
+        if (resMap.containsKey(AdditionalParams.PROGRESS.name())) {
+            resultText.append("ПРОГРЕССИВНЫЕ НОРМЫ:\n").append(map.get(AdditionalParams.PROGRESS.name()))
                     .append("\n");
         }
 
