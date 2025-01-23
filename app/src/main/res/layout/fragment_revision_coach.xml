@@ -70,6 +70,8 @@
                 android:layout_height="wrap_content"
                 android:background="@color/background_color"
                 android:hint="@string/CoachWorkerText"
+                android:inputType="text"
+                android:lines="1"
                 android:padding="8dp">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -79,21 +81,26 @@
                     android:lines="1" />
             </com.google.android.material.textfield.TextInputLayout>
 
-            <LinearLayout
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/revision_depo_input_layout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:background="@color/background_color"
+                android:gravity="center_vertical"
                 android:padding="8dp">
 
-                <Spinner
-                    android:id="@+id/revision_spinner_worker_depo"
-                    style="@style/SpinnerWithGreyBorder"
+                <AutoCompleteTextView
+                    android:id="@+id/revision_worker_depo_text_view"
+                    style="@style/RegularText"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="16dp"
-                    android:spinnerMode="dropdown" />
+                    android:layout_height="match_parent"
+                    android:hint="Введите депо"
+                    android:imeOptions="actionDone"
+                    android:inputType="text"
+                    android:lines="1"
+                    android:padding="16dp" />
 
-            </LinearLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"

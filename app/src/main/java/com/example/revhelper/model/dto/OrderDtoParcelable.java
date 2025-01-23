@@ -21,10 +21,10 @@ public class OrderDtoParcelable implements Parcelable {
     private TrainDtoParcelable train;
     private Map<String, Worker> crewLeaders;
     private Map<String, CoachOnRevision> coachMap;
-    private Boolean isQualityPassport;
-    private Boolean isPrice;
-    private Boolean isAutoinformator;
-    private Boolean isRadio;
+    private boolean isQualityPassport;
+    private boolean isPrice;
+    private boolean isAutoinformator;
+    private boolean isRadio;
 
     public OrderDtoParcelable(String number, LocalDate date, String route, String revisionType) {
 
@@ -146,19 +146,19 @@ public class OrderDtoParcelable implements Parcelable {
         this.coachMap = coachMap;
     }
 
-    public Boolean isQualityPassport() {
+    public boolean isQualityPassport() {
         return isQualityPassport;
     }
 
-    public void setQualityPassport(Boolean qualityPassport) {
+    public void setQualityPassport(boolean qualityPassport) {
         isQualityPassport = qualityPassport;
     }
 
-    public Boolean isPrice() {
+    public boolean isPrice() {
         return isPrice;
     }
 
-    public void setPrice(Boolean price) {
+    public void setPrice(boolean price) {
         isPrice = price;
     }
 

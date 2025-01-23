@@ -77,7 +77,7 @@ public class RevisionFirstFragment extends Fragment implements CoachSingleAdapte
 
             //RUN new Activity with resulting
             CheckBox priceCheckBox = getView().findViewById(R.id.revision_price_checkbox);
-            CheckBox radioCheckBox = getView().findViewById(R.id.revision_radio_good);
+            CheckBox radioCheckBox = getView().findViewById(R.id.revision_radio_train_checkbox);
 
             order.setRadio(radioCheckBox.isChecked());
             order.setPrice(priceCheckBox.isChecked());

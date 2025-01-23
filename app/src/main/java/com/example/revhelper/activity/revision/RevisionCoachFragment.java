@@ -20,6 +20,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.RadioGroup;
@@ -27,6 +28,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.example.revhelper.R;
+import com.example.revhelper.adapters.DepoNameAdapter;
+import com.example.revhelper.model.entity.Deps;
 import com.example.revhelper.sys.SharedViewModel;
 import com.example.revhelper.adapters.ViolationAdapter;
 import com.example.revhelper.model.dto.CoachOnRevision;
@@ -47,10 +50,9 @@ public class RevisionCoachFragment extends Fragment implements View.OnClickListe
     private SharedViewModel sharedViewModel;
     private ActivityResultLauncher<Intent> launcher;
     private CoachOnRevision coach;
-    private ViolationAdapter adapter;
+    private ViolationAdapter violationAdapter;
     private List<ViolationForCoach> violationList;
-    private List<String> additionalParams;
-    private LocalDateTime revisionStart = LocalDateTime.now();
+    private final LocalDateTime revisionStart = LocalDateTime.now();
 
 
     public RevisionCoachFragment() {
@@ -105,6 +107,11 @@ public class RevisionCoachFragment extends Fragment implements View.OnClickListe
                 return;
             }
 
+            String workerDepoName = getDepoName();
+            if (workerDepoName != null) {
+                coach.setCoachWorkerDep(workerDepoName);
+            }
+
             CheckBox isTrailingCarCheckBox = getView().findViewById(R.id.trailing_car_checkbox);
             coach.setTrailingCar(isTrailingCarCheckBox.isChecked());
             coach.setCoachWorker(workerName);
@@ -120,6 +127,15 @@ public class RevisionCoachFragment extends Fragment implements View.OnClickListe
         } else if (v.getId() == R.id.bck_img_bttn_coach_fragment) {
             Navigation.findNavController(v).navigateUp();
         }
+
+    }
+
+    @Nullable
+    private String getDepoName() {
+        TextInputLayout depoInputLayout = getView().findViewById(R.id.revision_depo_input_layout);
+        String workerDepoString = depoInputLayout.getEditText().getText().toString();
+
+        return workerDepoString;
 
     }
 
@@ -173,8 +189,14 @@ public class RevisionCoachFragment extends Fragment implements View.OnClickListe
         RecyclerView violationRecyclerView = getView().findViewById(R.id.revision_violation_list_recycler);
         CheckBox isTrailingCar = getView().findViewById(R.id.trailing_car_checkbox);
         Spinner additionalParamsSpinner = getView().findViewById(R.id.revision_spinner_additional_nodes);
+        AutoCompleteTextView depoNameTextView = getView().findViewById(R.id.revision_worker_depo_text_view);
+
 
         List<ViolationForCoach> coachViolations = coach.getViolationList();
+        List<String> depoNamesStringList = AppRev.getDb().depoDao().getAlldeps().stream()
+                .map(Deps::getName)
+                .collect(Collectors.toList());
+
 
         if (coachViolations != null) {
             violationList = new ArrayList<>(coachViolations);
@@ -182,18 +204,21 @@ public class RevisionCoachFragment extends Fragment implements View.OnClickListe
             violationList = new ArrayList<>();
         }
 
-        additionalParams = new ArrayList<>(AppRev.getDb().mainNodesDao().getMainNodesList().stream()
+        List<String> additionalParams = new ArrayList<>(AppRev.getDb().mainNodesDao().getMainNodesList().stream()
                 .map(MainNodes::getName)
                 .collect(Collectors.toList()));
 
         violationRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
         violationRecyclerView.addItemDecoration(new DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL));
-        adapter = new ViolationAdapter(requireContext(), violationList);
-        violationRecyclerView.setAdapter(adapter);
+        violationAdapter = new ViolationAdapter(requireContext(), violationList);
+        violationRecyclerView.setAdapter(violationAdapter);
 
         ArrayAdapter<String> additionalParamsAdapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_item, additionalParams);
         additionalParamsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         additionalParamsSpinner.setAdapter(additionalParamsAdapter);
+
+        ArrayAdapter<String> depoNamesAdapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_item, depoNamesStringList);
+        depoNameTextView.setAdapter(depoNamesAdapter);
 
         isTrailingCar.setChecked(coach.isTrailingCar());
 
@@ -203,6 +228,7 @@ public class RevisionCoachFragment extends Fragment implements View.OnClickListe
 
         TextInputLayout coachNumberTextLayout = getView().findViewById(R.id.revision_coach_number_text_view);
         TextInputLayout coachWorkerTextLayout = getView().findViewById(R.id.revision_coach_worker_text_view);
+        AutoCompleteTextView coachWorkerDepoTextLayout = getView().findViewById(R.id.revision_worker_depo_text_view);
         TextView coachAdditionalParamsTextView = getView().findViewById(R.id.revision_coach_info_add_params);
 
         if (coach.getCoachNumber() != null) {
@@ -211,6 +237,10 @@ public class RevisionCoachFragment extends Fragment implements View.OnClickListe
 
         if (coach.getCoachWorker() != null) {
             coachWorkerTextLayout.getEditText().setText(coach.getCoachWorker());
+        }
+
+        if (coach.getCoachWorkerDep() != null) {
+            coachWorkerDepoTextLayout.setText(coach.getCoachWorkerDep());
         }
 
         coachAdditionalParamsTextView.setText(getStringAdditionalParams(coach));
@@ -256,8 +286,8 @@ public class RevisionCoachFragment extends Fragment implements View.OnClickListe
     }
 
     private void updateRecycler(List<ViolationForCoach> updatedViolationList) {
-        if (adapter != null) {
-            adapter.updateData(updatedViolationList);
+        if (violationAdapter != null) {
+            violationAdapter.updateData(updatedViolationList);
         }
     }
 }

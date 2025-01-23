@@ -20,7 +20,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.revhelper.R;
-import com.example.revhelper.adapters.CoachAdapter;
 import com.example.revhelper.databinding.ActivityRevisionBinding;
 import com.example.revhelper.mapper.CoachMapper;
 import com.example.revhelper.model.deprecated.CoachRepresentViewDto;

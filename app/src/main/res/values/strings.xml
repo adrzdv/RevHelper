@@ -77,8 +77,6 @@
     <string name="CrewListHeaderText">Список работников</string>
     <string name="CoachListHeaderText">Список вагонов</string>
     <string name="QualityPassportTextString">Наличие паспорта качества</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="RevisionHeaderText">Проверка поезда</string>
     <string name="PositiveHasRadioText">Имеется</string>
     <string name="NegativeHasRadioText">Отсутствует</string>

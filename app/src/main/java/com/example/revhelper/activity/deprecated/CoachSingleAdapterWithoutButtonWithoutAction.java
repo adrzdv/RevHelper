@@ -1,4 +1,4 @@
-package com.example.revhelper.adapters;
+package com.example.revhelper.activity.deprecated;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -15,6 +15,7 @@ import com.example.revhelper.model.dto.CoachOnRevision;
 
 import java.util.List;
 
+@Deprecated
 public class CoachSingleAdapterWithoutButtonWithoutAction extends RecyclerView.Adapter<CoachSingleAdapterWithoutButtonWithoutAction.CoachViewHolder> {
 
     private List<CoachOnRevision> coachList;

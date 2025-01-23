@@ -22,8 +22,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.revhelper.R;
-import com.example.revhelper.fragments.AddCoachInOrderActivity;
 import com.example.revhelper.adapters.CoachSingleAdapter;
+import com.example.revhelper.fragments.AddCoachInOrderActivity;
 import com.example.revhelper.databinding.ActivityOrderBinding;
 import com.example.revhelper.mapper.TrainMapper;
 import com.example.revhelper.model.dto.CoachOnRevision;

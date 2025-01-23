@@ -113,7 +113,7 @@ public class ResultRevisionActivity extends AppCompatActivity {
         StringBuilder resultStringBuilder = new StringBuilder();
         RevisionType rType = RevisionType.fromString(order.getRevisionType());
         Map<String, List<String>> resStringMap = new HashMap<>();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
 
         List<ViolationForCoach> violationsForWorkList = getViolationForCoachListByRevisionType(violationList, rType);
 
@@ -122,8 +122,10 @@ public class ResultRevisionActivity extends AppCompatActivity {
             for (CoachOnRevision coach : coachList) {
                 if (coach.getViolationList().contains(violation)) {
                     StringBuilder coachString = new StringBuilder();
-                    coachString.append(coach.getCoachNumber()).append(" ").append(coach.getRevisionTime().format(formatter))
-                            .append(" ").append(coach.getCoachWorker()).append("\n");
+                    coachString.append(coach.getCoachNumber()).append(" ")
+                            .append(coach.getRevisionTime().format(formatter))
+                            .append(" ").append(coach.getCoachWorker()).append(" ")
+                            .append(coach.getCoachWorker()).append("\n");
                     coachStringList.add(coachString.toString());
                     resStringMap.put(violation.getName(), coachStringList);
                 }
@@ -228,15 +230,14 @@ public class ResultRevisionActivity extends AppCompatActivity {
             trainInfoString.append(noString);
         }
 
-        trainInfoString.append("\n").append("Прейскурнат: ");
+        trainInfoString.append("\n").append("Прейскурант: ");
 
         if (order.getIsPrice() != null) {
             if (order.isPrice()) {
                 trainInfoString.append(yesString);
             } else if (!order.isPrice()) {
-                trainInfoString.append(yesString);
+                trainInfoString.append(noString);
             }
-
         } else {
             trainInfoString.append("Н/Д");
         }
@@ -247,7 +248,7 @@ public class ResultRevisionActivity extends AppCompatActivity {
             if (order.isAutoinformator()) {
                 trainInfoString.append(yesString);
             } else if (!order.isAutoinformator()) {
-                trainInfoString.append(yesString);
+                trainInfoString.append(noString);
             }
 
         } else {
@@ -260,7 +261,7 @@ public class ResultRevisionActivity extends AppCompatActivity {
             if (order.isQualityPassport()) {
                 trainInfoString.append(yesString);
             } else if (!order.isQualityPassport()) {
-                trainInfoString.append(yesString);
+                trainInfoString.append(noString);
             }
 
         } else {
@@ -268,9 +269,11 @@ public class ResultRevisionActivity extends AppCompatActivity {
         }
 
         trainInfoString.append("\n").append("ЛНП: ");
-        trainInfoString.append("\n").append(order.getCrewLeaders().get(WorkerJob.LNP.getJobTitle()));
+        trainInfoString.append("\n")
+                .append(order.getCrewLeaders().get(WorkerJob.LNP.getJobTitle()).getName());
         trainInfoString.append("\n").append("ПЭМ: ");
-        trainInfoString.append("\n").append(order.getCrewLeaders().get(WorkerJob.PEM.getJobTitle()));
+        trainInfoString.append("\n")
+                .append(order.getCrewLeaders().get(WorkerJob.PEM.getJobTitle()).getName());
 
         trainInfoString.append("\n");
 
