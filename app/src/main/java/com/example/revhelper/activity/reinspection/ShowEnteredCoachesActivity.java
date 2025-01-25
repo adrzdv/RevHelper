@@ -1,4 +1,4 @@
-package com.example.revhelper.activity.deprecated;
+package com.example.revhelper.activity.reinspection;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -22,7 +22,6 @@ import com.example.revhelper.model.dto.CoachOnRevision;
 import java.util.ArrayList;
 import java.util.List;
 
-@Deprecated
 public class ShowEnteredCoachesActivity extends AppCompatActivity {
 
     private ActivityShowEnteredCoachesBinding binding;
