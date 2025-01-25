@@ -5,82 +5,72 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="64dp"
     tools:context=".activity.StartActivity">
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="128dp"
+        android:layout_marginTop="64dp"
         android:orientation="vertical"
-        android:padding="64dp"
+        android:padding="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:id="@+id/titleStart"
-            style="@style/CustomTheme"
+        <Button
+            android:id="@+id/revisionButton"
+            style="@style/DarkBlueButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:padding="8dp"
-            android:text="@string/StartTitle" />
+            android:drawableEnd="@drawable/ic_start_revision_32_white"
+            android:drawablePadding="8dp"
+            android:text="@string/StartRevision" />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@android:color/darker_gray"
-            android:padding="8dp" />
-
-        <LinearLayout
+        <Button
+            android:id="@+id/reinspection_button"
+            style="@style/DarkBlueButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="8dp">
+            android:drawableEnd="@drawable/ic_reinspection_32_white"
+            android:drawablePadding="8dp"
+            android:text="@string/ReinspectionButtonText" />
 
-            <Button
-                android:id="@+id/revisionButton"
-                style="@style/CustomButtonStyle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/StartRevision" />
+        <Button
+            android:id="@+id/loadData"
+            style="@style/DarkBlueButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableEnd="@drawable/ic_search_24_white"
+            android:drawablePadding="8dp"
+            android:text="@string/LoadDataText" />
 
-            <Button
-                android:id="@+id/reinspection_button"
-                style="@style/CustomButtonStyle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/ReinspectionButtonText" />
+        <Button
+            android:id="@+id/serviceMenu"
+            style="@style/DarkBlueButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableEnd="@drawable/ic_tool_48_white"
+            android:drawablePadding="8dp"
+            android:text="@string/ServiceText" />
 
-            <Button
-                android:id="@+id/loadData"
-                style="@style/CustomButtonStyle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/LoadDataText" />
+        <Button
+            android:id="@+id/open_violation_catalog"
+            style="@style/DarkBlueButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableEnd="@drawable/ic_list_24_white"
+            android:drawablePadding="8dp"
+            android:text="@string/ViolationCatalogButtonText" />
 
-            <Button
-                android:id="@+id/serviceMenu"
-                style="@style/CustomButtonStyle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/ServiceText" />
-
-            <Button
-                android:id="@+id/open_violation_catalog"
-                style="@style/CustomButtonStyle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/ViolationCatalogButtonText" />
-
-            <Button
-                android:id="@+id/exitButton"
-                style="@style/CustomButtonStyle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/ExitText" />
-
-
-        </LinearLayout>
-
+        <Button
+            android:id="@+id/exitButton"
+            style="@style/DarkBlueButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableEnd="@drawable/ic_exit_24_white"
+            android:drawablePadding="8dp"
+            android:text="@string/ExitText" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

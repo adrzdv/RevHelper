@@ -12,8 +12,8 @@
     <string name="CoachSwitcher">Поиск вагона</string>
     <string name="ImportData">Импорт</string>
     <string name="StartTitle">RHelper 1.0</string>
-    <string name="LoadDataText">Поиск поезда/КРИ</string>
-    <string name="ServiceText">Сервисное меню</string>
+    <string name="LoadDataText">Поиск поезда/штабного вагона</string>
+    <string name="ServiceText">Обновление данных</string>
     <string name="RevisionText">Ревизия поезда</string>
     <string name="ExitText">Выход</string>
     <string name="BackText">Назад</string>
