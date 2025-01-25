@@ -99,4 +99,7 @@
     <string name="TrainInfoText">Информация по поезду</string>
     <string name="PriceTextString">Полный перечень товаров, выполненный шрифтом Брайля</string>
     <string name="RadioTextString">Радиоустановка</string>
+    <string name="AddResolvedText">Устранено</string>
+    <string name="AudioinformText">Аудиоинформирование</string>
+    <string name="NoDataText">Нет данных</string>
 </resources>

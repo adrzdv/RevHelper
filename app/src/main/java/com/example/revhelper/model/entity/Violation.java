@@ -125,6 +125,15 @@ public class Violation implements Comparable<Violation> {
         this.atTurnroundPoint = atTurnroundPoint;
     }
 
+    @NonNull
+    public Integer getAtTicketOffice() {
+        return atTicketOffice;
+    }
+
+    public void setAtTicketOffice(@NonNull Integer atTicketOffice) {
+        this.atTicketOffice = atTicketOffice;
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -134,22 +143,13 @@ public class Violation implements Comparable<Violation> {
             return false;
         }
         Violation violation = (Violation) obj;
-        return id == violation.id && name.equals(violation.name) && code.longValue() == violation.code;
+        return code.longValue() == violation.code;
     }
 
     @Override
     public int hashCode() {
-        int result = Integer.hashCode(id);
-        result = 31 * result + name.hashCode();
+        int result = Integer.hashCode(code);
+        result = 31 * result + code.hashCode();
         return result;
-    }
-
-    @NonNull
-    public Integer getAtTicketOffice() {
-        return atTicketOffice;
-    }
-
-    public void setAtTicketOffice(@NonNull Integer atTicketOffice) {
-        this.atTicketOffice = atTicketOffice;
     }
 }

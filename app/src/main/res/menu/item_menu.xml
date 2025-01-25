@@ -1,6 +1,9 @@
 <menu xmlns:tools="http://schemas.android.com/tools"
     xmlns:android="http://schemas.android.com/apk/res/android">
     <item
+        android:id="@+id/add_resolved"
+        android:title="@string/AddResolvedText"/>
+    <item
         android:id="@+id/add_amount"
         android:title="@string/UpdateAmountText"/>
     <item

@@ -188,6 +188,7 @@ public class ParseXml {
             violation.setInTransit(Integer.parseInt(element.getElementsByTagName("in_transit").item(0).getTextContent()));
             violation.setAtStartPoint(Integer.parseInt(element.getElementsByTagName("at_start_point").item(0).getTextContent()));
             violation.setAtTurnroundPoint(Integer.parseInt(element.getElementsByTagName("at_turnround_point").item(0).getTextContent()));
+            violation.setAtTicketOffice(Integer.parseInt(element.getElementsByTagName("at_ticket_office").item(0).getTextContent()));
             violation.setActive(element.getElementsByTagName("active").item(0) == null ? 1 :
                     Integer.parseInt(element.getElementsByTagName("active").item(0).getTextContent()));
             violationList.add(violation);
@@ -219,13 +220,11 @@ public class ParseXml {
             train.setHasRegistrator(Integer.parseInt(elm.getElementsByTagName("registrator").
                     item(0).getTextContent()));
             train.setHasPortal(Integer.parseInt(elm.getElementsByTagName("portal").item(0).getTextContent()));
-            train.setDep(Integer.parseInt(elm.getElementsByTagName("dep")
+            train.setDep(Integer.parseInt(elm.getElementsByTagName("deps")
                     .item(0).getTextContent()));
             res.add(train);
         }
-
         return res;
-
     }
 
     private List<Coach> getCoachesListFromDoc(Document doc) throws CustomException {

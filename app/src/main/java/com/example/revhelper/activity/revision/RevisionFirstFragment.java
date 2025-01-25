@@ -3,7 +3,6 @@ package com.example.revhelper.activity.revision;
 import android.content.Intent;
 import android.os.Bundle;
 
-import androidx.activity.result.ActivityResultLauncher;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -16,8 +15,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
 import android.widget.ImageButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.example.revhelper.R;
@@ -76,11 +75,49 @@ public class RevisionFirstFragment extends Fragment implements CoachSingleAdapte
         } else if (v.getId() == R.id.revision_make_result) {
 
             //RUN new Activity with resulting
-            CheckBox priceCheckBox = getView().findViewById(R.id.revision_price_checkbox);
-            CheckBox radioCheckBox = getView().findViewById(R.id.revision_radio_train_checkbox);
+            RadioGroup priceRadioGroup = getView().findViewById(R.id.revision_radio_group_price);
+            RadioGroup radiodeviceRadioGroup = getView().findViewById(R.id.revision_radio_group_radio);
+            RadioGroup audioRadioGroup = getView().findViewById(R.id.revision_radio_group_audioinform);
 
-            order.setRadio(radioCheckBox.isChecked());
-            order.setPrice(priceCheckBox.isChecked());
+            int selectedPriceStatus = priceRadioGroup.getCheckedRadioButtonId();
+            if (selectedPriceStatus == -1) {
+                AppRev.showToast(requireContext(),
+                        "Не проведена проверка наличия полного перечня товаров");
+            }
+            int selectedRadiodeviceStatus = radiodeviceRadioGroup.getCheckedRadioButtonId();
+            if (selectedPriceStatus == -1) {
+                AppRev.showToast(requireContext(),
+                        "Не проведена проверка наличия радиоустановки");
+            }
+            int selectedAudioStatus = audioRadioGroup.getCheckedRadioButtonId();
+            if (selectedPriceStatus == -1) {
+                AppRev.showToast(requireContext(),
+                        "Не проведена проверка аудиоинформирования");
+            }
+
+            Boolean statusPrice;
+            if (selectedPriceStatus == getView().findViewById(R.id.revision_price_radio_good).getId()) {
+                statusPrice = true;
+            } else if ((selectedPriceStatus == getView().findViewById(R.id.revision_price_radio_faulty).getId())) {
+                statusPrice = false;
+            } else {
+                statusPrice = null;
+            }
+
+            boolean statusRadiodevice = selectedRadiodeviceStatus == getView().findViewById(R.id.revision_radiodevice_radio_good).getId();
+
+            Boolean statusAudioinform;
+            if (selectedAudioStatus == getView().findViewById(R.id.revision_audioinform_radio_good).getId()) {
+                statusAudioinform = true;
+            } else if ((selectedPriceStatus == getView().findViewById(R.id.revision_audioinform_radio_faulty).getId())) {
+                statusAudioinform = false;
+            } else {
+                statusAudioinform = null;
+            }
+
+            order.setPrice(statusPrice);
+            order.setRadio(statusRadiodevice);
+            order.setIsInform(statusAudioinform);
 
             Intent intent = new Intent(requireContext(), ResultRevisionActivity.class);
             intent.putExtra("ORDER", order);

@@ -104,20 +104,109 @@
                 android:orientation="vertical"
                 android:padding="8dp">
 
-                <com.google.android.material.checkbox.MaterialCheckBox
-                    android:id="@+id/revision_price_checkbox"
+                <com.google.android.material.textview.MaterialTextView
                     style="@style/RegularText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
                     android:text="@string/PriceTextString" />
 
-                <com.google.android.material.checkbox.MaterialCheckBox
-                    android:id="@+id/revision_radio_train_checkbox"
-                    style="@style/RegularText"
+                <RadioGroup
+                    android:id="@+id/revision_radio_group_price"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
+                    android:background="@color/background_color"
+                    android:orientation="horizontal"
+                    app:layout_constraintBottom_toBottomOf="parent">
+
+                    <RadioButton
+                        android:id="@+id/revision_price_radio_good"
+                        style="@style/RegularText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/PositiveHasRadioText" />
+
+                    <RadioButton
+                        android:id="@+id/revision_price_radio_faulty"
+                        style="@style/RegularText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/NegativeHasRadioText" />
+
+                    <RadioButton
+                        android:id="@+id/revision_price_radio_nodata"
+                        style="@style/RegularText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/NoDataText" />
+
+                </RadioGroup>
+
+                <com.google.android.material.textview.MaterialTextView
+                    style="@style/RegularText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
                     android:text="@string/RadioTextString" />
 
+                <RadioGroup
+                    android:id="@+id/revision_radio_group_radio"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/background_color"
+                    android:orientation="horizontal"
+                    app:layout_constraintBottom_toBottomOf="parent">
+
+                    <RadioButton
+                        android:id="@+id/revision_radiodevice_radio_good"
+                        style="@style/RegularText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/PositiveHasRadioText" />
+
+                    <RadioButton
+                        android:id="@+id/revision_radiodevice_radio_faulty"
+                        style="@style/RegularText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/NegativeHasRadioText" />
+
+                </RadioGroup>
+
+                <com.google.android.material.textview.MaterialTextView
+                    style="@style/RegularText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="@string/AudioinformText" />
+
+                <RadioGroup
+                    android:id="@+id/revision_radio_group_audioinform"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/background_color"
+                    android:orientation="horizontal"
+                    app:layout_constraintBottom_toBottomOf="parent">
+
+                    <RadioButton
+                        android:id="@+id/revision_audioinform_radio_good"
+                        style="@style/RegularText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/PositiveHasRadioText" />
+
+                    <RadioButton
+                        android:id="@+id/revision_audioinform_radio_faulty"
+                        style="@style/RegularText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/NegativeHasRadioText" />
+
+                    <RadioButton
+                        android:id="@+id/revision_audioinform_radio_nodata"
+                        style="@style/RegularText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/NoDataText" />
+
+                </RadioGroup>
 
             </LinearLayout>
 

@@ -28,7 +28,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.example.revhelper.R;
-import com.example.revhelper.adapters.DepoNameAdapter;
 import com.example.revhelper.model.entity.Deps;
 import com.example.revhelper.sys.SharedViewModel;
 import com.example.revhelper.adapters.ViolationAdapter;
@@ -183,7 +182,6 @@ public class RevisionCoachFragment extends Fragment implements View.OnClickListe
 
     }
 
-
     private void initAnotherViews(CoachOnRevision coach) {
 
         RecyclerView violationRecyclerView = getView().findViewById(R.id.revision_violation_list_recycler);
@@ -252,13 +250,13 @@ public class RevisionCoachFragment extends Fragment implements View.OnClickListe
         String yes = "ДА";
         String no = "НЕТ";
 
-        if (coach.isCoachSkudopp()) {
+        if (coach.isCoachProgressive()) {
             res.append("ПРОГРЕСС: ").append(yes).append("\n");
         } else {
             res.append("ПРОГРЕСС: ").append(no).append("\n");
         }
 
-        if (coach.isCoachProgressive()) {
+        if (coach.isCoachSkudopp()) {
             res.append("СКУДОПП: ").append(yes).append("\n");
         } else {
             res.append("СКУДОПП: ").append(no).append("\n");
