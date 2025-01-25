@@ -24,12 +24,10 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.revhelper.R;
-import com.example.revhelper.activity.AddCoachInOrderActivity;
-import com.example.revhelper.activity.RevisionActivity;
-import com.example.revhelper.activity.SharedViewModel;
+import com.example.revhelper.fragments.AddCoachInOrderActivity;
+import com.example.revhelper.sys.SharedViewModel;
 import com.example.revhelper.activity.revision.RevisionHostActivity;
 import com.example.revhelper.adapters.CoachSingleAdapter;
 import com.example.revhelper.mapper.TrainMapper;
@@ -43,8 +41,6 @@ import com.example.revhelper.sys.AppDatabase;
 import com.example.revhelper.sys.AppRev;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -53,8 +49,6 @@ public class OrderThirdStepFragment extends Fragment implements AdapterView.OnIt
 
     private OrderDtoParcelable order;
     private TrainDtoParcelable train;
-    private ArrayAdapter<Train> trainAdapter;
-    private ArrayAdapter<Coach> crewCoachAdapter;
     private ActivityResultLauncher<Intent> launcher;
     private CoachSingleAdapter coachRecyclerAdapter;
     private List<CoachOnRevision> coachList;
@@ -112,13 +106,13 @@ public class OrderThirdStepFragment extends Fragment implements AdapterView.OnIt
                 order.setTrain(train);
                 sharedViewModel.setOrder(order);
                 sharedViewModel.setTrain(train);
-                updatePreResultView(view, TrainMapper.toParceFromDto(trainFromDb), null);
+                updatePreResultView(TrainMapper.toParceFromDto(trainFromDb), null);
             }
         } else if (object.getClass() == Coach.class) {
             Coach informator = (Coach) parent.getItemAtPosition(position);
             if (informator != null) {
                 sharedViewModel.setInformator(informator);
-                updatePreResultView(view, null, informator);
+                updatePreResultView(null, informator);
             }
         }
     }
@@ -127,9 +121,17 @@ public class OrderThirdStepFragment extends Fragment implements AdapterView.OnIt
         if (coach != null) {
             TextView informatorCell = getView().findViewById(R.id.train_informator_cell);
             informatorCell.setText("ДА");
+            if (train != null) {
+                train.setHasAutoinformator(1);
+            }
+
         } else {
             TextView informatorCell = getView().findViewById(R.id.train_informator_cell);
             informatorCell.setText("НЕТ");
+            if (train != null) {
+                train.setHasAutoinformator(1);
+            }
+
         }
     }
 
@@ -189,9 +191,9 @@ public class OrderThirdStepFragment extends Fragment implements AdapterView.OnIt
         List<Train> trainList = appDb.trainDao().getAllTrains();
         List<Coach> mainCoachList = appDb.coachDao().getAllCoaches();
 
-        trainAdapter = new ArrayAdapter<>(requireContext(),
+        ArrayAdapter<Train> trainAdapter = new ArrayAdapter<>(requireContext(),
                 android.R.layout.simple_dropdown_item_1line, trainList);
-        crewCoachAdapter = new ArrayAdapter<>(requireContext(),
+        ArrayAdapter<Coach> crewCoachAdapter = new ArrayAdapter<>(requireContext(),
                 android.R.layout.simple_dropdown_item_1line, mainCoachList);
 
         AutoCompleteTextView trainTextView = getView().findViewById(R.id.order_train_number_input);
@@ -231,7 +233,7 @@ public class OrderThirdStepFragment extends Fragment implements AdapterView.OnIt
 
     }
 
-    private void updatePreResultView(View view, TrainDtoParcelable train, Coach coach) {
+    private void updatePreResultView(TrainDtoParcelable train, Coach coach) {
         if (train == null) {
             setCoachTextView(coach);
         } else if (coach == null) {

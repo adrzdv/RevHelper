@@ -1,5 +1,6 @@
-package com.example.revhelper.model.dto;
+package com.example.revhelper.model.deprecated;
 
+@Deprecated
 public class CoachRepresentViewDto {
     private String coachNumber;
     private String coachWorker;

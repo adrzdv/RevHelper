@@ -20,21 +20,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.revhelper.R;
-import com.example.revhelper.activity.CoachActivity;
-import com.example.revhelper.activity.SharedViewModel;
-import com.example.revhelper.activity.ViolationListActivity;
+import com.example.revhelper.model.entity.Deps;
+import com.example.revhelper.sys.SharedViewModel;
 import com.example.revhelper.adapters.ViolationAdapter;
 import com.example.revhelper.model.dto.CoachOnRevision;
 import com.example.revhelper.model.dto.ViolationForCoach;
-import com.example.revhelper.model.entity.Coach;
 import com.example.revhelper.model.entity.MainNodes;
 import com.example.revhelper.model.enums.AdditionalParams;
 import com.example.revhelper.sys.AppRev;
@@ -51,10 +49,9 @@ public class RevisionCoachFragment extends Fragment implements View.OnClickListe
     private SharedViewModel sharedViewModel;
     private ActivityResultLauncher<Intent> launcher;
     private CoachOnRevision coach;
-    private ViolationAdapter adapter;
+    private ViolationAdapter violationAdapter;
     private List<ViolationForCoach> violationList;
-    private List<String> additionalParams;
-    private LocalDateTime revisionStart = LocalDateTime.now();
+    private final LocalDateTime revisionStart = LocalDateTime.now();
 
 
     public RevisionCoachFragment() {
@@ -71,7 +68,7 @@ public class RevisionCoachFragment extends Fragment implements View.OnClickListe
                 new ActivityResultContracts.StartActivityForResult(),
                 result -> {
                     if (result.getResultCode() == RESULT_OK && result.getData() != null) {
-                        ViolationForCoach violationForCoach = result.getData().getParcelableExtra("violation");
+                        ViolationForCoach violationForCoach = result.getData().getParcelableExtra("VIOLATION");
                         if (violationForCoach != null) {
                             if (violationList.contains(violationForCoach)) {
                                 AppRev.showToast(requireContext(), "Нарушение уже добавлено");
@@ -86,27 +83,72 @@ public class RevisionCoachFragment extends Fragment implements View.OnClickListe
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_revision_coach, container, false);
     }
 
     @Override
-    public void onClick(View v) {
+    public void onClick(@NonNull View v) {
 
         if (v.getId() == R.id.revision_save_additional_param) {
             setAdditionalCoachParam();
         } else if (v.getId() == R.id.revision_add_new_violation) {
-
-            //open Activity
 
             Intent intent = new Intent(requireContext(), ViolationListActivity.class);
             intent.putExtra("REVTYPE", sharedViewModel.getOrder().getRevisionType());
             launcher.launch(intent);
 
         } else if (v.getId() == R.id.revision_end_coach_revision) {
+
+            String workerName = getWorkerName();
+            if (workerName == null) {
+                return;
+            }
+
+            String workerDepoName = getDepoName();
+            if (workerDepoName != null) {
+                coach.setCoachWorkerDep(workerDepoName);
+            }
+
+            CheckBox isTrailingCarCheckBox = getView().findViewById(R.id.trailing_car_checkbox);
+            coach.setTrailingCar(isTrailingCarCheckBox.isChecked());
+            coach.setCoachWorker(workerName);
+            coach.setViolationList(violationList);
+            if (coach.getRevisionTime() == null) {
+                coach.setRevisionTime(revisionStart);
+            }
+            if (coach.getRevisionEndTime() == null) {
+                coach.setRevisionEndTime(LocalDateTime.now());
+            }
             sharedViewModel.setCoachOnRevision(coach);
             Navigation.findNavController(v).navigateUp();
+        } else if (v.getId() == R.id.bck_img_bttn_coach_fragment) {
+            Navigation.findNavController(v).navigateUp();
+        }
+
+    }
+
+    @Nullable
+    private String getDepoName() {
+        TextInputLayout depoInputLayout = getView().findViewById(R.id.revision_depo_input_layout);
+
+        return depoInputLayout.getEditText().getText().toString();
+
+    }
+
+    private String getWorkerName() {
+
+        TextInputLayout workerData = getView().findViewById(R.id.revision_coach_worker_text_view);
+        String workerName = workerData.getEditText().getText().toString();
+        if (workerName.isBlank()) {
+            AppRev.showToast(requireContext(), "Введите данные работника");
+            return null;
+        } else if (!AppRev.getChecker().checkWorkerDataRegex(workerName)) {
+            AppRev.showToast(requireContext(), "Неверный формат ввода данных работников");
+            return null;
+        } else {
+            return workerName;
         }
 
     }
@@ -114,6 +156,7 @@ public class RevisionCoachFragment extends Fragment implements View.OnClickListe
     private void setAdditionalCoachParam() {
         Spinner additionalParamsSpinner = getView().findViewById(R.id.revision_spinner_additional_nodes);
         RadioGroup additionalParamsRadioGroupe = getView().findViewById(R.id.revision_radio_group_status);
+        TextView coachAdditionalParamsTextView = getView().findViewById(R.id.revision_coach_info_add_params);
         int selectedStatusAdditionalParam = additionalParamsRadioGroupe.getCheckedRadioButtonId();
         boolean status = selectedStatusAdditionalParam == getView().findViewById(R.id.revision_radio_good).getId();
         String selectedAdditionalParam = additionalParamsSpinner.getSelectedItem().toString();
@@ -125,28 +168,31 @@ public class RevisionCoachFragment extends Fragment implements View.OnClickListe
         } else if (selectedAdditionalParam.equals(AdditionalParams.PROGRESS.getAdditionalParamTitle())) {
             coach.setCoachProgressive(status);
         }
+
+        coachAdditionalParamsTextView.setText(getStringAdditionalParams(coach));
     }
 
     private void initData(CoachOnRevision coach) {
 
+        initImgButtons();
+        initTextView(coach);
+        initAnotherViews(coach);
+
+    }
+
+    private void initAnotherViews(CoachOnRevision coach) {
+
         RecyclerView violationRecyclerView = getView().findViewById(R.id.revision_violation_list_recycler);
         CheckBox isTrailingCar = getView().findViewById(R.id.trailing_car_checkbox);
-        TextInputLayout coachNumberTextLayout = getView().findViewById(R.id.revision_coach_number_text_view);
-        TextInputLayout coachWorkerTextLayout = getView().findViewById(R.id.revision_coach_worker_text_view);
+        Spinner additionalParamsSpinner = getView().findViewById(R.id.revision_spinner_additional_nodes);
+        AutoCompleteTextView depoNameTextView = getView().findViewById(R.id.revision_worker_depo_text_view);
 
-        ImageButton addAdditionalParamButton = getView().findViewById(R.id.revision_save_additional_param);
-        ImageButton addViolationButton = getView().findViewById(R.id.revision_add_new_violation);
-        ImageButton saveCoachDataButton = getView().findViewById(R.id.revision_end_coach_revision);
 
         List<ViolationForCoach> coachViolations = coach.getViolationList();
+        List<String> depoNamesStringList = AppRev.getDb().depoDao().getAlldeps().stream()
+                .map(Deps::getName)
+                .collect(Collectors.toList());
 
-        if (coach.getCoachNumber() != null) {
-            coachNumberTextLayout.getEditText().setText(coach.getCoachNumber());
-        }
-
-        if (coach.getCoachWorker() != null) {
-            coachWorkerTextLayout.getEditText().setText(coach.getCoachNumber());
-        }
 
         if (coachViolations != null) {
             violationList = new ArrayList<>(coachViolations);
@@ -154,19 +200,79 @@ public class RevisionCoachFragment extends Fragment implements View.OnClickListe
             violationList = new ArrayList<>();
         }
 
-        additionalParams = new ArrayList<>(AppRev.getDb().mainNodesDao().getMainNodesList().stream()
-                .map(MainNodes::getName)
-                .collect(Collectors.toList()));
+        List<String> additionalParams = AppRev.getDb().mainNodesDao().getMainNodesList().stream()
+                .map(MainNodes::getName).collect(Collectors.toList());
 
         violationRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
         violationRecyclerView.addItemDecoration(new DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL));
-        adapter = new ViolationAdapter(requireContext(), violationList);
-        violationRecyclerView.setAdapter(adapter);
+        violationAdapter = new ViolationAdapter(requireContext(), violationList);
+        violationRecyclerView.setAdapter(violationAdapter);
 
         ArrayAdapter<String> additionalParamsAdapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_item, additionalParams);
         additionalParamsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        additionalParamsSpinner.setAdapter(additionalParamsAdapter);
+
+        ArrayAdapter<String> depoNamesAdapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_dropdown_item_1line, depoNamesStringList);
+        depoNameTextView.setAdapter(depoNamesAdapter);
 
         isTrailingCar.setChecked(coach.isTrailingCar());
+
+    }
+
+    private void initTextView(CoachOnRevision coach) {
+
+        TextInputLayout coachNumberTextLayout = getView().findViewById(R.id.revision_coach_number_text_view);
+        TextInputLayout coachWorkerTextLayout = getView().findViewById(R.id.revision_coach_worker_text_view);
+        AutoCompleteTextView coachWorkerDepoTextLayout = getView().findViewById(R.id.revision_worker_depo_text_view);
+        TextView coachAdditionalParamsTextView = getView().findViewById(R.id.revision_coach_info_add_params);
+
+        if (coach.getCoachNumber() != null) {
+            coachNumberTextLayout.getEditText().setText(coach.getCoachNumber());
+        }
+
+        if (coach.getCoachWorker() != null) {
+            coachWorkerTextLayout.getEditText().setText(coach.getCoachWorker());
+        }
+
+        if (coach.getCoachWorkerDep() != null) {
+            coachWorkerDepoTextLayout.setText(coach.getCoachWorkerDep());
+        }
+
+        coachAdditionalParamsTextView.setText(getStringAdditionalParams(coach));
+
+    }
+
+    private String getStringAdditionalParams(CoachOnRevision coach) {
+        StringBuilder res = new StringBuilder("Параметры:\n");
+        String yes = "ДА";
+        String no = "НЕТ";
+
+        if (coach.isCoachProgressive()) {
+            res.append("ПРОГРЕСС: ").append(yes).append("\n");
+        } else {
+            res.append("ПРОГРЕСС: ").append(no).append("\n");
+        }
+
+        if (coach.isCoachSkudopp()) {
+            res.append("СКУДОПП: ").append(yes).append("\n");
+        } else {
+            res.append("СКУДОПП: ").append(no).append("\n");
+        }
+
+        if (coach.isCoachAutomaticDoor()) {
+            res.append("АВТ.ДВЕРИ: ").append(yes).append("\n");
+        } else {
+            res.append("АВТ.ДВЕРИ: ").append(no).append("\n");
+        }
+
+        return res.toString();
+    }
+
+    private void initImgButtons() {
+
+        ImageButton addAdditionalParamButton = getView().findViewById(R.id.revision_save_additional_param);
+        ImageButton addViolationButton = getView().findViewById(R.id.revision_add_new_violation);
+        ImageButton saveCoachDataButton = getView().findViewById(R.id.revision_end_coach_revision);
 
         addAdditionalParamButton.setOnClickListener(this);
         addViolationButton.setOnClickListener(this);
@@ -175,8 +281,8 @@ public class RevisionCoachFragment extends Fragment implements View.OnClickListe
     }
 
     private void updateRecycler(List<ViolationForCoach> updatedViolationList) {
-        if (adapter != null) {
-            adapter.updateData(updatedViolationList);
+        if (violationAdapter != null) {
+            violationAdapter.updateData(updatedViolationList);
         }
     }
 }

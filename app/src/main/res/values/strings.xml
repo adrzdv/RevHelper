@@ -49,7 +49,7 @@
     <string name="ViolationNameText">Описание нарушения</string>
     <string name="EditAmmountText">Изменить количество</string>
     <string name="UpdateAmountText">Изменить количество</string>
-    <string name="SearchHintText">Поиск...</string>
+    <string name="SearchHintText">Поиск…</string>
     <string name="CoachNumberTextHint">Номер КРИ</string>
     <string name="AddPerson">Поездная бригада</string>
     <string name="CleanList">Очистить список вагонов</string>
@@ -77,8 +77,6 @@
     <string name="CrewListHeaderText">Список работников</string>
     <string name="CoachListHeaderText">Список вагонов</string>
     <string name="QualityPassportTextString">Наличие паспорта качества</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="RevisionHeaderText">Проверка поезда</string>
     <string name="PositiveHasRadioText">Имеется</string>
     <string name="NegativeHasRadioText">Отсутствует</string>
@@ -91,4 +89,18 @@
     <string name="ShowInfoAboutObjectDescription">Show info about object of revision</string>
     <string name="FinishRevisionDescription">Закончить проверку</string>
     <string name="ViolationCatalogButtonText">Классификатор</string>
+    <string name="CoachNumberHeaderText">Номер вагона</string>
+    <string name="EndWorkTextDescription">Завершить проверку</string>
+    <string name="TrailingGroupText">Прицепная группа</string>
+    <string name="MainTrainText">Основной состав</string>
+    <string name="ViolationsText">Нарушения</string>
+    <string name="ResultTextHeader">Результат проверки</string>
+    <string name="MainStatsText">Основные данные</string>
+    <string name="TrainInfoText">Информация по поезду</string>
+    <string name="PriceTextString">Полный перечень товаров, выполненный шрифтом Брайля</string>
+    <string name="RadioTextString">Радиоустановка</string>
+    <string name="AddResolvedText">Устранено</string>
+    <string name="AudioinformText">Аудиоинформирование</string>
+    <string name="NoDataText">Нет данных</string>
+    <string name="MainHeaderText">Основная информация</string>
 </resources>

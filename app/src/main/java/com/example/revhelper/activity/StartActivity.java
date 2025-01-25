@@ -15,7 +15,10 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.revhelper.R;
+import com.example.revhelper.activity.information.SearchActivity;
+import com.example.revhelper.activity.information.ViolationCatalogActivity;
 import com.example.revhelper.activity.order.OrderHostActivity;
+import com.example.revhelper.activity.reinspection.ReinspectionActivity;
 import com.example.revhelper.databinding.ActivityStartBinding;
 import com.example.revhelper.exceptions.CustomException;
 import com.example.revhelper.services.CheckService;

@@ -68,6 +68,8 @@
                 android:layout_height="wrap_content"
                 android:background="@color/background_color"
                 android:hint="@string/SurnameCrewInputText"
+                android:inputType="text"
+                android:lines="1"
                 android:padding="8dp">
 
                 <com.google.android.material.textfield.TextInputEditText

@@ -9,22 +9,23 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.revhelper.R;
+import com.example.revhelper.model.dto.ViolationDto;
 import com.example.revhelper.model.entity.Violation;
 
 import java.util.List;
 
 public class ViolationAdapterOnClick extends RecyclerView.Adapter<ViolationAdapterOnClick.ViolationViewHolder> {
 
-    private List<Violation> violationList;
+    private List<ViolationDto> violationList;
     private ViolationAdapterOnClick.OnItemClickListener listener;
 
-    public ViolationAdapterOnClick(List<Violation> violationList, ViolationAdapterOnClick.OnItemClickListener listener) {
+    public ViolationAdapterOnClick(List<ViolationDto> violationList, ViolationAdapterOnClick.OnItemClickListener listener) {
         this.violationList = violationList;
         this.listener = listener;
     }
 
     public interface OnItemClickListener {
-        void onItemClick(Violation violationString);
+        void onItemClick(ViolationDto violationString);
     }
 
     @NonNull
@@ -37,7 +38,7 @@ public class ViolationAdapterOnClick extends RecyclerView.Adapter<ViolationAdapt
 
     @Override
     public void onBindViewHolder(@NonNull ViolationAdapterOnClick.ViolationViewHolder holder, int position) {
-        Violation violation = violationList.get(position);
+        ViolationDto violation = violationList.get(position);
         holder.violationCode.setText(String.valueOf(violation.getCode()));
         holder.violationName.setText(violation.getName());
         holder.itemView.setOnClickListener(v -> listener.onItemClick(violation));
@@ -58,7 +59,7 @@ public class ViolationAdapterOnClick extends RecyclerView.Adapter<ViolationAdapt
         }
     }
 
-    public void updateData(List<Violation> newViolationList) {
+    public void updateData(List<ViolationDto> newViolationList) {
         this.violationList = newViolationList;
         notifyDataSetChanged();
     }

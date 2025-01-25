@@ -25,4 +25,12 @@ public class ViolationMapper {
                 violation.getConflictiveCode(),
                 violation.getActive() == 1);
     }
+
+    public static ViolationForCoach fromDtoFromForCoach(ViolationDto violation) {
+        return new ViolationForCoach(violation.getId(),
+                violation.getCode(),
+                violation.getName(),
+                0,
+                1);
+    }
 }

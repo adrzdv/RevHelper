@@ -15,7 +15,10 @@
         tools:ignore="NightMode"
         tools:targetApi="31">
         <activity
-            android:name=".activity.ViolationCatalogActivity"
+            android:name=".activity.information.ResultRevisionActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.information.ViolationCatalogActivity"
             android:exported="false" />
         <activity
             android:name=".activity.revision.RevisionHostActivity"
@@ -24,37 +27,21 @@
             android:name=".activity.order.OrderHostActivity"
             android:exported="false" />
         <activity
-            android:name=".activity.ShowEnteredCoachesActivity"
+            android:name=".activity.reinspection.ShowEnteredCoachesActivity"
             android:exported="false" />
         <activity
-            android:name=".activity.ReinspectionCoachView"
+            android:name=".activity.reinspection.ReinspectionCoachView"
             android:exported="false" />
         <activity
-            android:name=".activity.ReinspectionActivity"
+            android:name=".activity.reinspection.ReinspectionActivity"
             android:exported="false" />
         <activity
-            android:name=".activity.AddCoachInOrderActivity"
+            android:name=".fragments.AddCoachInOrderActivity"
             android:exported="false"
             android:theme="@style/RoundedDialogStyle" />
         <activity
-            android:name=".activity.ResultActivity"
-            android:exported="false" />
-        <activity
-            android:name=".activity.ViolationListActivity"
+            android:name=".activity.revision.ViolationListActivity"
             android:exported="false" /> <!-- android:theme="@style/DialogTheme" /> -->
-        <activity
-            android:name=".activity.AddMasterActivity"
-            android:exported="false"
-            android:theme="@style/RoundedDialogStyle" />
-        <activity
-            android:name=".activity.OrderActivity"
-            android:exported="false" />
-        <activity
-            android:name=".activity.RevisionActivity"
-            android:exported="false" />
-        <activity
-            android:name=".activity.CoachActivity"
-            android:exported="false" />
         <activity
             android:name=".activity.StartActivity"
             android:exported="true">
@@ -65,7 +52,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activity.SearchActivity"
+            android:name=".activity.information.SearchActivity"
             android:exported="true" />
     </application>
 

@@ -1,4 +1,4 @@
-package com.example.revhelper.activity;
+package com.example.revhelper.sys;
 
 import androidx.lifecycle.ViewModel;
 

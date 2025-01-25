@@ -18,7 +18,7 @@ import android.widget.ImageButton;
 import android.widget.Spinner;
 
 import com.example.revhelper.R;
-import com.example.revhelper.activity.SharedViewModel;
+import com.example.revhelper.sys.SharedViewModel;
 import com.example.revhelper.model.dto.OrderDtoParcelable;
 import com.example.revhelper.model.enums.RevisionType;
 import com.example.revhelper.sys.AppRev;

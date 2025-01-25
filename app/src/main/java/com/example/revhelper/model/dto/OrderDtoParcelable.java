@@ -7,7 +7,6 @@ import android.os.Parcelable;
 import androidx.annotation.NonNull;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -22,8 +21,10 @@ public class OrderDtoParcelable implements Parcelable {
     private Map<String, Worker> crewLeaders;
     private Map<String, CoachOnRevision> coachMap;
     private boolean isQualityPassport;
-    private boolean isPrice;
+    private Boolean isPrice;
     private boolean isAutoinformator;
+    private boolean isRadio;
+    private Boolean isInform;
 
     public OrderDtoParcelable(String number, LocalDate date, String route, String revisionType) {
 
@@ -34,7 +35,6 @@ public class OrderDtoParcelable implements Parcelable {
         this.crewLeaders = new HashMap<>();
         this.coachMap = new HashMap<>();
         this.isQualityPassport = false;
-        this.isPrice = false;
 
     }
 
@@ -54,8 +54,20 @@ public class OrderDtoParcelable implements Parcelable {
         in.readMap(coachMap, CoachOnRevision.class.getClassLoader());
         train = in.readParcelable(TrainDtoParcelable.class.getClassLoader());
         isQualityPassport = in.readBoolean();
-        isPrice = in.readBoolean();
+        String price = in.readString();
+        if (price != null) {
+            isPrice = Boolean.parseBoolean(price);
+        } else {
+            isPrice = null;
+        }
         isAutoinformator = in.readBoolean();
+        isRadio = in.readBoolean();
+        String inform = in.readString();
+        if (inform != null) {
+            isInform = Boolean.parseBoolean(inform);
+        } else {
+            isInform = null;
+        }
     }
 
     @Override
@@ -72,11 +84,21 @@ public class OrderDtoParcelable implements Parcelable {
         dest.writeMap(coachMap);
         dest.writeParcelable(train, flags);
         dest.writeBoolean(isQualityPassport);
-        dest.writeBoolean(isPrice);
+        if (isPrice != null) {
+            dest.writeString(isPrice.toString());
+        } else {
+            dest.writeString(null);
+        }
         dest.writeBoolean(isAutoinformator);
+        dest.writeBoolean(isRadio);
+        if (isInform != null) {
+            dest.writeString(isInform.toString());
+        } else {
+            dest.writeString(null);
+        }
     }
 
-    public static final Creator<OrderDtoParcelable> CREATOR = new Creator<OrderDtoParcelable>() {
+    public static final Creator<OrderDtoParcelable> CREATOR = new Creator<>() {
         @Override
         public OrderDtoParcelable createFromParcel(Parcel in) {
             return new OrderDtoParcelable(in);
@@ -152,11 +174,11 @@ public class OrderDtoParcelable implements Parcelable {
         isQualityPassport = qualityPassport;
     }
 
-    public boolean isPrice() {
+    public Boolean isPrice() {
         return isPrice;
     }
 
-    public void setPrice(boolean price) {
+    public void setPrice(Boolean price) {
         isPrice = price;
     }
 
@@ -164,8 +186,36 @@ public class OrderDtoParcelable implements Parcelable {
         return isAutoinformator;
     }
 
+    public Boolean getIsPrice() {
+        return this.isPrice;
+    }
+
+    public Boolean getIsQualityPassport() {
+        return this.isQualityPassport;
+    }
+
+    public Boolean getIsAutoinformator() {
+        return this.isAutoinformator;
+    }
+
+    public Boolean getRadio() {
+        return isRadio;
+    }
+
+    public void setRadio(Boolean radio) {
+        isRadio = radio;
+    }
+
     public void setAutoinformator(boolean autoinformator) {
         isAutoinformator = autoinformator;
+    }
+
+    public void setIsInform(Boolean isInform) {
+        this.isInform = isInform;
+    }
+
+    public Boolean getIsInform() {
+        return isInform;
     }
 
     @Override
@@ -185,4 +235,6 @@ public class OrderDtoParcelable implements Parcelable {
     public int describeContents() {
         return 0;
     }
+
+
 }

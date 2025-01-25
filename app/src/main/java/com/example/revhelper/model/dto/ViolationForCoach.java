@@ -8,6 +8,7 @@ import androidx.annotation.NonNull;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @SuppressLint("NewApi")
 public class ViolationForCoach implements Parcelable, Comparable<ViolationForCoach> {
@@ -16,7 +17,7 @@ public class ViolationForCoach implements Parcelable, Comparable<ViolationForCoa
     private String name;
     private int revisionType;
     private int amount;
-    private List<ViolationAttribute> attributes = new ArrayList<>();
+    private List<ViolationAttribute> attributes;
     private boolean isResolved = false;
 
     public ViolationForCoach(int id, int code, @NonNull String name, int revisionType, int amount) {
@@ -25,6 +26,7 @@ public class ViolationForCoach implements Parcelable, Comparable<ViolationForCoa
         this.name = name;
         this.revisionType = revisionType;
         this.amount = amount;
+        attributes = new ArrayList<>();
     }
 
     public ViolationForCoach(int id, int code, @NonNull String name, int revisionType, int amount, List<ViolationAttribute> attributes) {
@@ -109,6 +111,14 @@ public class ViolationForCoach implements Parcelable, Comparable<ViolationForCoa
         this.code = code;
     }
 
+    public boolean isResolved() {
+        return isResolved;
+    }
+
+    public void setResolved(boolean resolved) {
+        isResolved = resolved;
+    }
+
     @Override
     public int compareTo(ViolationForCoach o) {
         return this.code.compareTo(o.code);
@@ -123,13 +133,13 @@ public class ViolationForCoach implements Parcelable, Comparable<ViolationForCoa
             return false;
         }
         ViolationForCoach violation = (ViolationForCoach) obj;
-        return id == violation.id && name.equals(violation.name) && code == violation.code;
+        return id == violation.id && Objects.equals(code, violation.code);
     }
 
     @Override
     public int hashCode() {
-        int result = Integer.hashCode(id);
-        result = 31 * result + name.hashCode();
+        int result = Integer.hashCode(code);
+        result = 31 * result + code.hashCode();
         return result;
     }
 
@@ -150,11 +160,5 @@ public class ViolationForCoach implements Parcelable, Comparable<ViolationForCoa
         }
     };
 
-    public boolean isResolved() {
-        return isResolved;
-    }
 
-    public void setResolved(boolean resolved) {
-        isResolved = resolved;
-    }
 }

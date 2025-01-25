@@ -84,6 +84,8 @@ public class ViolationAdapter extends RecyclerView.Adapter<ViolationAdapter.Viol
                 // Показываем окно для ввода количества
                 showAmountInputDialog(position);
                 return true;
+            } else if (menuItem.getItemId() == R.id.add_resolved) {
+                violationList.get(position).setResolved(true);
             }
             return false;
         });

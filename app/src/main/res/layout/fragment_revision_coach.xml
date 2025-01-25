@@ -70,6 +70,8 @@
                 android:layout_height="wrap_content"
                 android:background="@color/background_color"
                 android:hint="@string/CoachWorkerText"
+                android:inputType="text"
+                android:lines="1"
                 android:padding="8dp">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -77,6 +79,27 @@
                     android:layout_height="wrap_content"
                     android:inputType="text"
                     android:lines="1" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/revision_depo_input_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/background_color"
+                android:gravity="center_vertical"
+                android:padding="8dp">
+
+                <AutoCompleteTextView
+                    android:id="@+id/revision_worker_depo_text_view"
+                    style="@style/RegularText"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:hint="Введите депо"
+                    android:imeOptions="actionDone"
+                    android:inputType="text"
+                    android:lines="1"
+                    android:padding="16dp" />
+
             </com.google.android.material.textfield.TextInputLayout>
 
             <LinearLayout
@@ -146,6 +169,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/background_color"
+                android:orientation="horizontal"
                 android:padding="8dp">
 
                 <com.google.android.material.checkbox.MaterialCheckBox
@@ -155,6 +179,14 @@
                     android:layout_height="wrap_content"
                     android:padding="8dp"
                     android:text="@string/TraillingCarText" />
+
+                <TextView
+                    android:id="@+id/revision_coach_info_add_params"
+                    style="@style/RegularText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="8dp" />
+
             </LinearLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout

@@ -4,6 +4,7 @@ import androidx.room.Database;
 import androidx.room.RoomDatabase;
 
 import com.example.revhelper.dao.CoachDao;
+import com.example.revhelper.dao.DepoDao;
 import com.example.revhelper.dao.MainNodesDao;
 import com.example.revhelper.dao.TrainDao;
 import com.example.revhelper.dao.ViolationDao;
@@ -25,5 +26,7 @@ public abstract class AppDatabase extends RoomDatabase {
     public abstract MainNodesDao mainNodesDao();
 
     public abstract ViolationDao violationDao();
+
+    public abstract DepoDao depoDao();
 
 }
