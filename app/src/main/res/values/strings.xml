@@ -103,4 +103,5 @@
     <string name="AudioinformText">Аудиоинформирование</string>
     <string name="NoDataText">Нет данных</string>
     <string name="MainHeaderText">Основная информация</string>
+    <string name="MainMenuHeaderText">Главное меню</string>
 </resources>

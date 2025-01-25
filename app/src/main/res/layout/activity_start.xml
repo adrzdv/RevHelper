@@ -5,20 +5,39 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="64dp"
+    android:background="@color/background_color"
     tools:context=".activity.StartActivity">
+
+    <LinearLayout
+        android:id="@+id/start_menu_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/dark_blue"
+        android:padding="32dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            style="@style/BlackHeaderForLightBack"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:padding="8dp"
+            android:text="@string/MainMenuHeaderText" />
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="283dp"
         android:layout_height="316dp"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="64dp"
+        android:layout_marginTop="32dp"
         android:layout_marginEnd="32dp"
         android:orientation="vertical"
         android:padding="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/start_menu_header">
 
         <Button
             android:id="@+id/revisionButton"
