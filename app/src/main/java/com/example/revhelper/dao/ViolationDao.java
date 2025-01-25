@@ -4,7 +4,6 @@ import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.Query;
 
-import com.example.revhelper.model.entity.Train;
 import com.example.revhelper.model.entity.Violation;
 
 import java.util.List;

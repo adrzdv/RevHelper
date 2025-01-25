@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.revhelper.R;
 import com.example.revhelper.model.dto.ViolationDto;
-import com.example.revhelper.model.entity.Violation;
 
 import java.util.List;
 
