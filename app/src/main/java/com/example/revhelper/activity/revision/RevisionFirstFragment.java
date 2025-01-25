@@ -21,6 +21,7 @@ import android.widget.TextView;
 
 import com.example.revhelper.R;
 import com.example.revhelper.activity.information.ResultRevisionActivity;
+import com.example.revhelper.fragments.DialogFragmentExitConfirmation;
 import com.example.revhelper.sys.SharedViewModel;
 import com.example.revhelper.adapters.CoachSingleAdapterWithoutButton;
 import com.example.revhelper.model.dto.CoachOnRevision;
@@ -74,60 +75,15 @@ public class RevisionFirstFragment extends Fragment implements CoachSingleAdapte
             AppRev.showToast(requireContext(), "Не реализовано");
         } else if (v.getId() == R.id.revision_make_result) {
 
-            //RUN new Activity with resulting
-            RadioGroup priceRadioGroup = getView().findViewById(R.id.revision_radio_group_price);
-            RadioGroup radiodeviceRadioGroup = getView().findViewById(R.id.revision_radio_group_radio);
-            RadioGroup audioRadioGroup = getView().findViewById(R.id.revision_radio_group_audioinform);
-
-            int selectedPriceStatus = priceRadioGroup.getCheckedRadioButtonId();
-            if (selectedPriceStatus == -1) {
-                AppRev.showToast(requireContext(),
-                        "Не проведена проверка наличия полного перечня товаров");
-            }
-            int selectedRadiodeviceStatus = radiodeviceRadioGroup.getCheckedRadioButtonId();
-            if (selectedPriceStatus == -1) {
-                AppRev.showToast(requireContext(),
-                        "Не проведена проверка наличия радиоустановки");
-            }
-            int selectedAudioStatus = audioRadioGroup.getCheckedRadioButtonId();
-            if (selectedPriceStatus == -1) {
-                AppRev.showToast(requireContext(),
-                        "Не проведена проверка аудиоинформирования");
-            }
-
-            Boolean statusPrice;
-            if (selectedPriceStatus == getView().findViewById(R.id.revision_price_radio_good).getId()) {
-                statusPrice = true;
-            } else if ((selectedPriceStatus == getView().findViewById(R.id.revision_price_radio_faulty).getId())) {
-                statusPrice = false;
-            } else {
-                statusPrice = null;
-            }
-
-            boolean statusRadiodevice = selectedRadiodeviceStatus == getView().findViewById(R.id.revision_radiodevice_radio_good).getId();
-
-            Boolean statusAudioinform;
-            if (selectedAudioStatus == getView().findViewById(R.id.revision_audioinform_radio_good).getId()) {
-                statusAudioinform = true;
-            } else if ((selectedPriceStatus == getView().findViewById(R.id.revision_audioinform_radio_faulty).getId())) {
-                statusAudioinform = false;
-            } else {
-                statusAudioinform = null;
-            }
-
-            order.setPrice(statusPrice);
-            order.setRadio(statusRadiodevice);
-            order.setIsInform(statusAudioinform);
-
+            addInfoInOrderAnd();
             Intent intent = new Intent(requireContext(), ResultRevisionActivity.class);
             intent.putExtra("ORDER", order);
             startActivity(intent);
             requireActivity().finish();
 
         } else if (v.getId() == R.id.bck_img_bttn_make_revision_main) {
-            sharedViewModel.setOrder(order);
-            sharedViewModel.setTrain(order.getTrain());
-            Navigation.findNavController(v).navigateUp();
+            DialogFragmentExitConfirmation dialog = new DialogFragmentExitConfirmation();
+            dialog.show(requireActivity().getSupportFragmentManager(), "dialog");
         }
     }
 
@@ -139,6 +95,71 @@ public class RevisionFirstFragment extends Fragment implements CoachSingleAdapte
         Navigation.findNavController(getView()).navigate(R.id.action_to_coach_revision);
     }
 
+    private void addInfoInOrderAnd() {
+
+        addPriceToOrder();
+        addRadiodeviceToOrder();
+        addAudioinformToOrder();
+
+    }
+
+    private void addAudioinformToOrder() {
+        RadioGroup audioRadioGroup = getView().findViewById(R.id.revision_radio_group_audioinform);
+
+        int selectedAudioStatus = audioRadioGroup.getCheckedRadioButtonId();
+        if (selectedAudioStatus == -1) {
+            AppRev.showToast(requireContext(),
+                    "Не проведена проверка аудиоинформирования");
+            return;
+        }
+
+        Boolean statusAudioinform;
+        if (selectedAudioStatus == getView().findViewById(R.id.revision_audioinform_radio_good).getId()) {
+            statusAudioinform = true;
+        } else if ((selectedAudioStatus == getView().findViewById(R.id.revision_audioinform_radio_faulty).getId())) {
+            statusAudioinform = false;
+        } else {
+            statusAudioinform = null;
+        }
+
+        order.setIsInform(statusAudioinform);
+
+    }
+
+    private void addRadiodeviceToOrder() {
+
+        RadioGroup radiodeviceRadioGroup = getView().findViewById(R.id.revision_radio_group_radio);
+
+        int selectedRadiodeviceStatus = radiodeviceRadioGroup.getCheckedRadioButtonId();
+        if (selectedRadiodeviceStatus == -1) {
+            AppRev.showToast(requireContext(),
+                    "Не проведена проверка наличия радиоустановки");
+            return;
+        }
+        boolean statusRadiodevice = selectedRadiodeviceStatus == getView().findViewById(R.id.revision_radiodevice_radio_good).getId();
+        order.setRadio(statusRadiodevice);
+
+    }
+
+    private void addPriceToOrder() {
+        RadioGroup priceRadioGroup = getView().findViewById(R.id.revision_radio_group_price);
+        int selectedPriceStatus = priceRadioGroup.getCheckedRadioButtonId();
+        if (selectedPriceStatus == -1) {
+            AppRev.showToast(requireContext(),
+                    "Не проведена проверка наличия полного перечня товаров");
+            return;
+        }
+        Boolean statusPrice;
+        if (selectedPriceStatus == getView().findViewById(R.id.revision_price_radio_good).getId()) {
+            statusPrice = true;
+        } else if ((selectedPriceStatus == getView().findViewById(R.id.revision_price_radio_faulty).getId())) {
+            statusPrice = false;
+        } else {
+            statusPrice = null;
+        }
+        order.setPrice(statusPrice);
+    }
+
     private void initData(@NonNull OrderDtoParcelable order) {
         coachList = new ArrayList<>(order.getCoachMap().values());
     }
@@ -148,6 +169,7 @@ public class RevisionFirstFragment extends Fragment implements CoachSingleAdapte
         TextView orderTrainTextView = getView().findViewById(R.id.revision_train_data_cell);
         RecyclerView coachRecycler = getView().findViewById(R.id.revision_recycler_coach_view);
         ImageButton infoButton = getView().findViewById(R.id.revision_take_train_info);
+        ImageButton bckImage = getView().findViewById(R.id.bck_img_bttn_make_revision_main);
         FloatingActionButton saveResultButton = getView().findViewById(R.id.revision_make_result);
 
         orderDataTextView.setText(makeOrderData(order));
@@ -159,8 +181,8 @@ public class RevisionFirstFragment extends Fragment implements CoachSingleAdapte
         coachRecycler.setAdapter(coachAdapter);
 
         infoButton.setOnClickListener(this);
-
         saveResultButton.setOnClickListener(this);
+        bckImage.setOnClickListener(this);
     }
 
     @NonNull

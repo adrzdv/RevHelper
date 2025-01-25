@@ -8,6 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
 import android.view.LayoutInflater;
@@ -18,6 +19,7 @@ import android.widget.ImageButton;
 import android.widget.Spinner;
 
 import com.example.revhelper.R;
+import com.example.revhelper.fragments.DialogFragmentExitConfirmation;
 import com.example.revhelper.sys.SharedViewModel;
 import com.example.revhelper.model.dto.OrderDtoParcelable;
 import com.example.revhelper.model.enums.RevisionType;
@@ -110,7 +112,8 @@ public class OrderFirstStepFragment extends Fragment implements View.OnClickList
             Navigation.findNavController(v).navigate(R.id.action_to_stepTwo);
 
         } else if (v.getId() == R.id.bck_img_bttn_make_order_first_step) {
-            Navigation.findNavController(v).navigateUp();
+            DialogFragmentExitConfirmation dialog = new DialogFragmentExitConfirmation();
+            dialog.show(requireActivity().getSupportFragmentManager(), "dialog");
         }
     }
 
