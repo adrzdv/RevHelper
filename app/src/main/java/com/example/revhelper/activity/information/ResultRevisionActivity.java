@@ -17,7 +17,6 @@ import com.example.revhelper.model.dto.Worker;
 import com.example.revhelper.model.entity.Violation;
 import com.example.revhelper.model.enums.AdditionalParams;
 import com.example.revhelper.model.enums.RevisionType;
-import com.example.revhelper.model.enums.WorkerJob;
 import com.example.revhelper.sys.AppRev;
 import com.example.revhelper.sys.SharedViewModel;
 
