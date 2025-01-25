@@ -75,7 +75,9 @@ public class RevisionFirstFragment extends Fragment implements CoachSingleAdapte
             AppRev.showToast(requireContext(), "Не реализовано");
         } else if (v.getId() == R.id.revision_make_result) {
 
-            addInfoInOrderAnd();
+            if (addInfoInOrderAnd() == null) {
+                return;
+            }
             Intent intent = new Intent(requireContext(), ResultRevisionActivity.class);
             intent.putExtra("ORDER", order);
             startActivity(intent);
@@ -95,22 +97,30 @@ public class RevisionFirstFragment extends Fragment implements CoachSingleAdapte
         Navigation.findNavController(getView()).navigate(R.id.action_to_coach_revision);
     }
 
-    private void addInfoInOrderAnd() {
+    private OrderDtoParcelable addInfoInOrderAnd() {
 
-        addPriceToOrder();
-        addRadiodeviceToOrder();
-        addAudioinformToOrder();
+        if (addPriceToOrder() == null) {
+            return null;
+        }
+        if (addRadiodeviceToOrder() == null) {
+            return null;
+        }
+        if (addAudioinformToOrder() == null) {
+            return null;
+        }
+
+        return order;
 
     }
 
-    private void addAudioinformToOrder() {
+    private OrderDtoParcelable addAudioinformToOrder() {
         RadioGroup audioRadioGroup = getView().findViewById(R.id.revision_radio_group_audioinform);
 
         int selectedAudioStatus = audioRadioGroup.getCheckedRadioButtonId();
         if (selectedAudioStatus == -1) {
             AppRev.showToast(requireContext(),
                     "Не проведена проверка аудиоинформирования");
-            return;
+            return null;
         }
 
         Boolean statusAudioinform;
@@ -121,12 +131,11 @@ public class RevisionFirstFragment extends Fragment implements CoachSingleAdapte
         } else {
             statusAudioinform = null;
         }
-
         order.setIsInform(statusAudioinform);
-
+        return order;
     }
 
-    private void addRadiodeviceToOrder() {
+    private OrderDtoParcelable addRadiodeviceToOrder() {
 
         RadioGroup radiodeviceRadioGroup = getView().findViewById(R.id.revision_radio_group_radio);
 
@@ -134,20 +143,20 @@ public class RevisionFirstFragment extends Fragment implements CoachSingleAdapte
         if (selectedRadiodeviceStatus == -1) {
             AppRev.showToast(requireContext(),
                     "Не проведена проверка наличия радиоустановки");
-            return;
+            return null;
         }
         boolean statusRadiodevice = selectedRadiodeviceStatus == getView().findViewById(R.id.revision_radiodevice_radio_good).getId();
         order.setRadio(statusRadiodevice);
-
+        return order;
     }
 
-    private void addPriceToOrder() {
+    private OrderDtoParcelable addPriceToOrder() {
         RadioGroup priceRadioGroup = getView().findViewById(R.id.revision_radio_group_price);
         int selectedPriceStatus = priceRadioGroup.getCheckedRadioButtonId();
         if (selectedPriceStatus == -1) {
             AppRev.showToast(requireContext(),
                     "Не проведена проверка наличия полного перечня товаров");
-            return;
+            return null;
         }
         Boolean statusPrice;
         if (selectedPriceStatus == getView().findViewById(R.id.revision_price_radio_good).getId()) {
@@ -158,6 +167,7 @@ public class RevisionFirstFragment extends Fragment implements CoachSingleAdapte
             statusPrice = null;
         }
         order.setPrice(statusPrice);
+        return order;
     }
 
     private void initData(@NonNull OrderDtoParcelable order) {
