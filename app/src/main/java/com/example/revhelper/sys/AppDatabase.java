@@ -16,7 +16,7 @@ import com.example.revhelper.model.entity.Train;
 import com.example.revhelper.model.entity.Violation;
 
 @Database(entities = {Train.class, Coach.class, Branches.class, Deps.class,
-        MainNodes.class, Violation.class}, version = 2, exportSchema = true)
+        MainNodes.class, Violation.class}, version = 3, exportSchema = true)
 public abstract class AppDatabase extends RoomDatabase {
 
     public abstract TrainDao trainDao();
