@@ -105,7 +105,7 @@ public class OrderSecondStepFragment extends Fragment implements View.OnClickLis
         TextInputLayout crewSurnameLayout = getView().findViewById(R.id.order_surname_crew_input);
 
         if (!crewSurnameLayout.getEditText().getText().toString().equals("")) {
-            String workerName = crewSurnameLayout.getEditText().getText().toString();
+            String workerName = crewSurnameLayout.getEditText().getText().toString().trim();
 
             if (!AppRev.getChecker().checkWorkerDataRegex(workerName)) {
                 AppRev.showToast(requireContext(), "Неверный формат ввода ФИО");

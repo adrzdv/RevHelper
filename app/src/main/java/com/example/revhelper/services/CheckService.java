@@ -16,7 +16,10 @@ public class CheckService {
     }
 
     public boolean checkWorkerDataRegex(String string) {
-        String reg = "^[А-ЯЁ][а-яё]+ [А-ЯЁ][а-яё]+ [А-ЯЁ][а-яё]+$";
-        return Pattern.matches(reg, string);
+        String regFull = "^[А-ЯЁ][а-яё]+ [А-ЯЁ][а-яё]+ [А-ЯЁ][а-яё]+$";
+        String regShort = "^[А-ЯЁ][а-яё]+ [А-ЯЁ].+[А-ЯЁ].+$";
+        String regShortSpaces = "^[А-ЯЁ][а-яё]+ [А-ЯЁ].+ [А-ЯЁ].+$";
+        return Pattern.matches(regFull, string) || Pattern.matches(regShort, string)
+                || Pattern.matches(regShortSpaces, string);
     }
 }

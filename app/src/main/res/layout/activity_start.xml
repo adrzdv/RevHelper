@@ -11,7 +11,9 @@
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="64dp"
+        android:layout_marginEnd="16dp"
         android:orientation="vertical"
         android:padding="8dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -46,15 +48,6 @@
             android:text="@string/LoadDataText" />
 
         <Button
-            android:id="@+id/serviceMenu"
-            style="@style/DarkBlueButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:drawableEnd="@drawable/ic_tool_48_white"
-            android:drawablePadding="8dp"
-            android:text="@string/ServiceText" />
-
-        <Button
             android:id="@+id/open_violation_catalog"
             style="@style/DarkBlueButton"
             android:layout_width="match_parent"
@@ -62,6 +55,15 @@
             android:drawableEnd="@drawable/ic_list_24_white"
             android:drawablePadding="8dp"
             android:text="@string/ViolationCatalogButtonText" />
+
+        <Button
+            android:id="@+id/serviceMenu"
+            style="@style/DarkBlueButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableEnd="@drawable/ic_tool_48_white"
+            android:drawablePadding="8dp"
+            android:text="@string/ServiceText" />
 
         <Button
             android:id="@+id/exitButton"
