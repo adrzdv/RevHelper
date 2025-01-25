@@ -38,9 +38,7 @@ public class ParseXml {
         Handler handler = new Handler(Looper.getMainLooper());
         final StringBuilder resThreed = new StringBuilder();
 
-        ResultCallback callback = message -> {
-            resThreed.append(message);
-        };
+        ResultCallback callback = resThreed::append;
 
         try {
 
@@ -57,98 +55,102 @@ public class ParseXml {
             Element elm = (Element) document.getElementsByTagName("desteny").item(0);
             String elmFlag = elm.getTextContent();
 
-            if (elmFlag.equals("add")) {
+            switch (elmFlag) {
+                case "add":
 
-                executor.execute(() -> {
-                    List<Train> trains;
-                    List<Coach> coaches;
-                    List<Violation> violations;
-                    List<Deps> deps;
+                    executor.execute(() -> {
+                        List<Train> trains;
+                        List<Coach> coaches;
+                        List<Violation> violations;
+                        List<Deps> deps;
 
-                    final String message;
-                    String temp;
+                        final String message;
+                        String temp;
 
-                    try {
-                        trains = getTrainListFromDoc(document);
-                        coaches = getCoachesListFromDoc(document);
-                        violations = getViolationListFromDoc(document);
-                        deps = getDepListFromDoc(document);
+                        try {
+                            trains = getTrainListFromDoc(document);
+                            coaches = getCoachesListFromDoc(document);
+                            violations = getViolationListFromDoc(document);
+                            deps = getDepListFromDoc(document);
 
-                        if (!trains.isEmpty()) {
-                            appDb.trainDao().insertTrains(trains);
+                            if (!trains.isEmpty()) {
+                                appDb.trainDao().insertTrains(trains);
+                            }
+                            if (!coaches.isEmpty()) {
+                                appDb.coachDao().insertCoaches(coaches);
+                            }
+                            if (!violations.isEmpty()) {
+                                appDb.violationDao().insertViolations(violations);
+                            }
+                            if (!deps.isEmpty()) {
+                                appDb.depoDao().insertDeps(deps);
+                            }
+
+                            temp = "Данные успешно загружены";
+                        } catch (CustomException e) {
+                            temp = "Ошибка загрузки данных";
                         }
-                        if (!coaches.isEmpty()) {
-                            appDb.coachDao().insertCoaches(coaches);
+                        message = temp;
+                        handler.post(() -> callback.onResult(message));
+                        handler.post(() -> sendMessage(context, resThreed.toString()));
+                    });
+
+                    break;
+                case "rebase":
+
+                    executor.execute(() -> {
+
+                        final String message;
+                        String temp;
+
+                        List<Train> trains;
+                        List<Coach> coaches;
+                        List<Violation> violations;
+                        List<Deps> deps;
+
+                        try {
+                            trains = getTrainListFromDoc(document);
+                            coaches = getCoachesListFromDoc(document);
+                            violations = getViolationListFromDoc(document);
+                            deps = getDepListFromDoc(document);
+                            if (!trains.isEmpty()) {
+                                appDb.trainDao().cleanTrainTable();
+                                appDb.trainDao().cleanKeys();
+                                appDb.trainDao().insertTrains(trains);
+                            }
+                            if (!coaches.isEmpty()) {
+                                appDb.coachDao().cleanCoachTable();
+                                appDb.coachDao().cleanKeys();
+                                appDb.coachDao().insertCoaches(coaches);
+                            }
+                            if (!violations.isEmpty()) {
+                                appDb.violationDao().cleanViolationTable();
+                                appDb.violationDao().cleanKeys();
+                                appDb.violationDao().insertViolations(violations);
+                            }
+                            if (!deps.isEmpty()) {
+                                appDb.depoDao().cleanDepsTable();
+                                appDb.depoDao().cleanKeys();
+                                appDb.depoDao().insertDeps(deps);
+                            }
+                            temp = "Данные успешно загружены";
+                        } catch (CustomException e) {
+                            temp = "Ошибка загрузки данных";
                         }
-                        if (!violations.isEmpty()) {
-                            appDb.violationDao().insertViolations(violations);
-                        }
-                        if (!deps.isEmpty()) {
-                            appDb.depoDao().insertDeps(deps);
-                        }
 
-                        temp = "Данные успешно загружены";
-                    } catch (CustomException e) {
-                        temp = "Ошибка загрузки данных";
-                    }
-                    message = temp;
-                    handler.post(() -> callback.onResult(message));
-                    handler.post(() -> sendMessage(context, resThreed.toString()));
-                });
+                        message = temp;
+                        handler.post(() -> callback.onResult(message));
+                        handler.post(() -> sendMessage(context, resThreed.toString()));
 
-            } else if (elmFlag.equals("rebase")) {
+                    });
 
-                executor.execute(() -> {
-
-                    final String message;
-                    String temp;
-
-                    List<Train> trains;
-                    List<Coach> coaches;
-                    List<Violation> violations;
-                    List<Deps> deps;
-
-                    try {
-                        trains = getTrainListFromDoc(document);
-                        coaches = getCoachesListFromDoc(document);
-                        violations = getViolationListFromDoc(document);
-                        deps = getDepListFromDoc(document);
-                        if (!trains.isEmpty()) {
-                            appDb.trainDao().cleanTrainTable();
-                            appDb.trainDao().cleanKeys();
-                            appDb.trainDao().insertTrains(trains);
-                        }
-                        if (!coaches.isEmpty()) {
-                            appDb.coachDao().cleanCoachTable();
-                            appDb.coachDao().cleanKeys();
-                            appDb.coachDao().insertCoaches(coaches);
-                        }
-                        if (!violations.isEmpty()) {
-                            appDb.violationDao().cleanViolationTable();
-                            appDb.violationDao().cleanKeys();
-                            appDb.violationDao().insertViolations(violations);
-                        }
-                        if (!deps.isEmpty()) {
-                            appDb.depoDao().cleanDepsTable();
-                            appDb.depoDao().cleanKeys();
-                            appDb.depoDao().insertDeps(deps);
-                        }
-                        temp = "Данные успешно загружены";
-                    } catch (CustomException e) {
-                        temp = "Ошибка загрузки данных";
-                    }
-
-                    message = temp;
-                    handler.post(() -> callback.onResult(message));
-                    handler.post(() -> sendMessage(context, resThreed.toString()));
-
-                });
-
-            } else if (elmFlag.equals("update")) {
-                input.close();
-            } else {
-                input.close();
-                throw new CustomException("Некорректный флаг начала файла");
+                    break;
+                case "update":
+                    input.close();
+                    break;
+                default:
+                    input.close();
+                    throw new CustomException("Некорректный флаг начала файла");
             }
 
             input.close();

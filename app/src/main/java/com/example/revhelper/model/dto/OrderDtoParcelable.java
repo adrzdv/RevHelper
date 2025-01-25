@@ -98,7 +98,7 @@ public class OrderDtoParcelable implements Parcelable {
         }
     }
 
-    public static final Creator<OrderDtoParcelable> CREATOR = new Creator<OrderDtoParcelable>() {
+    public static final Creator<OrderDtoParcelable> CREATOR = new Creator<>() {
         @Override
         public OrderDtoParcelable createFromParcel(Parcel in) {
             return new OrderDtoParcelable(in);

@@ -132,13 +132,11 @@ public class RevisionCoachFragment extends Fragment implements View.OnClickListe
     @Nullable
     private String getDepoName() {
         TextInputLayout depoInputLayout = getView().findViewById(R.id.revision_depo_input_layout);
-        String workerDepoString = depoInputLayout.getEditText().getText().toString();
 
-        return workerDepoString;
+        return depoInputLayout.getEditText().getText().toString();
 
     }
 
-    @Nullable
     private String getWorkerName() {
 
         TextInputLayout workerData = getView().findViewById(R.id.revision_coach_worker_text_view);
@@ -202,9 +200,8 @@ public class RevisionCoachFragment extends Fragment implements View.OnClickListe
             violationList = new ArrayList<>();
         }
 
-        List<String> additionalParams = new ArrayList<>(AppRev.getDb().mainNodesDao().getMainNodesList().stream()
-                .map(MainNodes::getName)
-                .collect(Collectors.toList()));
+        List<String> additionalParams = AppRev.getDb().mainNodesDao().getMainNodesList().stream()
+                .map(MainNodes::getName).collect(Collectors.toList());
 
         violationRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
         violationRecyclerView.addItemDecoration(new DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL));

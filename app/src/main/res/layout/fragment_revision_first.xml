@@ -48,7 +48,7 @@
                 style="@style/BlackHeaderForLightBackMedium"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Список вагонов" />
+                android:text="@string/MainHeaderText" />
 
             <View
                 android:layout_width="match_parent"

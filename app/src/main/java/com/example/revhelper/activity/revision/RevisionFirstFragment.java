@@ -180,5 +180,4 @@ public class RevisionFirstFragment extends Fragment implements CoachSingleAdapte
         }
     }
 
-
 }

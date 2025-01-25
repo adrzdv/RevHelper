@@ -49,7 +49,7 @@
     <string name="ViolationNameText">Описание нарушения</string>
     <string name="EditAmmountText">Изменить количество</string>
     <string name="UpdateAmountText">Изменить количество</string>
-    <string name="SearchHintText">Поиск...</string>
+    <string name="SearchHintText">Поиск…</string>
     <string name="CoachNumberTextHint">Номер КРИ</string>
     <string name="AddPerson">Поездная бригада</string>
     <string name="CleanList">Очистить список вагонов</string>
@@ -102,4 +102,5 @@
     <string name="AddResolvedText">Устранено</string>
     <string name="AudioinformText">Аудиоинформирование</string>
     <string name="NoDataText">Нет данных</string>
+    <string name="MainHeaderText">Основная информация</string>
 </resources>
