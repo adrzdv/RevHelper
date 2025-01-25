@@ -13,6 +13,7 @@ import com.example.revhelper.model.dto.CoachOnRevision;
 import com.example.revhelper.model.dto.OrderDtoParcelable;
 import com.example.revhelper.model.dto.TrainDtoParcelable;
 import com.example.revhelper.model.dto.ViolationForCoach;
+import com.example.revhelper.model.dto.Worker;
 import com.example.revhelper.model.entity.Violation;
 import com.example.revhelper.model.enums.AdditionalParams;
 import com.example.revhelper.model.enums.RevisionType;
@@ -322,16 +323,20 @@ public class ResultRevisionActivity extends AppCompatActivity implements View.On
             trainInfoString.append("Н/Д");
         }
 
-        trainInfoString.append("\n").append("ЛНП: ");
-        trainInfoString.append("\n")
-                .append(order.getCrewLeaders().get(WorkerJob.LNP.getJobTitle()).getName());
-        trainInfoString.append("\n").append("ПЭМ: ");
-        trainInfoString.append("\n")
-                .append(order.getCrewLeaders().get(WorkerJob.PEM.getJobTitle()).getName());
-
-        trainInfoString.append("\n");
+        trainInfoString.append("\n\n").append(makeCrewHeadersString(order.getCrewLeaders())).append("\n");
 
         return trainInfoString.toString();
+
+    }
+
+    private String makeCrewHeadersString(Map<String, Worker> crewMap) {
+        StringBuilder result = new StringBuilder();
+
+        for (Worker worker : crewMap.values()) {
+            result.append(worker.getJobTitle()).append(": ").append(worker.getName()).append("\n");
+        }
+
+        return result.toString();
 
     }
 }
