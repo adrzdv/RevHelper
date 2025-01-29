@@ -24,7 +24,7 @@ public class DialogFragmentExitConfirmation extends DialogFragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
         return builder
-                .setTitle("Завершение ревизии")
+                .setTitle("Выход")
                 .setIcon(android.R.drawable.ic_dialog_alert)
                 .setMessage("Вы уверены, что хотите выйти?")
                 .setPositiveButton("OK", (dialog, which) -> activity.finish())

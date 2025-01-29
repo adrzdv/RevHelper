@@ -89,6 +89,14 @@ public class RevisionCoachFragment extends Fragment implements View.OnClickListe
     }
 
     @Override
+    public void onPause() {
+        super.onPause();
+        if (coach != null) {
+            sharedViewModel.setCoachOnRevision(coach);
+        }
+    }
+
+    @Override
     public void onClick(@NonNull View v) {
 
         if (v.getId() == R.id.revision_save_additional_param) {

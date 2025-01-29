@@ -95,6 +95,17 @@ public class OrderThirdStepFragment extends Fragment implements AdapterView.OnIt
     }
 
     @Override
+    public void onPause() {
+        super.onPause();
+        if (order != null) {
+            if (train != null) {
+                order.setTrain(train);
+            }
+        }
+        sharedViewModel.setOrder(order);
+    }
+
+    @Override
     public void onItemClick(@NonNull AdapterView<?> parent, View view, int position, long id) {
 
         Object object = parent.getItemAtPosition(position);

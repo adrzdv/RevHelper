@@ -90,6 +90,14 @@ public class RevisionFirstFragment extends Fragment implements CoachSingleAdapte
     }
 
     @Override
+    public void onPause() {
+        super.onPause();
+        if (order != null) {
+            sharedViewModel.setOrder(order);
+        }
+    }
+
+    @Override
     public void onItemClick(@NonNull CoachOnRevision coach) {
         sharedViewModel.setCoachOnRevision(coach);
         sharedViewModel.setOrder(order);
