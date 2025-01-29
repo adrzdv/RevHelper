@@ -82,6 +82,14 @@ public class OrderFirstStepFragment extends Fragment implements View.OnClickList
         bckButton.setOnClickListener(this);
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (order != null) {
+            sharedViewModel.setOrder(order);
+        }
+    }
+
     private void initUi(@NonNull ArrayAdapter<String> spinnerAdapter) {
 
         TextInputLayout orderNumber = getView().findViewById(R.id.order_input_number);

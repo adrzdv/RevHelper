@@ -59,10 +59,12 @@ public class OrderSecondStepFragment extends Fragment implements View.OnClickLis
         crewMap = new HashMap<>();
         crewList = new ArrayList<>();
 
-        if (!order.getCrewLeaders().isEmpty()) {
-            crewMap = order.getCrewLeaders();
-            crewList.addAll(crewMap.values());
-            updateRecycler(crewList);
+        if (order != null) {
+            if (!order.getCrewLeaders().isEmpty()) {
+                crewMap = order.getCrewLeaders();
+                crewList.addAll(crewMap.values());
+                updateRecycler(crewList);
+            }
         }
 
         initSpinner();
@@ -75,6 +77,15 @@ public class OrderSecondStepFragment extends Fragment implements View.OnClickLis
         addCrewButton.setOnClickListener(this);
         bckButton.setOnClickListener(this);
 
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (order != null) {
+            order.setCrewLeaders(crewMap);
+            sharedViewModel.setOrder(order);
+        }
     }
 
     @Override

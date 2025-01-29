@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Revisor Help</string>
+    <string name="app_name">МТСКП</string>
     <string name="InstructionText">Для продолжения введите номер поезда в формате ХХХА и номер штабного вагона</string>
     <string name="Greating">Добро</string>
     <string name="StartTextButton">Старт</string>
