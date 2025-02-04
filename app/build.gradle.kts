@@ -51,8 +51,11 @@ dependencies {
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
     annotationProcessor(libs.room.compiler)
-    implementation("org.apache.poi:poi:5.2.3")
-    implementation("org.apache.poi:poi-ooxml:5.2.3")
-    implementation("org.apache.commons:commons-collections4:4.4")
+    implementation(libs.poi)
+    implementation(libs.poi.ooxml)
+    implementation(libs.commons.collections4)
+    implementation (libs.nanohttpd)
+    implementation (libs.okhttp)
+    implementation(libs.gson)
 
 }

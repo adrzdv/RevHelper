@@ -17,6 +17,12 @@
         <argument
             android:name="coach"
             app:argType="com.example.revhelper.model.dto.CoachOnRevision" />
+        <action
+            android:id="@+id/action_to_receive_and_send"
+            app:destination="@+id/revisionReceiveAndSend" />
+        <argument
+            android:name="order"
+            app:argType="com.example.revhelper.model.dto.OrderDtoParcelable" />
     </fragment>
 
     <fragment
@@ -30,6 +36,20 @@
         <argument
             android:name="coach"
             app:argType="com.example.revhelper.model.dto.CoachOnRevision" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/revisionReceiveAndSend"
+        android:name="com.example.revhelper.activity.revision.RevisionSendOrReceiveFragment"
+        android:label="Receive and send fragment"
+        tools:layout="@layout/fragment_revision_send_or_receive">
+        <action
+            android:id="@+id/action_to_first_from_receiver"
+            app:destination="@+id/revisionFirstFragment" />
+        <argument
+            android:name="order"
+            app:argType="com.example.revhelper.model.dto.OrderDtoParcelable" />
+
     </fragment>
 
 </navigation>

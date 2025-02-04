@@ -86,6 +86,9 @@ public class RevisionFirstFragment extends Fragment implements CoachSingleAdapte
         } else if (v.getId() == R.id.bck_img_bttn_make_revision_main) {
             DialogFragmentExitConfirmation dialog = new DialogFragmentExitConfirmation();
             dialog.show(requireActivity().getSupportFragmentManager(), "dialog");
+        } else if (v.getId() == R.id.revision_send_receive_data) {
+            sharedViewModel.setOrder(order);
+            Navigation.findNavController(v).navigate(R.id.action_to_receive_and_send);
         }
     }
 
@@ -188,6 +191,7 @@ public class RevisionFirstFragment extends Fragment implements CoachSingleAdapte
         RecyclerView coachRecycler = getView().findViewById(R.id.revision_recycler_coach_view);
         ImageButton infoButton = getView().findViewById(R.id.revision_take_train_info);
         ImageButton bckImage = getView().findViewById(R.id.bck_img_bttn_make_revision_main);
+        ImageButton sendReceiveData = getView().findViewById(R.id.revision_send_receive_data);
         FloatingActionButton saveResultButton = getView().findViewById(R.id.revision_make_result);
 
         orderDataTextView.setText(makeOrderData(order));
@@ -201,6 +205,7 @@ public class RevisionFirstFragment extends Fragment implements CoachSingleAdapte
         infoButton.setOnClickListener(this);
         saveResultButton.setOnClickListener(this);
         bckImage.setOnClickListener(this);
+        sendReceiveData.setOnClickListener(this);
     }
 
     @NonNull
