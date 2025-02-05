@@ -16,5 +16,6 @@ API 26 (Android 8.0)
 * Develop the full process for baggage and post coaches;
 * Unite the processes of train inspection and reinspection;
 * Add more specific catalogs and handbooks;
+* Implement the ability to merge data from multiple devices without using the Internet;
 
 
