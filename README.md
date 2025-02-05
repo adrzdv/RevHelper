@@ -3,7 +3,7 @@
 Mobile terminal for collecting controlled parameters.
 A mobile application project for data collection and reporting based on passenger train inspections.
 
-_NOTE:_ The application does not collect or store employees’ personal data.
+_NOTE:_ The application does not store employees’ personal data.
 
 #### Minimal system requirements: 
 API 26 (Android 8.0)
