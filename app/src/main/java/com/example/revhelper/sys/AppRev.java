@@ -9,7 +9,9 @@ import androidx.room.Room;
 
 import com.example.revhelper.services.CheckService;
 
-
+/**
+ * Application class with database, CheckService initialization
+ */
 public class AppRev extends Application {
 
     private static AppRev instance;
@@ -43,6 +45,12 @@ public class AppRev extends Application {
         return checker;
     }
 
+    /**
+     * Show toast message
+     *
+     * @param context Context
+     * @param message message string
+     */
     public static void showToast(Context context, String message) {
         Toast toast = Toast.makeText(context, message, Toast.LENGTH_LONG);
         toast.show();

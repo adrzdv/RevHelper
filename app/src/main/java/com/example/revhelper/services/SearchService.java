@@ -7,6 +7,9 @@ import com.example.revhelper.model.entity.Coach;
 import com.example.revhelper.model.dto.TrainDto;
 import com.example.revhelper.sys.AppDatabase;
 
+/**
+ * Search service class
+ */
 public class SearchService {
 
     private final AppDatabase appDb;
@@ -17,6 +20,13 @@ public class SearchService {
         this.appDb = appDb;
     }
 
+    /**
+     * Searching train in database
+     *
+     * @param search search string
+     * @return TrainDto object
+     * @throws CustomException
+     */
     public TrainDto searchTrain(Editable search) throws CustomException {
 
         if (search.toString().isEmpty()) {
@@ -42,6 +52,13 @@ public class SearchService {
         return trainDto;
     }
 
+    /**
+     * Search coach with radio in database
+     *
+     * @param search search string
+     * @return Coach object
+     * @throws CustomException
+     */
     public Coach searchCoach(String search) throws CustomException {
 
         if (search.equals("")) {

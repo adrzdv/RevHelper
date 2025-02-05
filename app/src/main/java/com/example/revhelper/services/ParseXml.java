@@ -12,6 +12,7 @@ import com.example.revhelper.model.entity.Deps;
 import com.example.revhelper.model.entity.Train;
 import com.example.revhelper.model.entity.Violation;
 import com.example.revhelper.sys.AppDatabase;
+import com.example.revhelper.sys.AppRev;
 import com.example.revhelper.sys.ResultCallback;
 
 import org.w3c.dom.Document;
@@ -28,10 +29,28 @@ import java.util.concurrent.Executors;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
+
+/**
+ * Base class for parsing xml-files with additional information
+ */
+
 public class ParseXml {
 
     private final CheckService service = new CheckService();
 
+    /**
+     * Method for parsing xml-files
+     * File's restriction: root element "destiny" could be only in one or three variants:
+     * rebase, add, update
+     * Rebase - full rebase info in an existing table;
+     * Add - add new information in an existing table;
+     * Update - update an existing information in a table (at now not released);
+     *
+     * @param context context
+     * @param uri     file's uri
+     * @param appDb   application's database
+     * @throws CustomException
+     */
     public void parseXml(Context context, Uri uri, AppDatabase appDb) throws CustomException {
 
         Executor executor = Executors.newSingleThreadExecutor();
@@ -52,7 +71,7 @@ public class ParseXml {
             //нормализуем структуру
             document.getDocumentElement().normalize();
 
-            Element elm = (Element) document.getElementsByTagName("desteny").item(0);
+            Element elm = (Element) document.getElementsByTagName("destiny").item(0);
             String elmFlag = elm.getTextContent();
 
             switch (elmFlag) {
@@ -92,7 +111,8 @@ public class ParseXml {
                         }
                         message = temp;
                         handler.post(() -> callback.onResult(message));
-                        handler.post(() -> sendMessage(context, resThreed.toString()));
+                        //handler.post(() -> sendMessage(context, resThreed.toString()));
+                        handler.post(() -> AppRev.showToast(context, resThreed.toString()));
                     });
 
                     break;
@@ -140,7 +160,8 @@ public class ParseXml {
 
                         message = temp;
                         handler.post(() -> callback.onResult(message));
-                        handler.post(() -> sendMessage(context, resThreed.toString()));
+                        handler.post(() -> AppRev.showToast(context, resThreed.toString()));
+                        //handler.post(() -> sendMessage(context, resThreed.toString()));
 
                     });
 
@@ -160,6 +181,13 @@ public class ParseXml {
         }
     }
 
+    /**
+     * Making list of depot from selected xml file
+     *
+     * @param doc xml document
+     * @return list of depots
+     * @throws CustomException
+     */
     private List<Deps> getDepListFromDoc(Document doc) throws CustomException {
         List<Deps> depList = new ArrayList<>();
 
@@ -175,6 +203,13 @@ public class ParseXml {
         return depList;
     }
 
+    /**
+     * Making list of violations from selected xml file
+     *
+     * @param doc xml document
+     * @return list of violations
+     * @throws CustomException
+     */
     private List<Violation> getViolationListFromDoc(Document doc) throws CustomException {
 
         List<Violation> violationList = new ArrayList<>();
@@ -199,6 +234,13 @@ public class ParseXml {
         return violationList;
     }
 
+    /**
+     * Make list of trains from selected xml file
+     *
+     * @param doc xml file
+     * @return list of trains
+     * @throws CustomException
+     */
     private List<Train> getTrainListFromDoc(Document doc) throws CustomException {
 
         List<Train> res = new ArrayList<>();
@@ -229,6 +271,13 @@ public class ParseXml {
         return res;
     }
 
+    /**
+     * Make list of coaches with radio from selected xml file
+     *
+     * @param doc xml file
+     * @return list of coaches
+     * @throws CustomException
+     */
     private List<Coach> getCoachesListFromDoc(Document doc) throws CustomException {
 
         List<Coach> res = new ArrayList<>();
@@ -258,9 +307,9 @@ public class ParseXml {
 
     }
 
-    private void sendMessage(Context context, String string) {
-        Toast.makeText(context, string, Toast.LENGTH_LONG).show();
-    }
+//    private void sendMessage(Context context, String string) {
+//        Toast.makeText(context, string, Toast.LENGTH_LONG).show();
+//    }
 
 
 }

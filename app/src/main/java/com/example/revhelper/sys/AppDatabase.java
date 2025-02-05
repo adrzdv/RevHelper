@@ -15,6 +15,10 @@ import com.example.revhelper.model.entity.MainNodes;
 import com.example.revhelper.model.entity.Train;
 import com.example.revhelper.model.entity.Violation;
 
+/**
+ * Application database class
+ */
+
 @Database(entities = {Train.class, Coach.class, Branches.class, Deps.class,
         MainNodes.class, Violation.class}, version = 2)
 public abstract class AppDatabase extends RoomDatabase {

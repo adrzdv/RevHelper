@@ -19,6 +19,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Class for parsing xls-file with violations for making reinspection process
+ */
 public class ParseTable {
     private static Map<String, CoachOnRevision> prevInspectionCoachMap = new HashMap<>();
     private static String docNumber;
@@ -32,6 +35,12 @@ public class ParseTable {
         return docDate;
     }
 
+    /**
+     * Read xls-file and make result in Map
+     *
+     * @param inputStream input stream for reading
+     * @return Map of CoachOnRevision objects
+     */
     public static Map<String, CoachOnRevision> readExcel(InputStream inputStream) {
 
         try {
@@ -80,11 +89,25 @@ public class ParseTable {
         return prevInspectionCoachMap;
     }
 
+    /**
+     * Method for reading values in cell
+     *
+     * @param row       row object
+     * @param cellIndex index of cell
+     * @return String of value
+     */
     private static String getCellValue(Row row, int cellIndex) {
         Cell cell = row.getCell(cellIndex);
         return (cell != null) ? cell.toString().trim() : "";
     }
 
+    /**
+     * Method for safety parsing integer values
+     *
+     * @param value        String value
+     * @param defaultValue default value for result
+     * @return String value parsed in integer
+     */
     private static int parseIntSafe(String value, int defaultValue) {
         try {
             return Integer.parseInt(value);
@@ -93,6 +116,14 @@ public class ParseTable {
         }
     }
 
+    /**
+     * Method for parsing values in ViolationForCoach objects
+     *
+     * @param violationString String value from cell
+     * @param amount          amount values if violation
+     * @param resolved        resolved status
+     * @return ViolationFroCoach object
+     */
     private static ViolationForCoach parseViolation(String violationString, int amount, String resolved) {
         String[] violationParts = violationString.split(" ", 2);
         int code = Integer.parseInt(violationParts[0].substring(violationParts[0].indexOf(".") + 1));
@@ -104,6 +135,13 @@ public class ParseTable {
         return violation;
     }
 
+    /**
+     * Method for making attributes for violations
+     *
+     * @param coach     CoachOnRevision object
+     * @param violation ViolationForCoach object, where need to add attribute
+     * @param attrib    attribute String value
+     */
     private static void updateCoachViolations(CoachOnRevision coach, ViolationForCoach violation, String attrib) {
         if (!coach.getViolationList().contains(violation)) {
             ViolationAttribute attribute = new ViolationAttribute(attrib, 1);
