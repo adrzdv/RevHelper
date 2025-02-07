@@ -23,7 +23,6 @@ import java.util.Map;
  * Class for parsing xls-file with violations for making reinspection process
  */
 public class ParseTable {
-    private static Map<String, CoachOnRevision> prevInspectionCoachMap = new HashMap<>();
     private static String docNumber;
     private static String docDate;
 
@@ -42,6 +41,8 @@ public class ParseTable {
      * @return Map of CoachOnRevision objects
      */
     public static Map<String, CoachOnRevision> readExcel(InputStream inputStream) {
+
+        Map<String, CoachOnRevision> prevInspectionCoachMap = new HashMap<>();
 
         try {
 
@@ -70,6 +71,7 @@ public class ParseTable {
                             new CoachOnRevision.Builder()
                                     .setCoachNumber(coachNumber)
                                     .setRevisionTime(LocalDateTime.now())
+                                    .setRevisionEndTime(LocalDateTime.now())
                                     .setViolationList(new ArrayList<>())
                                     .build()
                     );
