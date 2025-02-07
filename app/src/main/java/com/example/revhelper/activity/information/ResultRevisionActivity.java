@@ -15,7 +15,7 @@ import com.example.revhelper.model.dto.TrainDtoParcelable;
 import com.example.revhelper.model.dto.ViolationForCoach;
 import com.example.revhelper.model.dto.Worker;
 import com.example.revhelper.model.entity.Violation;
-import com.example.revhelper.model.enums.AdditionalParams;
+import com.example.revhelper.model.enums.AdditionaCoachParams;
 import com.example.revhelper.model.enums.RevisionType;
 import com.example.revhelper.sys.AppRev;
 import com.example.revhelper.sys.SharedViewModel;
@@ -193,9 +193,9 @@ public class ResultRevisionActivity extends AppCompatActivity implements View.On
 
         StringBuilder staticStringResult = new StringBuilder();
         staticStringResult.append("Нарушений: ").append(violationCount).append("\n")
-                .append(AdditionalParams.AUTO_DOOR.getAdditionalParamTitle()).append(":")
+                .append(AdditionaCoachParams.AUTO_DOOR.getAdditionalParamTitle()).append(":")
                 .append(doorsCount).append("\n")
-                .append(AdditionalParams.SKUDOPP.getAdditionalParamTitle()).append(": ")
+                .append(AdditionaCoachParams.SKUDOPP.getAdditionalParamTitle()).append(": ")
                 .append(skudoppCount).append("\n");
 
         return staticStringResult.toString();

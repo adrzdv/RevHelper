@@ -5,8 +5,8 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-@Entity(tableName = "main_nodes")
-public class MainNodes {
+@Entity(tableName = "stats_nodes")
+public class StatsNode {
 
     @PrimaryKey(autoGenerate = true)
     private int id;

@@ -1,13 +1,16 @@
 package com.example.revhelper.model.enums;
 
-public enum AdditionalParams {
+import java.util.ArrayList;
+import java.util.List;
+
+public enum AdditionaCoachParams {
     AUTO_DOOR("Автоматические двери"),
     SKUDOPP("Система контроля управления доступом, охраны пассажирского поезда"),
     PROGRESS("Прогрессивные нормы");
 
     private final String additionalParamTitle;
 
-    AdditionalParams(String additionalParamTitle) {
+    AdditionaCoachParams(String additionalParamTitle) {
         this.additionalParamTitle = additionalParamTitle;
     }
 
@@ -15,8 +18,16 @@ public enum AdditionalParams {
         return additionalParamTitle;
     }
 
-    public static AdditionalParams fromString(String additionalParamTitle) {
-        for (AdditionalParams additionalParams : AdditionalParams.values()) {
+    public static List<String> getCoachParamsList() {
+        List<String> stringParams = new ArrayList<>();
+        for (AdditionaCoachParams additionalParams : AdditionaCoachParams.values()) {
+            stringParams.add(additionalParams.getAdditionalParamTitle());
+        }
+        return stringParams;
+    }
+
+    public static AdditionaCoachParams fromString(String additionalParamTitle) {
+        for (AdditionaCoachParams additionalParams : AdditionaCoachParams.values()) {
             if (additionalParams.additionalParamTitle.equalsIgnoreCase(additionalParamTitle)) {
                 return additionalParams;
             }

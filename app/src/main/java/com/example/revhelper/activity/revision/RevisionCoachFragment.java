@@ -33,8 +33,7 @@ import com.example.revhelper.sys.SharedViewModel;
 import com.example.revhelper.adapters.ViolationAdapter;
 import com.example.revhelper.model.dto.CoachOnRevision;
 import com.example.revhelper.model.dto.ViolationForCoach;
-import com.example.revhelper.model.entity.MainNodes;
-import com.example.revhelper.model.enums.AdditionalParams;
+import com.example.revhelper.model.enums.AdditionaCoachParams;
 import com.example.revhelper.sys.AppRev;
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -169,11 +168,11 @@ public class RevisionCoachFragment extends Fragment implements View.OnClickListe
         boolean status = selectedStatusAdditionalParam == getView().findViewById(R.id.revision_radio_good).getId();
         String selectedAdditionalParam = additionalParamsSpinner.getSelectedItem().toString();
 
-        if (selectedAdditionalParam.equals(AdditionalParams.SKUDOPP.getAdditionalParamTitle())) {
+        if (selectedAdditionalParam.equals(AdditionaCoachParams.SKUDOPP.getAdditionalParamTitle())) {
             coach.setCoachSkudopp(status);
-        } else if (selectedAdditionalParam.equals(AdditionalParams.AUTO_DOOR.getAdditionalParamTitle())) {
+        } else if (selectedAdditionalParam.equals(AdditionaCoachParams.AUTO_DOOR.getAdditionalParamTitle())) {
             coach.setCoachAutomaticDoor(status);
-        } else if (selectedAdditionalParam.equals(AdditionalParams.PROGRESS.getAdditionalParamTitle())) {
+        } else if (selectedAdditionalParam.equals(AdditionaCoachParams.PROGRESS.getAdditionalParamTitle())) {
             coach.setCoachProgressive(status);
         }
 
@@ -195,7 +194,6 @@ public class RevisionCoachFragment extends Fragment implements View.OnClickListe
         Spinner additionalParamsSpinner = getView().findViewById(R.id.revision_spinner_additional_nodes);
         AutoCompleteTextView depoNameTextView = getView().findViewById(R.id.revision_worker_depo_text_view);
 
-
         List<ViolationForCoach> coachViolations = coach.getViolationList();
         List<String> depoNamesStringList = AppRev.getDb().depoDao().getAlldeps().stream()
                 .map(Deps::getName)
@@ -208,8 +206,7 @@ public class RevisionCoachFragment extends Fragment implements View.OnClickListe
             violationList = new ArrayList<>();
         }
 
-        List<String> additionalParams = AppRev.getDb().mainNodesDao().getMainNodesList().stream()
-                .map(MainNodes::getName).collect(Collectors.toList());
+        List<String> additionalParams = AdditionaCoachParams.getCoachParamsList();
 
         violationRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
         violationRecyclerView.addItemDecoration(new DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL));
