@@ -113,11 +113,12 @@ public class StartActivity extends AppCompatActivity implements View.OnClickList
 
     private void readFile(Uri fileUri) {
 
-        String filePath = fileUri.getPath(); // Это может быть путь URI, не всегда файловая система
+        String filePath = fileUri.getPath();
         Toast.makeText(this, "Выбран файл: " + filePath, Toast.LENGTH_LONG).show();
 
         try {
-            xmlParser.parseXml(getApplicationContext(), fileUri, appDb);
+            ParseXml xmlParser = new ParseXml();
+            xmlParser.parseXml(this, fileUri, appDb);
         } catch (CustomException e) {
             Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
         }

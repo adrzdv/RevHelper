@@ -1,11 +1,16 @@
 package com.example.revhelper.services;
 
+import android.app.Activity;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.Looper;
-import android.widget.Toast;
+import android.view.View;
+import android.widget.ProgressBar;
 
+import androidx.annotation.NonNull;
+
+import com.example.revhelper.R;
 import com.example.revhelper.exceptions.CustomException;
 import com.example.revhelper.model.entity.Coach;
 import com.example.revhelper.model.entity.Deps;
@@ -13,21 +18,26 @@ import com.example.revhelper.model.entity.Train;
 import com.example.revhelper.model.entity.Violation;
 import com.example.revhelper.sys.AppDatabase;
 import com.example.revhelper.sys.AppRev;
-import com.example.revhelper.sys.ResultCallback;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 
 
 /**
@@ -55,129 +65,72 @@ public class ParseXml {
 
         Executor executor = Executors.newSingleThreadExecutor();
         Handler handler = new Handler(Looper.getMainLooper());
-        final StringBuilder resThreed = new StringBuilder();
 
-        ResultCallback callback = resThreed::append;
+        ProgressBar progressBar = ((Activity) context).findViewById(R.id.progressBarMainActivity);
+        ;
+        View dimBackground = ((Activity) context).findViewById(R.id.dimBackgroundMainActivity);
+        dimBackground.setVisibility(View.VISIBLE);
+        progressBar.setVisibility(View.VISIBLE);
+        progressBar.setIndeterminate(true);
 
         try {
 
             InputStream input = context.getContentResolver().openInputStream(uri);
+            Document document = parseDocument(input);
 
-            //фабрика для построения документов Document, парсим файл
-            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder builder = factory.newDocumentBuilder();
-            Document document = builder.parse(new InputSource(input));
+            executor.execute(() -> {
 
-            //нормализуем структуру
-            document.getDocumentElement().normalize();
+                String flag = "";
 
-            Element elm = (Element) document.getElementsByTagName("destiny").item(0);
-            String elmFlag = elm.getTextContent();
-
-            switch (elmFlag) {
-                case "add":
-
-                    executor.execute(() -> {
-                        List<Train> trains;
-                        List<Coach> coaches;
-                        List<Violation> violations;
-                        List<Deps> deps;
-
-                        final String message;
-                        String temp;
-
-                        try {
-                            trains = getTrainListFromDoc(document);
-                            coaches = getCoachesListFromDoc(document);
-                            violations = getViolationListFromDoc(document);
-                            deps = getDepListFromDoc(document);
-
-                            if (!trains.isEmpty()) {
-                                appDb.trainDao().insertTrains(trains);
-                            }
-                            if (!coaches.isEmpty()) {
-                                appDb.coachDao().insertCoaches(coaches);
-                            }
-                            if (!violations.isEmpty()) {
-                                appDb.violationDao().insertViolations(violations);
-                            }
-                            if (!deps.isEmpty()) {
-                                appDb.depoDao().insertDeps(deps);
-                            }
-
-                            temp = "Данные успешно загружены";
-                        } catch (CustomException e) {
-                            temp = "Ошибка загрузки данных";
-                        }
-                        message = temp;
-                        handler.post(() -> callback.onResult(message));
-                        //handler.post(() -> sendMessage(context, resThreed.toString()));
-                        handler.post(() -> AppRev.showToast(context, resThreed.toString()));
+                try {
+                    flag = getFlagFromDocument(document);
+                } catch (CustomException e) {
+                    handler.post(() -> {
+                        AppRev.showToast(context, "ERROR. Incorrect file.");
+                        progressBar.setVisibility(View.GONE);
+                        dimBackground.setVisibility(View.GONE);
                     });
+                    return;
+                }
 
-                    break;
-                case "rebase":
+                Map<String, List<Object>> dataFromDocument = getDataFromDocument(context, document);
 
-                    executor.execute(() -> {
-
-                        final String message;
-                        String temp;
-
-                        List<Train> trains;
-                        List<Coach> coaches;
-                        List<Violation> violations;
-                        List<Deps> deps;
-
-                        try {
-                            trains = getTrainListFromDoc(document);
-                            coaches = getCoachesListFromDoc(document);
-                            violations = getViolationListFromDoc(document);
-                            deps = getDepListFromDoc(document);
-                            if (!trains.isEmpty()) {
-                                appDb.trainDao().cleanTrainTable();
-                                appDb.trainDao().cleanKeys();
-                                appDb.trainDao().insertTrains(trains);
-                            }
-                            if (!coaches.isEmpty()) {
-                                appDb.coachDao().cleanCoachTable();
-                                appDb.coachDao().cleanKeys();
-                                appDb.coachDao().insertCoaches(coaches);
-                            }
-                            if (!violations.isEmpty()) {
-                                appDb.violationDao().cleanViolationTable();
-                                appDb.violationDao().cleanKeys();
-                                appDb.violationDao().insertViolations(violations);
-                            }
-                            if (!deps.isEmpty()) {
-                                appDb.depoDao().cleanDepsTable();
-                                appDb.depoDao().cleanKeys();
-                                appDb.depoDao().insertDeps(deps);
-                            }
-                            temp = "Данные успешно загружены";
-                        } catch (CustomException e) {
-                            temp = "Ошибка загрузки данных";
+                switch (flag) {
+                    case "add":
+                        for (String key : dataFromDocument.keySet()) {
+                            addNewElement(dataFromDocument.get(key), appDb);
                         }
+                        handler.post(() -> {
+                            AppRev.showToast(context, "Данные успешно загружены");
+                            progressBar.setVisibility(View.GONE);
+                            dimBackground.setVisibility(View.GONE);
+                        });
+                        break;
+                    case "rebase":
+                        for (String key : dataFromDocument.keySet()) {
+                            addingWithRebase(dataFromDocument.get(key), appDb);
+                            break;
+                        }
+                        handler.post(() -> {
+                            AppRev.showToast(context, "Данные успешно загружены");
+                            progressBar.setVisibility(View.GONE);
+                            dimBackground.setVisibility(View.GONE);
+                        });
+                        break;
+                    case "update":
+                        break;
+                    default:
+                        handler.post(() -> AppRev.showToast(context, "Ошибка данных"));
+                        break;
+                }
+            });
 
-                        message = temp;
-                        handler.post(() -> callback.onResult(message));
-                        handler.post(() -> AppRev.showToast(context, resThreed.toString()));
-                        //handler.post(() -> sendMessage(context, resThreed.toString()));
-
-                    });
-
-                    break;
-                case "update":
-                    input.close();
-                    break;
-                default:
-                    input.close();
-                    throw new CustomException("Некорректный флаг начала файла");
+            if (input != null) {
+                input.close();
             }
 
-            input.close();
-
         } catch (Exception e) {
-            Toast.makeText(context, e.getMessage(), Toast.LENGTH_LONG).show();
+            AppRev.showToast(context, e.getMessage());
         }
     }
 
@@ -241,6 +194,7 @@ public class ParseXml {
      * @return list of trains
      * @throws CustomException
      */
+    @NonNull
     private List<Train> getTrainListFromDoc(Document doc) throws CustomException {
 
         List<Train> res = new ArrayList<>();
@@ -307,9 +261,142 @@ public class ParseXml {
 
     }
 
-//    private void sendMessage(Context context, String string) {
-//        Toast.makeText(context, string, Toast.LENGTH_LONG).show();
-//    }
+    /**
+     * Parse input stream in a Document
+     *
+     * @param input input stream
+     * @return Document
+     * @throws ParserConfigurationException
+     * @throws IOException
+     * @throws SAXException
+     */
+    @NonNull
+    private Document parseDocument(InputStream input) throws ParserConfigurationException, IOException, SAXException {
+
+        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder builder = factory.newDocumentBuilder();
+        Document document = builder.parse(new InputSource(input));
+        document.getDocumentElement().normalize();
+
+        return document;
+    }
+
+    /**
+     * Getting flag for future work
+     *
+     * @param document Document where need to find a flag
+     * @return flag from document
+     * @throws CustomException
+     */
+    private String getFlagFromDocument(@NonNull Document document) throws CustomException {
+        Element elm = (Element) document.getElementsByTagName("destiny").item(0);
+        if (elm == null) {
+            throw new CustomException("Flag 'destiny' not found");
+        }
+        return elm.getTextContent();
+    }
+
+    /**
+     * Get all existing data from document
+     *
+     * @param context  Context
+     * @param document Document for processing
+     * @return Map of lists with get objects
+     */
+    private Map<String, List<Object>> getDataFromDocument(Context context, Document document) {
+
+        List<Train> trains;
+        List<Coach> coaches;
+        List<Violation> violations;
+        List<Deps> deps;
+        Map<String, List<Object>> resultMap = new HashMap<>();
+
+        try {
+            trains = getTrainListFromDoc(document);
+            if (!trains.isEmpty()) {
+                resultMap.put("TRAINS", Collections.singletonList(trains));
+            }
+            coaches = getCoachesListFromDoc(document);
+            if (!coaches.isEmpty()) {
+                resultMap.put("COACHES", Collections.singletonList(coaches));
+            }
+            violations = getViolationListFromDoc(document);
+            if (!violations.isEmpty()) {
+                resultMap.put("VIOLATIONS", Collections.singletonList(violations));
+            }
+            deps = getDepListFromDoc(document);
+            if (!deps.isEmpty()) {
+                resultMap.put("DEPS", Collections.singletonList(deps));
+            }
+        } catch (CustomException e) {
+            AppRev.showToast(context, "Ошибка загрузки данных");
+        }
+
+        return resultMap;
+
+    }
+
+    /**
+     * Adding data with rebasing tables in database
+     *
+     * @param list  list with data for add
+     * @param appDb AppDatabase object
+     */
+    private <T> void addingWithRebase(@NonNull List<T> list, AppDatabase appDb) {
+
+        List<T> listFormList = (List) list.get(0);
+
+        if (listFormList.get(0) instanceof Coach) {
+
+            appDb.coachDao().cleanCoachTable();
+            appDb.coachDao().cleanKeys();
+            appDb.coachDao().insertCoaches((List<Coach>) listFormList);
+
+        } else if (listFormList.get(0) instanceof Train) {
+
+            appDb.trainDao().cleanTrainTable();
+            appDb.trainDao().cleanKeys();
+            appDb.trainDao().insertTrains((List<Train>) listFormList);
+
+        } else if (listFormList.get(0) instanceof Violation) {
+
+            appDb.violationDao().cleanViolationTable();
+            appDb.violationDao().cleanKeys();
+            appDb.violationDao().insertViolations((List<Violation>) listFormList);
+
+        } else if (listFormList.get(0) instanceof Deps) {
+
+            appDb.depoDao().cleanDepsTable();
+            appDb.depoDao().cleanKeys();
+            appDb.depoDao().insertDeps((List<Deps>) listFormList);
+
+        } else {
+            throw new IllegalArgumentException("Unsupported type: " + list.get(0)
+                    .getClass().getName());
+        }
+    }
+
+    /**
+     * Adding data without rebasing tables in database
+     *
+     * @param list  list with data for add
+     * @param appDb AppDatabase object
+     */
+    private <T> void addNewElement(@NonNull List<T> list, AppDatabase appDb) {
+
+        if (list.get(0) instanceof Coach) {
+            appDb.coachDao().insertCoaches((List<Coach>) list);
+        } else if (list.get(0) instanceof Train) {
+            appDb.trainDao().insertTrains((List<Train>) list);
+        } else if (list.get(0) instanceof Violation) {
+            appDb.violationDao().insertViolations((List<Violation>) list);
+        } else if (list.get(0) instanceof Deps) {
+            appDb.depoDao().insertDeps((List<Deps>) list);
+        } else {
+            throw new IllegalArgumentException("Unsupported type: " + list.get(0)
+                    .getClass().getName());
+        }
+    }
 
 
 }
