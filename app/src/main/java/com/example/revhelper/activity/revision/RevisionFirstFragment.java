@@ -15,24 +15,29 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.RadioGroup;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.example.revhelper.R;
 import com.example.revhelper.activity.information.ResultRevisionActivity;
 import com.example.revhelper.fragments.DialogFragmentExitConfirmation;
+import com.example.revhelper.model.entity.TempStatsParameter;
 import com.example.revhelper.sys.SharedViewModel;
 import com.example.revhelper.adapters.CoachSingleAdapterWithoutButton;
 import com.example.revhelper.model.dto.CoachOnRevision;
 import com.example.revhelper.model.dto.OrderDtoParcelable;
 import com.example.revhelper.model.dto.TrainDtoParcelable;
 import com.example.revhelper.sys.AppRev;
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 public class RevisionFirstFragment extends Fragment implements CoachSingleAdapterWithoutButton.OnItemClickListener, View.OnClickListener {
@@ -75,7 +80,7 @@ public class RevisionFirstFragment extends Fragment implements CoachSingleAdapte
             AppRev.showToast(requireContext(), "Не реализовано");
         } else if (v.getId() == R.id.revision_make_result) {
 
-            if (addInfoInOrderAnd() == null) {
+            if (!checkTempParams()) {
                 return;
             }
             Intent intent = new Intent(requireContext(), ResultRevisionActivity.class);
@@ -83,6 +88,8 @@ public class RevisionFirstFragment extends Fragment implements CoachSingleAdapte
             startActivity(intent);
             requireActivity().finish();
 
+        } else if (v.getId() == R.id.revision_add_temp_param) {
+            addTempParamInOrder();
         } else if (v.getId() == R.id.bck_img_bttn_make_revision_main) {
             DialogFragmentExitConfirmation dialog = new DialogFragmentExitConfirmation();
             dialog.show(requireActivity().getSupportFragmentManager(), "dialog");
@@ -105,77 +112,47 @@ public class RevisionFirstFragment extends Fragment implements CoachSingleAdapte
         Navigation.findNavController(getView()).navigate(R.id.action_to_coach_revision);
     }
 
-    private OrderDtoParcelable addInfoInOrderAnd() {
+    private boolean checkTempParams() {
 
-        if (addPriceToOrder() == null) {
-            return null;
-        }
-        if (addRadiodeviceToOrder() == null) {
-            return null;
-        }
-        if (addAudioinformToOrder() == null) {
-            return null;
-        }
+        List<String> tempParamsList = AppRev.getDb().templeParametersDao().getAllTempParameters().stream()
+                .map(TempStatsParameter::getName)
+                .collect(Collectors.toList());
 
-        return order;
-
+        for (String tempParam : tempParamsList) {
+            if (!order.getTempParams().containsKey(tempParam)) {
+                AppRev.showToast(requireContext(), "Не внесен параметр " + tempParam);
+                return false;
+            }
+        }
+        return true;
     }
 
-    private OrderDtoParcelable addAudioinformToOrder() {
-        RadioGroup audioRadioGroup = getView().findViewById(R.id.revision_radio_group_audioinform);
+    private void addTempParamInOrder() {
 
-        int selectedAudioStatus = audioRadioGroup.getCheckedRadioButtonId();
-        if (selectedAudioStatus == -1) {
+        RadioGroup radioGroup = getView().findViewById(R.id.revision_radio_group_temp_params);
+        Spinner tempParamSpinner = getView().findViewById(R.id.revision_temp_params_spinner);
+
+        int selectedStatus = radioGroup.getCheckedRadioButtonId();
+        String tempParam = tempParamSpinner.getSelectedItem().toString();
+
+        if (selectedStatus == -1) {
             AppRev.showToast(requireContext(),
-                    "Не проведена проверка аудиоинформирования");
-            return null;
+                    "Не выбран критерий оценки параметра");
+            return;
         }
 
-        Boolean statusAudioinform;
-        if (selectedAudioStatus == getView().findViewById(R.id.revision_audioinform_radio_good).getId()) {
-            statusAudioinform = true;
-        } else if ((selectedAudioStatus == getView().findViewById(R.id.revision_audioinform_radio_faulty).getId())) {
-            statusAudioinform = false;
+        Boolean status;
+
+        if (selectedStatus == getView().findViewById(R.id.revision_temp_param_radio_good).getId()) {
+            status = true;
+        } else if (selectedStatus == getView().findViewById(R.id.revision_temp_param_radio_faulty).getId()) {
+            status = false;
         } else {
-            statusAudioinform = null;
+            status = null;
         }
-        order.setIsInform(statusAudioinform);
-        return order;
-    }
 
-    private OrderDtoParcelable addRadiodeviceToOrder() {
+        order.getTempParams().put(tempParam, status);
 
-        RadioGroup radiodeviceRadioGroup = getView().findViewById(R.id.revision_radio_group_radio);
-
-        int selectedRadiodeviceStatus = radiodeviceRadioGroup.getCheckedRadioButtonId();
-        if (selectedRadiodeviceStatus == -1) {
-            AppRev.showToast(requireContext(),
-                    "Не проведена проверка наличия радиоустановки");
-            return null;
-        }
-        boolean statusRadiodevice = selectedRadiodeviceStatus == getView().findViewById(R.id.revision_radiodevice_radio_good).getId();
-        order.setRadio(statusRadiodevice);
-        return order;
-    }
-
-    private OrderDtoParcelable addPriceToOrder() {
-        RadioGroup priceRadioGroup = getView().findViewById(R.id.revision_radio_group_price);
-        int selectedPriceStatus = priceRadioGroup.getCheckedRadioButtonId();
-        if (selectedPriceStatus == -1) {
-            AppRev.showToast(requireContext(),
-                    "Не проведена проверка наличия полного перечня товаров");
-            return null;
-        }
-        Boolean statusPrice;
-        if (selectedPriceStatus == getView().findViewById(R.id.revision_price_radio_good).getId()) {
-            statusPrice = true;
-        } else if ((selectedPriceStatus == getView().findViewById(R.id.revision_price_radio_faulty).getId())) {
-            statusPrice = false;
-        } else {
-            statusPrice = null;
-        }
-        order.setPrice(statusPrice);
-        return order;
     }
 
     private void initData(@NonNull OrderDtoParcelable order) {
@@ -183,24 +160,47 @@ public class RevisionFirstFragment extends Fragment implements CoachSingleAdapte
     }
 
     private void initUi(OrderDtoParcelable order) {
+
+        initSpinner();
+        initRecycler();
+
         TextView orderDataTextView = getView().findViewById(R.id.revision_order_data_cell);
         TextView orderTrainTextView = getView().findViewById(R.id.revision_train_data_cell);
-        RecyclerView coachRecycler = getView().findViewById(R.id.revision_recycler_coach_view);
+
         ImageButton infoButton = getView().findViewById(R.id.revision_take_train_info);
         ImageButton bckImage = getView().findViewById(R.id.bck_img_bttn_make_revision_main);
         FloatingActionButton saveResultButton = getView().findViewById(R.id.revision_make_result);
+        MaterialButton addTempParameterButton = getView().findViewById(R.id.revision_add_temp_param);
 
         orderDataTextView.setText(makeOrderData(order));
         orderTrainTextView.setText(makeTrainData(order.getTrain()));
 
+        infoButton.setOnClickListener(this);
+        saveResultButton.setOnClickListener(this);
+        bckImage.setOnClickListener(this);
+        addTempParameterButton.setOnClickListener(this);
+    }
+
+    private void initRecycler() {
+
+        RecyclerView coachRecycler = getView().findViewById(R.id.revision_recycler_coach_view);
         coachAdapter = new CoachSingleAdapterWithoutButton(requireContext(), coachList, this);
         coachRecycler.setLayoutManager(new LinearLayoutManager(requireContext()));
         coachRecycler.addItemDecoration(new DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL));
         coachRecycler.setAdapter(coachAdapter);
 
-        infoButton.setOnClickListener(this);
-        saveResultButton.setOnClickListener(this);
-        bckImage.setOnClickListener(this);
+    }
+
+    private void initSpinner() {
+
+        Spinner tempParamsSpinner = getView().findViewById(R.id.revision_temp_params_spinner);
+        List<String> tempParamsList = AppRev.getDb().templeParametersDao().getAllTempParameters().stream()
+                .map(TempStatsParameter::getName)
+                .collect(Collectors.toList());
+
+        ArrayAdapter<String> tempParamSpinnerAdapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_item, tempParamsList);
+        tempParamSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        tempParamsSpinner.setAdapter(tempParamSpinnerAdapter);
     }
 
     @NonNull

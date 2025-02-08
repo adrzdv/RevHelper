@@ -33,7 +33,7 @@ import com.example.revhelper.sys.SharedViewModel;
 import com.example.revhelper.adapters.ViolationAdapter;
 import com.example.revhelper.model.dto.CoachOnRevision;
 import com.example.revhelper.model.dto.ViolationForCoach;
-import com.example.revhelper.model.enums.AdditionaCoachParams;
+import com.example.revhelper.model.enums.StatsCoachParams;
 import com.example.revhelper.sys.AppRev;
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -168,11 +168,11 @@ public class RevisionCoachFragment extends Fragment implements View.OnClickListe
         boolean status = selectedStatusAdditionalParam == getView().findViewById(R.id.revision_radio_good).getId();
         String selectedAdditionalParam = additionalParamsSpinner.getSelectedItem().toString();
 
-        if (selectedAdditionalParam.equals(AdditionaCoachParams.SKUDOPP.getAdditionalParamTitle())) {
+        if (selectedAdditionalParam.equals(StatsCoachParams.SKUDOPP.getAdditionalParamTitle())) {
             coach.setCoachSkudopp(status);
-        } else if (selectedAdditionalParam.equals(AdditionaCoachParams.AUTO_DOOR.getAdditionalParamTitle())) {
+        } else if (selectedAdditionalParam.equals(StatsCoachParams.AUTO_DOOR.getAdditionalParamTitle())) {
             coach.setCoachAutomaticDoor(status);
-        } else if (selectedAdditionalParam.equals(AdditionaCoachParams.PROGRESS.getAdditionalParamTitle())) {
+        } else if (selectedAdditionalParam.equals(StatsCoachParams.PROGRESS.getAdditionalParamTitle())) {
             coach.setCoachProgressive(status);
         }
 
@@ -206,7 +206,7 @@ public class RevisionCoachFragment extends Fragment implements View.OnClickListe
             violationList = new ArrayList<>();
         }
 
-        List<String> additionalParams = AdditionaCoachParams.getCoachParamsList();
+        List<String> additionalParams = StatsCoachParams.getCoachParamsList();
 
         violationRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
         violationRecyclerView.addItemDecoration(new DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL));

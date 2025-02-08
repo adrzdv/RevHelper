@@ -98,42 +98,61 @@
             </TableLayout>
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@color/background_color"
                 android:orientation="vertical"
                 android:padding="8dp">
 
-                <com.google.android.material.textview.MaterialTextView
-                    style="@style/RegularText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:text="@string/PriceTextString" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/background_color"
+                    android:orientation="vertical"
+                    android:padding="8dp">
+
+                    <TextView
+                        style="@style/RegularText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:padding="8dp"
+                        android:text="@string/AdditionalParamsText" />
+
+                    <Spinner
+                        android:id="@+id/revision_temp_params_spinner"
+                        style="@style/SpinnerWithGreyBorder"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="16dp"
+                        android:spinnerMode="dropdown" />
+
+                </LinearLayout>
 
                 <RadioGroup
-                    android:id="@+id/revision_radio_group_price"
+                    android:id="@+id/revision_radio_group_temp_params"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@color/background_color"
+                    android:gravity="center_vertical"
                     android:orientation="horizontal"
                     app:layout_constraintBottom_toBottomOf="parent">
 
                     <RadioButton
-                        android:id="@+id/revision_price_radio_good"
+                        android:id="@+id/revision_temp_param_radio_good"
                         style="@style/RegularText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/PositiveHasRadioText" />
 
                     <RadioButton
-                        android:id="@+id/revision_price_radio_faulty"
+                        android:id="@+id/revision_temp_param_radio_faulty"
                         style="@style/RegularText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/NegativeHasRadioText" />
 
                     <RadioButton
-                        android:id="@+id/revision_price_radio_nodata"
+                        android:id="@+id/revision_temp_param_radio_nodata"
                         style="@style/RegularText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -141,72 +160,30 @@
 
                 </RadioGroup>
 
-                <com.google.android.material.textview.MaterialTextView
-                    style="@style/RegularText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:text="@string/RadioTextString" />
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/revision_add_temp_param"
+                    android:layout_width="match_parent"
+                    style="@style/DarkBlueButton"
+                    android:text="@string/AddStringText"
+                    android:layout_height="match_parent" />
 
-                <RadioGroup
-                    android:id="@+id/revision_radio_group_radio"
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@color/background_color"
-                    android:orientation="horizontal"
-                    app:layout_constraintBottom_toBottomOf="parent">
+                    android:padding="24dp">
 
-                    <RadioButton
-                        android:id="@+id/revision_radiodevice_radio_good"
-                        style="@style/RegularText"
+                    <com.google.android.material.floatingactionbutton.FloatingActionButton
+                        android:id="@+id/revision_make_result"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/PositiveHasRadioText" />
+                        android:contentDescription="@string/FinishRevisionDescription"
+                        android:src="@drawable/ic_save_48_white"
+                        app:backgroundTint="@color/dark_blue"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:tint="@null" />
 
-                    <RadioButton
-                        android:id="@+id/revision_radiodevice_radio_faulty"
-                        style="@style/RegularText"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/NegativeHasRadioText" />
-
-                </RadioGroup>
-
-                <com.google.android.material.textview.MaterialTextView
-                    style="@style/RegularText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:text="@string/AudioinformText" />
-
-                <RadioGroup
-                    android:id="@+id/revision_radio_group_audioinform"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@color/background_color"
-                    android:orientation="horizontal"
-                    app:layout_constraintBottom_toBottomOf="parent">
-
-                    <RadioButton
-                        android:id="@+id/revision_audioinform_radio_good"
-                        style="@style/RegularText"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/PositiveHasRadioText" />
-
-                    <RadioButton
-                        android:id="@+id/revision_audioinform_radio_faulty"
-                        style="@style/RegularText"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/NegativeHasRadioText" />
-
-                    <RadioButton
-                        android:id="@+id/revision_audioinform_radio_nodata"
-                        style="@style/RegularText"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/NoDataText" />
-
-                </RadioGroup>
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
             </LinearLayout>
 
@@ -248,23 +225,5 @@
         </LinearLayout>
 
     </LinearLayout>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="24dp">
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/revision_make_result"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:contentDescription="@string/FinishRevisionDescription"
-            android:src="@drawable/ic_save_48_white"
-            app:backgroundTint="@color/dark_blue"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:tint="@null" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </FrameLayout>

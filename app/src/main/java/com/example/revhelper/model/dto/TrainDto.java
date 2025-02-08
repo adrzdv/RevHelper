@@ -3,6 +3,9 @@ package com.example.revhelper.model.dto;
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 
+/**
+ * Class for take all main information from database
+ */
 public class TrainDto {
 
     @ColumnInfo(name = "number")

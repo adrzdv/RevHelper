@@ -11,6 +11,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
+/**
+ * Main order object class for work
+ */
 @SuppressLint("NewApi")
 public class OrderDtoParcelable implements Parcelable {
     private String number;
@@ -21,10 +24,8 @@ public class OrderDtoParcelable implements Parcelable {
     private Map<String, Worker> crewLeaders;
     private Map<String, CoachOnRevision> coachMap;
     private boolean isQualityPassport;
-    private Boolean isPrice;
     private boolean isAutoinformator;
-    private boolean isRadio;
-    private Boolean isInform;
+    private Map<String, Boolean> tempParams;
 
     public OrderDtoParcelable(String number, LocalDate date, String route, String revisionType) {
 
@@ -35,6 +36,7 @@ public class OrderDtoParcelable implements Parcelable {
         this.crewLeaders = new HashMap<>();
         this.coachMap = new HashMap<>();
         this.isQualityPassport = false;
+        this.tempParams = new HashMap<>();
 
     }
 
@@ -54,20 +56,9 @@ public class OrderDtoParcelable implements Parcelable {
         in.readMap(coachMap, CoachOnRevision.class.getClassLoader());
         train = in.readParcelable(TrainDtoParcelable.class.getClassLoader());
         isQualityPassport = in.readBoolean();
-        String price = in.readString();
-        if (price != null) {
-            isPrice = Boolean.parseBoolean(price);
-        } else {
-            isPrice = null;
-        }
         isAutoinformator = in.readBoolean();
-        isRadio = in.readBoolean();
-        String inform = in.readString();
-        if (inform != null) {
-            isInform = Boolean.parseBoolean(inform);
-        } else {
-            isInform = null;
-        }
+        tempParams = new HashMap<>();
+        in.readMap(tempParams, Boolean.class.getClassLoader());
     }
 
     @Override
@@ -84,18 +75,8 @@ public class OrderDtoParcelable implements Parcelable {
         dest.writeMap(coachMap);
         dest.writeParcelable(train, flags);
         dest.writeBoolean(isQualityPassport);
-        if (isPrice != null) {
-            dest.writeString(isPrice.toString());
-        } else {
-            dest.writeString(null);
-        }
         dest.writeBoolean(isAutoinformator);
-        dest.writeBoolean(isRadio);
-        if (isInform != null) {
-            dest.writeString(isInform.toString());
-        } else {
-            dest.writeString(null);
-        }
+        dest.writeMap(tempParams);
     }
 
     public static final Creator<OrderDtoParcelable> CREATOR = new Creator<>() {
@@ -174,20 +155,8 @@ public class OrderDtoParcelable implements Parcelable {
         isQualityPassport = qualityPassport;
     }
 
-    public Boolean isPrice() {
-        return isPrice;
-    }
-
-    public void setPrice(Boolean price) {
-        isPrice = price;
-    }
-
     public boolean isAutoinformator() {
         return isAutoinformator;
-    }
-
-    public Boolean getIsPrice() {
-        return this.isPrice;
     }
 
     public Boolean getIsQualityPassport() {
@@ -198,24 +167,16 @@ public class OrderDtoParcelable implements Parcelable {
         return this.isAutoinformator;
     }
 
-    public Boolean getRadio() {
-        return isRadio;
-    }
-
-    public void setRadio(Boolean radio) {
-        isRadio = radio;
-    }
-
     public void setAutoinformator(boolean autoinformator) {
         isAutoinformator = autoinformator;
     }
 
-    public void setIsInform(Boolean isInform) {
-        this.isInform = isInform;
+    public Map<String, Boolean> getTempParams() {
+        return tempParams;
     }
 
-    public Boolean getIsInform() {
-        return isInform;
+    public void setTempParams(Map<String, Boolean> tempParams) {
+        this.tempParams = tempParams;
     }
 
     @Override
@@ -235,6 +196,4 @@ public class OrderDtoParcelable implements Parcelable {
     public int describeContents() {
         return 0;
     }
-
-
 }

@@ -5,14 +5,13 @@ import androidx.room.RoomDatabase;
 
 import com.example.revhelper.dao.CoachDao;
 import com.example.revhelper.dao.DepoDao;
-import com.example.revhelper.dao.StatsNodesDao;
-import com.example.revhelper.dao.StatsNodesDao;
+import com.example.revhelper.dao.TempParametersDao;
 import com.example.revhelper.dao.TrainDao;
 import com.example.revhelper.dao.ViolationDao;
 import com.example.revhelper.model.entity.Branches;
 import com.example.revhelper.model.entity.Coach;
 import com.example.revhelper.model.entity.Deps;
-import com.example.revhelper.model.entity.StatsNode;
+import com.example.revhelper.model.entity.TempStatsParameter;
 import com.example.revhelper.model.entity.Train;
 import com.example.revhelper.model.entity.Violation;
 
@@ -21,14 +20,14 @@ import com.example.revhelper.model.entity.Violation;
  */
 
 @Database(entities = {Train.class, Coach.class, Branches.class, Deps.class,
-        StatsNode.class, Violation.class}, version = 2)
+        TempStatsParameter.class, Violation.class}, version = 2)
 public abstract class AppDatabase extends RoomDatabase {
 
     public abstract TrainDao trainDao();
 
     public abstract CoachDao coachDao();
 
-    public abstract StatsNodesDao statsNodesDao();
+    public abstract TempParametersDao templeParametersDao();
 
     public abstract ViolationDao violationDao();
 
