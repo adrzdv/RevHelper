@@ -104,4 +104,6 @@
     <string name="NoDataText">Нет данных</string>
     <string name="MainHeaderText">Основная информация</string>
     <string name="MainMenuHeaderText">Главное меню</string>
+    <string name="AddStringText">Добавить</string>
+    <string name="AdditionalParamsText">Дополнительные параметры</string>
 </resources>

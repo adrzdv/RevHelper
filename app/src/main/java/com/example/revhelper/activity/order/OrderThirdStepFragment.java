@@ -268,8 +268,10 @@ public class OrderThirdStepFragment extends Fragment implements AdapterView.OnIt
     private void checkAndSaveOrder() {
         if (order.getTrain() == null) {
             AppRev.showToast(requireContext(), "Не введен поезд");
+            return;
         } else if (order.getCoachMap().isEmpty() || order.getCoachMap() == null) {
             AppRev.showToast(requireContext(), "Список вагонов пуст");
+            return;
         }
 
         if (sharedViewModel.getInformator() == null) {

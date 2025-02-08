@@ -13,6 +13,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * Main class for coach object
+ */
 @SuppressLint("NewApi")
 public class CoachOnRevision implements Parcelable {
     private String coachNumber;

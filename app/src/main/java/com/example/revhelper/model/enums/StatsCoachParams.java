@@ -1,13 +1,19 @@
 package com.example.revhelper.model.enums;
 
-public enum AdditionalParams {
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * Enum for main statistic parameters in coach
+ */
+public enum StatsCoachParams {
     AUTO_DOOR("Автоматические двери"),
     SKUDOPP("Система контроля управления доступом, охраны пассажирского поезда"),
     PROGRESS("Прогрессивные нормы");
 
     private final String additionalParamTitle;
 
-    AdditionalParams(String additionalParamTitle) {
+    StatsCoachParams(String additionalParamTitle) {
         this.additionalParamTitle = additionalParamTitle;
     }
 
@@ -15,8 +21,16 @@ public enum AdditionalParams {
         return additionalParamTitle;
     }
 
-    public static AdditionalParams fromString(String additionalParamTitle) {
-        for (AdditionalParams additionalParams : AdditionalParams.values()) {
+    public static List<String> getCoachParamsList() {
+        List<String> stringParams = new ArrayList<>();
+        for (StatsCoachParams additionalParams : StatsCoachParams.values()) {
+            stringParams.add(additionalParams.getAdditionalParamTitle());
+        }
+        return stringParams;
+    }
+
+    public static StatsCoachParams fromString(String additionalParamTitle) {
+        for (StatsCoachParams additionalParams : StatsCoachParams.values()) {
             if (additionalParams.additionalParamTitle.equalsIgnoreCase(additionalParamTitle)) {
                 return additionalParams;
             }

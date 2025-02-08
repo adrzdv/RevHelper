@@ -15,7 +15,7 @@ import com.example.revhelper.model.dto.TrainDtoParcelable;
 import com.example.revhelper.model.dto.ViolationForCoach;
 import com.example.revhelper.model.dto.Worker;
 import com.example.revhelper.model.entity.Violation;
-import com.example.revhelper.model.enums.AdditionalParams;
+import com.example.revhelper.model.enums.StatsCoachParams;
 import com.example.revhelper.model.enums.RevisionType;
 import com.example.revhelper.sys.AppRev;
 import com.example.revhelper.sys.SharedViewModel;
@@ -193,9 +193,9 @@ public class ResultRevisionActivity extends AppCompatActivity implements View.On
 
         StringBuilder staticStringResult = new StringBuilder();
         staticStringResult.append("Нарушений: ").append(violationCount).append("\n")
-                .append(AdditionalParams.AUTO_DOOR.getAdditionalParamTitle()).append(":")
+                .append(StatsCoachParams.AUTO_DOOR.getAdditionalParamTitle()).append(":")
                 .append(doorsCount).append("\n")
-                .append(AdditionalParams.SKUDOPP.getAdditionalParamTitle()).append(": ")
+                .append(StatsCoachParams.SKUDOPP.getAdditionalParamTitle()).append(": ")
                 .append(skudoppCount).append("\n");
 
         return staticStringResult.toString();
@@ -232,100 +232,80 @@ public class ResultRevisionActivity extends AppCompatActivity implements View.On
         StringBuilder trainInfoString = new StringBuilder();
         String yesString = "ДА";
         String noString = "НЕТ";
+        String notAvailableString = "Н/Д";
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-        trainInfoString.append("Уведомление № ").append(order.getNumber()).append(" от ")
-                .append(order.getDate().format(formatter)).append("\n");
 
-        trainInfoString.append("Участок проверки: ").append(order.getRoute()).append("\n\n");
+        trainInfoString.append("Уведомление № ")
+                .append(order.getNumber())
+                .append(" от ")
+                .append(order.getDate().format(formatter))
+                .append("\n");
 
-        trainInfoString.append(train.getNumber()).append(" ").append(train.getRoute()).append("\n")
-                .append(train.getDepName()).append(" ").append(train.getBranchName()).append("\n\n");
+        trainInfoString.append("Участок проверки: ")
+                .append(order.getRoute())
+                .append("\n\n");
 
-        trainInfoString.append("Попутчик: ");
-        if (train.getHasPortal() == 1) {
-            trainInfoString.append(yesString);
-        } else {
-            trainInfoString.append(noString);
-        }
+        trainInfoString.append(train.getNumber())
+                .append(" ")
+                .append(train.getRoute())
+                .append("\n")
+                .append(train.getDepName())
+                .append(" ")
+                .append(train.getBranchName())
+                .append("\n\n");
 
-        trainInfoString.append("\n").append("Видеорегистратор: ");
-
-        if (train.getHasRegistrator() == 1) {
-            trainInfoString.append(yesString);
-        } else {
-            trainInfoString.append(noString);
-        }
-
-        trainInfoString.append("\n").append("Прогресс: ");
-
-        if (train.getHasProgressive() == 1) {
-            trainInfoString.append(yesString);
-        } else {
-            trainInfoString.append(noString);
-        }
-
-        trainInfoString.append("\n").append("Прейскурант: ");
-
-        if (order.getIsPrice() != null) {
-            if (order.isPrice()) {
-                trainInfoString.append(yesString);
-            } else if (!order.isPrice()) {
-                trainInfoString.append(noString);
-            }
-        } else {
-            trainInfoString.append("Н/Д");
-        }
-
-        trainInfoString.append("\n").append("Радиоустановка: ");
-
-        if (order.getIsAutoinformator() != null) {
-            if (order.isAutoinformator()) {
-                trainInfoString.append(yesString);
-            } else if (!order.isAutoinformator()) {
-                trainInfoString.append(noString);
-            }
-        } else {
-            trainInfoString.append("Н/Д");
-        }
-
-        trainInfoString.append("\n").append("Аудиоинформирование: ");
-
-        if (order.getIsInform() != null) {
-            if (order.getIsInform()) {
-                trainInfoString.append(yesString);
-            } else if (!order.getIsInform()) {
-                trainInfoString.append(noString);
-            }
-        } else {
-            trainInfoString.append("Н/Д");
-        }
-
-        trainInfoString.append("\n").append("Автоинформатор: ");
-
-        if (train.getHasAutoinformator() == 1) {
-            trainInfoString.append(yesString);
-        } else if (!order.isAutoinformator()) {
-            trainInfoString.append(noString);
-        }
-
-        trainInfoString.append("\n").append("Паспорт качества: ");
-
-        if (order.getIsQualityPassport() != null) {
-            if (order.isQualityPassport()) {
-                trainInfoString.append(yesString);
-            } else if (!order.isQualityPassport()) {
-                trainInfoString.append(noString);
-            }
-
-        } else {
-            trainInfoString.append("Н/Д");
-        }
-
+        appendFeatureInfo(trainInfoString, "Попутчик", train.getHasPortal());
+        appendFeatureInfo(trainInfoString, "Видеорегистратор", train.getHasRegistrator());
+        appendFeatureInfo(trainInfoString, "Прогресс", train.getHasProgressive());
+        trainInfoString.append(makeTempParamsString(order));
+        appendAutoinformatorInfo(trainInfoString, train, order, yesString, noString);
+        appendQualityPassportInfo(trainInfoString, order, yesString, noString, notAvailableString);
         trainInfoString.append("\n\n").append(makeCrewHeadersString(order.getCrewLeaders())).append("\n");
 
         return trainInfoString.toString();
+    }
 
+    private void appendFeatureInfo(StringBuilder builder, String featureName, int featureValue) {
+        String yesString = "ДА";
+        String noString = "НЕТ";
+        builder.append(featureName).append(": ").append(featureValue == 1 ? yesString : noString).append("\n");
+    }
+
+    private void appendAutoinformatorInfo(StringBuilder builder, TrainDtoParcelable train, OrderDtoParcelable order, String yesString, String noString) {
+        builder.append("\nАвтоинформатор: ");
+        if (train.getHasAutoinformator() == 1) {
+            builder.append(yesString);
+        } else if (!order.isAutoinformator()) {
+            builder.append(noString);
+        }
+    }
+
+    private void appendQualityPassportInfo(StringBuilder builder, OrderDtoParcelable order, String yesString, String noString, String notAvailableString) {
+        builder.append("\nПаспорт качества: ");
+        if (order.getIsQualityPassport() != null) {
+            builder.append(order.isQualityPassport() ? yesString : noString);
+        } else {
+            builder.append(notAvailableString);
+        }
+    }
+
+    private String makeTempParamsString(OrderDtoParcelable order) {
+
+        StringBuilder resultString = new StringBuilder();
+
+        for (String key : order.getTempParams().keySet()) {
+            resultString.append(key).append(": ");
+            if (order.getTempParams().get(key) == null) {
+                resultString.append("N/A\n");
+            } else if (!order.getTempParams().get(key)) {
+                resultString.append("НЕТ\n");
+            } else if (order.getTempParams().get(key)) {
+                resultString.append("ДА\n");
+            }
+        }
+
+        return resultString.toString();
     }
 
     private String makeCrewHeadersString(Map<String, Worker> crewMap) {
