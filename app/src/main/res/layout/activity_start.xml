@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
@@ -28,70 +28,92 @@
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="283dp"
-        android:layout_height="316dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="32dp"
-        android:orientation="vertical"
-        android:padding="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/start_menu_header">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center">
 
-        <Button
-            android:id="@+id/revisionButton"
-            style="@style/DarkBlueButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:drawableEnd="@drawable/ic_start_revision_32_white"
-            android:drawablePadding="8dp"
-            android:text="@string/StartRevision" />
+        <LinearLayout
+            android:layout_width="283dp"
+            android:layout_height="316dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="32dp"
+            android:orientation="vertical"
+            android:padding="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/start_menu_header">
 
-        <Button
-            android:id="@+id/reinspection_button"
-            style="@style/DarkBlueButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:drawableEnd="@drawable/ic_reinspection_32_white"
-            android:drawablePadding="8dp"
-            android:text="@string/ReinspectionButtonText" />
+            <Button
+                android:id="@+id/revisionButton"
+                style="@style/DarkBlueButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableEnd="@drawable/ic_start_revision_32_white"
+                android:drawablePadding="8dp"
+                android:text="@string/StartRevision" />
 
-        <Button
-            android:id="@+id/loadData"
-            style="@style/DarkBlueButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:drawableEnd="@drawable/ic_search_24_white"
-            android:drawablePadding="8dp"
-            android:text="@string/LoadDataText" />
+            <Button
+                android:id="@+id/reinspection_button"
+                style="@style/DarkBlueButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableEnd="@drawable/ic_reinspection_32_white"
+                android:drawablePadding="8dp"
+                android:text="@string/ReinspectionButtonText" />
 
-        <Button
-            android:id="@+id/open_violation_catalog"
-            style="@style/DarkBlueButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:drawableEnd="@drawable/ic_list_24_white"
-            android:drawablePadding="8dp"
-            android:text="@string/ViolationCatalogButtonText" />
+            <Button
+                android:id="@+id/loadData"
+                style="@style/DarkBlueButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableEnd="@drawable/ic_search_24_white"
+                android:drawablePadding="8dp"
+                android:text="@string/LoadDataText" />
 
-        <Button
-            android:id="@+id/serviceMenu"
-            style="@style/DarkBlueButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:drawableEnd="@drawable/ic_tool_48_white"
-            android:drawablePadding="8dp"
-            android:text="@string/ServiceText" />
+            <Button
+                android:id="@+id/open_violation_catalog"
+                style="@style/DarkBlueButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableEnd="@drawable/ic_list_24_white"
+                android:drawablePadding="8dp"
+                android:text="@string/ViolationCatalogButtonText" />
 
-        <Button
-            android:id="@+id/exitButton"
-            style="@style/DarkBlueButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:drawableEnd="@drawable/ic_exit_24_white"
-            android:drawablePadding="8dp"
-            android:text="@string/ExitText" />
+            <Button
+                android:id="@+id/serviceMenu"
+                style="@style/DarkBlueButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableEnd="@drawable/ic_tool_48_white"
+                android:drawablePadding="8dp"
+                android:text="@string/ServiceText" />
+
+            <Button
+                android:id="@+id/exitButton"
+                style="@style/DarkBlueButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableEnd="@drawable/ic_exit_24_white"
+                android:drawablePadding="8dp"
+                android:text="@string/ExitText" />
+        </LinearLayout>
+
     </LinearLayout>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <View
+        android:id="@+id/dimBackgroundMainActivity"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:alpha="0.5"
+        android:background="@android:color/black"
+        android:visibility="gone" />
+
+    <ProgressBar
+        android:id="@+id/progressBarMainActivity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="gone" />
+
+</FrameLayout>

@@ -18,6 +18,8 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 /**
  * Class for parsing xls-file with violations for making reinspection process
@@ -43,50 +45,52 @@ public class ParseTable {
     public static Map<String, CoachOnRevision> readExcel(InputStream inputStream) {
 
         Map<String, CoachOnRevision> prevInspectionCoachMap = new HashMap<>();
+        Executor executor = Executors.newSingleThreadExecutor();
 
-        try {
-
-            Workbook workbook;
+        executor.execute(()-> {
 
             try {
-                workbook = new XSSFWorkbook(inputStream);
-            } catch (OfficeXmlFileException e) {
-                inputStream.reset();
-                workbook = new HSSFWorkbook(inputStream);
-            }
 
-            Sheet sheet = workbook.getSheetAt(0);
+                Workbook workbook;
 
-            for (Row row : sheet) {
-                if (row.getCell(0) != null) {
-                    docDate = getCellValue(row, 0);
-                    docNumber = getCellValue(row, 1);
-                    String violationString = getCellValue(row, 2);
-                    String attrib = getCellValue(row, 3);
-                    String resolved = getCellValue(row, 4);
-                    String coachNumber = getCellValue(row, 5);
-                    int amount = parseIntSafe(getCellValue(row, 6), 1);
-
-                    CoachOnRevision coach = prevInspectionCoachMap.getOrDefault(coachNumber,
-                            new CoachOnRevision.Builder()
-                                    .setCoachNumber(coachNumber)
-                                    .setRevisionTime(LocalDateTime.now())
-                                    .setRevisionEndTime(LocalDateTime.now())
-                                    .setViolationList(new ArrayList<>())
-                                    .build()
-                    );
-
-                    ViolationForCoach violation = parseViolation(violationString, amount, resolved);
-                    updateCoachViolations(coach, violation, attrib);
-
-                    prevInspectionCoachMap.put(coachNumber, coach);
+                try {
+                    workbook = new XSSFWorkbook(inputStream);
+                } catch (OfficeXmlFileException e) {
+                    inputStream.reset();
+                    workbook = new HSSFWorkbook(inputStream);
                 }
 
-            }
+                Sheet sheet = workbook.getSheetAt(0);
 
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+                for (Row row : sheet) {
+                    if (row.getCell(0) != null) {
+                        docDate = getCellValue(row, 0);
+                        docNumber = getCellValue(row, 1);
+                        String violationString = getCellValue(row, 2);
+                        String attrib = getCellValue(row, 3);
+                        String resolved = getCellValue(row, 4);
+                        String coachNumber = getCellValue(row, 5);
+                        int amount = parseIntSafe(getCellValue(row, 6), 1);
+
+                        CoachOnRevision coach = prevInspectionCoachMap.getOrDefault(coachNumber,
+                                new CoachOnRevision.Builder()
+                                        .setCoachNumber(coachNumber)
+                                        .setRevisionTime(LocalDateTime.now())
+                                        .setRevisionEndTime(LocalDateTime.now())
+                                        .setViolationList(new ArrayList<>())
+                                        .build()
+                        );
+
+                        ViolationForCoach violation = parseViolation(violationString, amount, resolved);
+                        updateCoachViolations(coach, violation, attrib);
+
+                        prevInspectionCoachMap.put(coachNumber, coach);
+                    }
+                }
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
 
         return prevInspectionCoachMap;
     }
