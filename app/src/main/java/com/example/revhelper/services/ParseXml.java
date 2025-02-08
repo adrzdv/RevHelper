@@ -67,7 +67,6 @@ public class ParseXml {
         Handler handler = new Handler(Looper.getMainLooper());
 
         ProgressBar progressBar = ((Activity) context).findViewById(R.id.progressBarMainActivity);
-        ;
         View dimBackground = ((Activity) context).findViewById(R.id.dimBackgroundMainActivity);
         dimBackground.setVisibility(View.VISIBLE);
         progressBar.setVisibility(View.VISIBLE);
