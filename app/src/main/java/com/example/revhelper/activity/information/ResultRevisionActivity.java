@@ -12,6 +12,7 @@ import com.example.revhelper.mapper.ViolationMapper;
 import com.example.revhelper.model.dto.CoachOnRevision;
 import com.example.revhelper.model.dto.OrderDtoParcelable;
 import com.example.revhelper.model.dto.TrainDtoParcelable;
+import com.example.revhelper.model.dto.ViolationAttribute;
 import com.example.revhelper.model.dto.ViolationForCoach;
 import com.example.revhelper.model.dto.Worker;
 import com.example.revhelper.model.entity.Violation;
@@ -111,7 +112,8 @@ public class ResultRevisionActivity extends AppCompatActivity implements View.On
 
     }
 
-    private String makeViolationString(List<Violation> violationList, List<CoachOnRevision> coachList,
+    private String makeViolationString(List<Violation> violationList,
+                                       List<CoachOnRevision> coachList,
                                        OrderDtoParcelable order) {
         StringBuilder resultStringBuilder = new StringBuilder();
         RevisionType rType = RevisionType.fromString(order.getRevisionType());
@@ -123,14 +125,26 @@ public class ResultRevisionActivity extends AppCompatActivity implements View.On
         for (ViolationForCoach violation : violationsForWorkList) {
             List<String> coachStringList = new ArrayList<>();
             for (CoachOnRevision coach : coachList) {
+                int position = coach.getViolationList().indexOf(violation);
+
                 if (coach.getViolationList().contains(violation)) {
                     StringBuilder coachString = new StringBuilder();
                     coachString.append(coach.getCoachNumber()).append(" ")
-                            .append(coach.getRevisionTime().format(formatter))
-                            .append("\n").append(coach.getCoachWorker()).append("\n");
-                    coachString.append(coach.getCoachWorkerDep()).append("\n");
-                    if (coach.getViolationList().get(coach.getViolationList()
-                            .indexOf(violation)).isResolved()) {
+                            .append(coach.getRevisionTime().format(formatter)).append("\n");
+
+                    if (coach.getViolationList().get(position).getAttributes() != null ||
+                            !coach.getViolationList().get(position).getAttributes().isEmpty()) {
+                        coachString.append("(");
+                        for (ViolationAttribute attribute : coach.getViolationList().get(position).getAttributes()) {
+                            coachString.append(attribute.getAttrib().toLowerCase()).append(", ");
+                        }
+                        coachString.append(")\n");
+                    }
+
+                    coachString.append(coach.getCoachWorker()).append("\n")
+                            .append(coach.getCoachWorkerDep()).append("\n");
+
+                    if (coach.getViolationList().get(position).isResolved()) {
                         coachString.append("Устранено").append("\n");
                     } else {
                         coachString.append("Не устранено").append("\n");

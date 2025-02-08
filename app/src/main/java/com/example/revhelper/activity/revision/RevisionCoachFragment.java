@@ -28,6 +28,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.example.revhelper.R;
+import com.example.revhelper.model.dto.ViolationAttribute;
 import com.example.revhelper.model.entity.Deps;
 import com.example.revhelper.sys.SharedViewModel;
 import com.example.revhelper.adapters.ViolationAdapter;
