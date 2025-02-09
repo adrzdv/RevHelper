@@ -110,6 +110,7 @@ public class ViolationAdapter extends RecyclerView.Adapter<ViolationAdapter.Viol
 
         if (attribs.isEmpty()) {
             AppRev.showToast(context, "Признаки отсутствуют");
+            return;
         }
 
         boolean[] selectedAttributes = new boolean[attribs.size()];
