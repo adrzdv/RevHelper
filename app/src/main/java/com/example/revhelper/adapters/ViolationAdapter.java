@@ -17,9 +17,15 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.revhelper.R;
+import com.example.revhelper.mapper.AttributeMapper;
+import com.example.revhelper.model.dto.ViolationAttribute;
 import com.example.revhelper.model.dto.ViolationForCoach;
+import com.example.revhelper.model.entity.Attribute;
+import com.example.revhelper.sys.AppRev;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class ViolationAdapter extends RecyclerView.Adapter<ViolationAdapter.ViolationViewHolder> {
 
@@ -81,34 +87,70 @@ public class ViolationAdapter extends RecyclerView.Adapter<ViolationAdapter.Viol
                 notifyItemRemoved(position);
                 return true;
             } else if (menuItem.getItemId() == R.id.add_amount) {
-                // Показываем окно для ввода количества
                 showAmountInputDialog(position);
                 return true;
             } else if (menuItem.getItemId() == R.id.add_resolved) {
                 violationList.get(position).setResolved(true);
+            } else if (menuItem.getItemId() == R.id.add_attrib) {
+                showAttributesDialog(position);
+                return true;
             }
             return false;
         });
-
         popupMenu.show();
     }
 
+    private void showAttributesDialog(int position) {
+
+        List<ViolationAttribute> attribs = AppRev.getDb().attributeDao()
+                .getAttribsForViolation(violationList.get(position).getId())
+                .stream()
+                .map(AttributeMapper::fromEntityToDto)
+                .collect(Collectors.toList());
+
+        if (attribs.isEmpty()) {
+            AppRev.showToast(context, "Признаки отсутствуют");
+            return;
+        }
+
+        boolean[] selectedAttributes = new boolean[attribs.size()];
+        String[] attributeNames = attribs.stream().map(ViolationAttribute::getAttrib).toArray(String[]::new);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle("Выберите признаки")
+                .setMultiChoiceItems(attributeNames, selectedAttributes, (dialog, which, isChecked) -> {
+                    selectedAttributes[which] = isChecked;
+                })
+                .setPositiveButton("OK", (dialog, which) -> {
+                    List<ViolationAttribute> selectedList = new ArrayList<>();
+
+                    for (int i = 0; i < attribs.size(); i++) {
+                        if (selectedAttributes[i]) {
+                            selectedList.add(attribs.get(i));
+                        }
+                    }
+                    violationList.get(position).setAttributes(selectedList);
+                    notifyItemChanged(position);
+                })
+                .setNegativeButton("Отмена", (dialog, which) -> dialog.dismiss());
+
+        builder.create().show();
+    }
+
     private void showAmountInputDialog(int position) {
-        // Создаем диалоговое окно с полем для ввода количества
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle("Введите количество");
 
-        // Создаем EditText для ввода
         EditText input = new EditText(context);
-        input.setInputType(InputType.TYPE_CLASS_NUMBER);  // Тип ввода - только цифры
+        input.setInputType(InputType.TYPE_CLASS_NUMBER);
         builder.setView(input);
 
         builder.setPositiveButton("OK", (dialog, which) -> {
             String amountText = input.getText().toString();
             if (!amountText.isEmpty()) {
                 try {
-                    int amount = Integer.parseInt(amountText);  // Преобразуем строку в целое число
-                    updateViolationAmount(position, amount);  // Обновляем количество для этого нарушения
+                    int amount = Integer.parseInt(amountText);
+                    updateViolationAmount(position, amount);
                 } catch (NumberFormatException e) {
                     Toast.makeText(context, "Некорректные данные", Toast.LENGTH_SHORT).show();
                 }
@@ -121,9 +163,9 @@ public class ViolationAdapter extends RecyclerView.Adapter<ViolationAdapter.Viol
     }
 
     private void updateViolationAmount(int position, int amount) {
-        // Обновляем количество для конкретного нарушения в списке
+
         ViolationForCoach violation = violationList.get(position);
-        violation.setAmount(amount);  // Предполагаем, что у объекта Violation есть метод setAmount
-        notifyItemChanged(position);  // Обновляем элемент в RecyclerView
+        violation.setAmount(amount);
+        notifyItemChanged(position);
     }
 }

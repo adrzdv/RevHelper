@@ -136,7 +136,7 @@ public class RevisionCoachFragment extends Fragment implements View.OnClickListe
 
     }
 
-    @Nullable
+    @NonNull
     private String getDepoName() {
         TextInputLayout depoInputLayout = getView().findViewById(R.id.revision_depo_input_layout);
 
@@ -144,6 +144,7 @@ public class RevisionCoachFragment extends Fragment implements View.OnClickListe
 
     }
 
+    @Nullable
     private String getWorkerName() {
 
         TextInputLayout workerData = getView().findViewById(R.id.revision_coach_worker_text_view);
@@ -187,7 +188,7 @@ public class RevisionCoachFragment extends Fragment implements View.OnClickListe
 
     }
 
-    private void initAnotherViews(CoachOnRevision coach) {
+    private void initAnotherViews(@NonNull CoachOnRevision coach) {
 
         RecyclerView violationRecyclerView = getView().findViewById(R.id.revision_violation_list_recycler);
         CheckBox isTrailingCar = getView().findViewById(R.id.trailing_car_checkbox);
@@ -252,22 +253,25 @@ public class RevisionCoachFragment extends Fragment implements View.OnClickListe
         String yes = "ДА";
         String no = "НЕТ";
 
+        res.append("ПРОГРЕСС: ");
         if (coach.isCoachProgressive()) {
-            res.append("ПРОГРЕСС: ").append(yes).append("\n");
+            res.append(yes).append("\n");
         } else {
-            res.append("ПРОГРЕСС: ").append(no).append("\n");
+            res.append(no).append("\n");
         }
 
+        res.append("СКУДОПП: ");
         if (coach.isCoachSkudopp()) {
-            res.append("СКУДОПП: ").append(yes).append("\n");
+            res.append(yes).append("\n");
         } else {
-            res.append("СКУДОПП: ").append(no).append("\n");
+            res.append(no).append("\n");
         }
 
+        res.append("АВТ.ДВЕРИ: ");
         if (coach.isCoachAutomaticDoor()) {
-            res.append("АВТ.ДВЕРИ: ").append(yes).append("\n");
+            res.append(yes).append("\n");
         } else {
-            res.append("АВТ.ДВЕРИ: ").append(no).append("\n");
+            res.append(no).append("\n");
         }
 
         return res.toString();
