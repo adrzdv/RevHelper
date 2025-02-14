@@ -8,22 +8,16 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.revhelper.databinding.ActivityResultRevisionBinding;
-import com.example.revhelper.mapper.ViolationMapper;
 import com.example.revhelper.model.dto.CoachOnRevision;
 import com.example.revhelper.model.dto.OrderDtoParcelable;
 import com.example.revhelper.model.dto.TrainDtoParcelable;
 import com.example.revhelper.model.dto.ViolationAttribute;
 import com.example.revhelper.model.dto.ViolationForCoach;
 import com.example.revhelper.model.dto.Worker;
-import com.example.revhelper.model.entity.Violation;
 import com.example.revhelper.model.enums.StatsCoachParams;
-import com.example.revhelper.model.enums.RevisionType;
-import com.example.revhelper.sys.AppRev;
 import com.example.revhelper.sys.SharedViewModel;
 
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -88,8 +82,6 @@ public class ResultRevisionActivity extends AppCompatActivity implements View.On
         List<CoachOnRevision> trailingCoachList = coachMap.values().stream()
                 .filter(CoachOnRevision::isTrailingCar)
                 .collect(Collectors.toList());
-
-        List<Violation> violationList = AppRev.getDb().violationDao().getAllViolations();
 
         long autoDoorsCountTrailing = countAutodoors(trailingCoachList);
         long skudoppCountTrailing = countSkudopp(trailingCoachList);
@@ -210,6 +202,7 @@ public class ResultRevisionActivity extends AppCompatActivity implements View.On
         appendFeatureInfo(trainInfoString, "Попутчик", train.getHasPortal());
         appendFeatureInfo(trainInfoString, "Видеорегистратор", train.getHasRegistrator());
         appendFeatureInfo(trainInfoString, "Прогресс", train.getHasProgressive());
+
         trainInfoString.append(makeTempParamsString(order));
         appendAutoinformatorInfo(trainInfoString, train, order, yesString, noString);
         appendQualityPassportInfo(trainInfoString, order, yesString, noString, notAvailableString);
@@ -224,7 +217,9 @@ public class ResultRevisionActivity extends AppCompatActivity implements View.On
         builder.append(featureName).append(": ").append(featureValue == 1 ? yesString : noString).append("\n");
     }
 
-    private void appendAutoinformatorInfo(StringBuilder builder, TrainDtoParcelable train, OrderDtoParcelable order, String yesString, String noString) {
+    private void appendAutoinformatorInfo(StringBuilder builder, TrainDtoParcelable train,
+                                          OrderDtoParcelable order, String yesString,
+                                          String noString) {
         builder.append("\nАвтоинформатор: ");
         if (train.getHasAutoinformator() == 1) {
             builder.append(yesString);
@@ -233,7 +228,9 @@ public class ResultRevisionActivity extends AppCompatActivity implements View.On
         }
     }
 
-    private void appendQualityPassportInfo(StringBuilder builder, OrderDtoParcelable order, String yesString, String noString, String notAvailableString) {
+    private void appendQualityPassportInfo(StringBuilder builder, OrderDtoParcelable order,
+                                           String yesString, String noString,
+                                           String notAvailableString) {
         builder.append("\nПаспорт качества: ");
         if (order.getIsQualityPassport() != null) {
             builder.append(order.isQualityPassport() ? yesString : noString);

@@ -20,6 +20,10 @@ android {
         viewBinding = true
     }
 
+    packaging {
+        excludes += "META-INF/DEPENDENCIES"
+    }
+
     buildTypes {
         release {
             isMinifyEnabled = false
@@ -47,12 +51,14 @@ dependencies {
     implementation(libs.lifecycle.viewmodel.ktx)
     implementation(libs.navigation.fragment)
     implementation(libs.navigation.ui)
+    implementation(libs.firebase.crashlytics.buildtools)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
     annotationProcessor(libs.room.compiler)
-    implementation("org.apache.poi:poi:5.2.3")
-    implementation("org.apache.poi:poi-ooxml:5.2.3")
-    implementation("org.apache.commons:commons-collections4:4.4")
+    implementation(libs.poi)
+    implementation(libs.poi.ooxml)
+    implementation(libs.commons.collections4)
+    implementation(libs.gson)
 
 }

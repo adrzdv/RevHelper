@@ -162,15 +162,39 @@
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/revision_add_temp_param"
-                    android:layout_width="match_parent"
                     style="@style/DarkBlueButton"
-                    android:text="@string/AddStringText"
-                    android:layout_height="match_parent" />
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="@string/AddStringText" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:padding="24dp">
+                    android:padding="12dp">
+
+                    <com.google.android.material.floatingactionbutton.FloatingActionButton
+                        android:id="@+id/revision_import_result"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="8dp"
+                        android:contentDescription="@string/FinishRevisionDescription"
+                        android:src="@drawable/ic_import_24_white"
+                        app:backgroundTint="@color/dark_blue"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/revision_export_result"
+                        app:tint="@null" />
+
+                    <com.google.android.material.floatingactionbutton.FloatingActionButton
+                        android:id="@+id/revision_export_result"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="8dp"
+                        android:contentDescription="@string/FinishRevisionDescription"
+                        android:src="@drawable/ic_export_24_white"
+                        app:backgroundTint="@color/dark_blue"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/revision_make_result"
+                        app:tint="@null" />
 
                     <com.google.android.material.floatingactionbutton.FloatingActionButton
                         android:id="@+id/revision_make_result"
