@@ -107,100 +107,38 @@ public class ResultRevisionActivity extends AppCompatActivity implements View.On
         trailingStatsTextView.setText(makeStaticString(totalViolationCountTrailing,
                 skudoppCountTrailing, autoDoorsCountTrailing));
 
-        mainViolationTextView.setText(makeViolationString(violationList, mainTrainCoachList, order));
-        trailingViolationTextView.setText(makeViolationString(violationList, trailingCoachList, order));
+        mainViolationTextView.setText(makeResultString(mainTrainCoachList));
+        trailingViolationTextView.setText(makeResultString(trailingCoachList));
 
     }
 
-    private String makeViolationString(List<Violation> violationList,
-                                       List<CoachOnRevision> coachList,
-                                       OrderDtoParcelable order) {
+    private String makeResultString(List<CoachOnRevision> coachList) {
+
         StringBuilder resultStringBuilder = new StringBuilder();
-        RevisionType rType = RevisionType.fromString(order.getRevisionType());
-        Map<String, List<String>> resStringMap = new HashMap<>();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
 
-        List<ViolationForCoach> violationsForWorkList = getViolationForCoachListByRevisionType(violationList, rType);
-
-        for (ViolationForCoach violation : violationsForWorkList) {
-            List<String> coachStringList = new ArrayList<>();
-            for (CoachOnRevision coach : coachList) {
-                int position = coach.getViolationList().indexOf(violation);
-
-                if (coach.getViolationList().contains(violation)) {
-                    StringBuilder coachString = new StringBuilder();
-                    coachString.append(coach.getCoachNumber()).append(" ")
-                            .append(coach.getRevisionTime().format(formatter)).append("\n");
-
-                    if (coach.getViolationList().get(position).getAttributes() != null ||
-                            !coach.getViolationList().get(position).getAttributes().isEmpty()) {
-                        coachString.append("(");
-                        for (ViolationAttribute attribute : coach.getViolationList().get(position).getAttributes()) {
-                            coachString.append(attribute.getAttrib().toLowerCase()).append(", ");
-                        }
-                        coachString.append(")\n");
-                    }
-
-                    coachString.append(coach.getCoachWorker()).append("\n")
-                            .append(coach.getCoachWorkerDep()).append("\n");
-
-                    if (coach.getViolationList().get(position).isResolved()) {
-                        coachString.append("Устранено").append("\n");
-                    } else {
-                        coachString.append("Не устранено").append("\n");
-                    }
-                    coachStringList.add(coachString.toString());
-                    resStringMap.put(violation.getName(), coachStringList);
+        for (CoachOnRevision coach : coachList) {
+            resultStringBuilder.append(coach.getCoachNumber()).append("\n")
+                    .append(coach.getCoachWorker()).append("\n")
+                    .append(coach.getCoachWorkerDep()).append("\n")
+                    .append(coach.getRevisionTime().format(formatter)).append("\n");
+            for (ViolationForCoach violation : coach.getViolationList()) {
+                resultStringBuilder.append('-').append(violation.getName()).append("\n");
+                if (violation.isResolved()) {
+                    resultStringBuilder.append("(устранено)").append("\n");
+                } else {
+                    resultStringBuilder.append("(не устранено)").append("\n");
+                }
+                if (!violation.getAttributes().isEmpty()) {
+                    resultStringBuilder.append(violation.getAttributes().stream()
+                            .map(ViolationAttribute::getAttrib)
+                            .collect(Collectors.toList())).append("\n");
                 }
             }
-
+            resultStringBuilder.append("\n");
         }
 
-        for (String key : resStringMap.keySet()) {
-            resultStringBuilder.append(key).append("\n");
-            for (String value : resStringMap.get(key)) {
-                resultStringBuilder.append(value).append("\n");
-            }
-        }
-        resultStringBuilder.append("\n");
-
-        return resultStringBuilder.toString();
-    }
-
-    private List<ViolationForCoach> getViolationForCoachListByRevisionType(List<Violation> violationList,
-                                                                           RevisionType revisionType) {
-        List<ViolationForCoach> compairingList = new ArrayList<>();
-
-        if (revisionType == RevisionType.IN_TRANSIT) {
-            compairingList = violationList.stream()
-                    .filter(violation -> violation.getInTransit() == 1)
-                    .map(ViolationMapper::fromEntityToForCouch)
-                    .collect(Collectors.toList());
-
-        } else if (revisionType == RevisionType.AT_START_POINT) {
-
-            compairingList = violationList.stream()
-                    .filter(violation -> violation.getAtStartPoint() == 1)
-                    .map(ViolationMapper::fromEntityToForCouch)
-                    .collect(Collectors.toList());
-
-        } else if (revisionType == RevisionType.AT_TURNROUND_POINT) {
-
-            compairingList = violationList.stream()
-                    .filter(violation -> violation.getAtTurnroundPoint() == 1)
-                    .map(ViolationMapper::fromEntityToForCouch)
-                    .collect(Collectors.toList());
-
-        } else if (revisionType == RevisionType.AT_TICKET_OFFICE) {
-
-            compairingList = violationList.stream()
-                    .filter(violation -> violation.getAtTicketOffice() == 1)
-                    .map(ViolationMapper::fromEntityToForCouch)
-                    .collect(Collectors.toList());
-
-        }
-
-        return compairingList;
+        return resultStringBuilder.append("\n").toString();
     }
 
     private String makeStaticString(long violationCount, long doorsCount, long skudoppCount) {
