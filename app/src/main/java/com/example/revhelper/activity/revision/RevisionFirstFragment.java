@@ -155,8 +155,7 @@ public class RevisionFirstFragment extends Fragment implements CoachSingleAdapte
                     Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_PERMISSION_WRITE);
         }
 
-        ResultParser exporter = new ResultParser();
-        exporter.exportData(requireContext(), order);
+        ResultParser.exportData(requireContext(), order);
     }
 
     private void getUriFile() {
@@ -165,7 +164,7 @@ public class RevisionFirstFragment extends Fragment implements CoachSingleAdapte
         intent.addCategory(Intent.CATEGORY_OPENABLE);
         try {
             filePickerLauncher.launch(Intent.createChooser(intent, "Выберите файл"));
-        } catch (android.content.ActivityNotFoundException ex) {
+        } catch (android.content.ActivityNotFoundException e) {
             Toast.makeText(requireContext(), "Установите файловый менеджер.", Toast.LENGTH_SHORT).show();
         }
 
@@ -173,8 +172,7 @@ public class RevisionFirstFragment extends Fragment implements CoachSingleAdapte
 
     private void importData(Uri uri) throws FileNotFoundException {
 
-        ResultParser importer = new ResultParser();
-        Map<String, CoachOnRevision> importedData = importer.importData(requireContext(), uri);
+        Map<String, CoachOnRevision> importedData = ResultParser.importData(requireContext(), uri);
         for (String key : importedData.keySet()) {
             if (order.getCoachMap().containsKey(key)) {
                 for (ViolationForCoach violation : importedData.get(key).getViolationList()) {

@@ -21,12 +21,11 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.reflect.Type;
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Map;
 
 public class ResultParser {
 
-    public void exportData(Context context, OrderDtoParcelable order) {
+    public static void exportData(Context context, OrderDtoParcelable order) {
 
         Gson gson = new GsonBuilder()
                 .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeSerializer())
@@ -34,13 +33,14 @@ public class ResultParser {
 
         String exportString = gson.toJson(order.getCoachMap());
 
-        File downloadsDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
-        File myFolder = new File(downloadsDir, "revhelper");
+        File documentsDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS);
+        File myFolder = new File(documentsDir, "revhelper");
 
         if (!myFolder.exists()) {
             boolean isCreated = myFolder.mkdirs();
-            if (isCreated) {
-
+            if (!isCreated) {
+                AppRev.showToast(context, "Ошибка создания директории");
+                return;
             }
         }
 
@@ -50,12 +50,12 @@ public class ResultParser {
             writer.write(exportString);
             AppRev.showToast(context, "Файл " + fileName + " создан");
         } catch (IOException e) {
-            e.printStackTrace();
+            AppRev.showToast(context, "IOException");
         }
 
     }
 
-    public Map<String, CoachOnRevision> importData(Context context, Uri uri) throws FileNotFoundException {
+    public static Map<String, CoachOnRevision> importData(Context context, Uri uri) throws FileNotFoundException {
 
         Map<String, CoachOnRevision> importedData;
         Gson gson = new GsonBuilder()
