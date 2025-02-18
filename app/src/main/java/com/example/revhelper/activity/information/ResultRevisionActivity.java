@@ -199,7 +199,8 @@ public class ResultRevisionActivity extends AppCompatActivity implements View.On
                 .append(train.getBranchName())
                 .append("\n\n");
 
-        appendFeatureInfo(trainInfoString, "Попутчик", train.getHasPortal());
+        //hide, maybe in future can be use
+        //appendFeatureInfo(trainInfoString, "Попутчик", train.getHasPortal());
         appendFeatureInfo(trainInfoString, "Видеорегистратор", train.getHasRegistrator());
         appendFeatureInfo(trainInfoString, "Прогресс", train.getHasProgressive());
 

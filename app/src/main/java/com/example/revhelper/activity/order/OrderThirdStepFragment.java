@@ -232,15 +232,16 @@ public class OrderThirdStepFragment extends Fragment implements AdapterView.OnIt
         setCoachTextView(sharedViewModel.getInformator());
     }
 
+    //portalCell hided for future inspections, at now - deprecated
     private void initUiTrain(@NonNull TrainDtoParcelable train) {
 
         TextView progressCell = getView().findViewById(R.id.train_progress_cell);
         TextView videoCell = getView().findViewById(R.id.train_video_cell);
-        TextView portalCell = getView().findViewById(R.id.train_portal_cell);
+        //TextView portalCell = getView().findViewById(R.id.train_portal_cell);
 
         progressCell.setText(getStringFromInt(train.getHasProgressive()));
         videoCell.setText(getStringFromInt(train.getHasRegistrator()));
-        portalCell.setText(getStringFromInt(train.getHasPortal()));
+        //portalCell.setText(getStringFromInt(train.getHasPortal()));
 
     }
 

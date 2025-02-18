@@ -1,8 +1,11 @@
 package com.example.revhelper.services;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Environment;
+
+import androidx.core.content.FileProvider;
 
 import com.example.revhelper.services.util.MapCoachTypeToken;
 import com.example.revhelper.services.util.LocalDateTimeSerializer;
@@ -25,6 +28,12 @@ import java.util.Map;
 
 public class ResultParser {
 
+    /**
+     * Exports a collected data in JSON-file to send on another device for compiling results in one
+     *
+     * @param context Context
+     * @param order   Order object
+     */
     public static void exportData(Context context, OrderDtoParcelable order) {
 
         Gson gson = new GsonBuilder()
@@ -49,12 +58,38 @@ public class ResultParser {
         try (FileWriter writer = new FileWriter(tempFile)) {
             writer.write(exportString);
             AppRev.showToast(context, "Файл " + fileName + " создан");
+            shareFile(context, tempFile);
         } catch (IOException e) {
             AppRev.showToast(context, "IOException");
         }
 
     }
 
+    /**
+     * Sharing prepared file with data
+     *
+     * @param context context
+     * @param file    file to send
+     */
+    private static void shareFile(Context context, File file) {
+        Uri fileUri = FileProvider.getUriForFile(context, context.getPackageName() + ".provider", file);
+
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.setType("application/json");
+        intent.putExtra(Intent.EXTRA_STREAM, fileUri);
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
+        context.startActivity(Intent.createChooser(intent, "Выберите приложение"));
+    }
+
+    /**
+     * Importing data from received data in JSON-file to unite data
+     *
+     * @param context Context
+     * @param uri     file's path
+     * @return Map of CoachOnRevision objects
+     * @throws FileNotFoundException
+     */
     public static Map<String, CoachOnRevision> importData(Context context, Uri uri) throws FileNotFoundException {
 
         Map<String, CoachOnRevision> importedData;
@@ -65,8 +100,9 @@ public class ResultParser {
 
         InputStream input = context.getContentResolver().openInputStream(uri);
         if (input == null) {
-            AppRev.showToast(context, "Failed to open InputStream from Uri");
-            throw new FileNotFoundException("Failed to open InputStream from Uri");
+            String message = "Failed to open InputStream from Uri";
+            AppRev.showToast(context, message);
+            throw new FileNotFoundException(message);
         }
 
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(input))) {
