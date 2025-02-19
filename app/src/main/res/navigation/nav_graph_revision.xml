@@ -8,7 +8,7 @@
 
     <fragment
         android:id="@+id/revisionFirstFragment"
-        android:name="com.example.revhelper.activity.revision.RevisionFirstFragment"
+        android:name="com.revhelper.revhelper.activity.revision.RevisionFirstFragment"
         android:label="Main revision fragment"
         tools:layout="@layout/fragment_revision_first">
         <action
@@ -16,12 +16,12 @@
             app:destination="@+id/revisionCoachFragment" />
         <argument
             android:name="mainCoach"
-            app:argType="com.example.revhelper.model.dto.RevCoach" />
+            app:argType="com.revhelper.revhelper.model.dto.RevCoach" />
     </fragment>
 
     <fragment
         android:id="@+id/revisionCoachFragment"
-        android:name="com.example.revhelper.activity.revision.RevisionCoachFragment"
+        android:name="com.revhelper.revhelper.activity.revision.RevisionCoachFragment"
         android:label="Coach fragment"
         tools:layout="@layout/fragment_revision_coach">
         <action
@@ -29,7 +29,7 @@
             app:destination="@id/revisionFirstFragment" />
         <argument
             android:name="mainCoach"
-            app:argType="com.example.revhelper.model.dto.RevCoach" />
+            app:argType="com.revhelper.revhelper.model.dto.RevCoach" />
     </fragment>
 
 </navigation>

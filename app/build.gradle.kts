@@ -3,11 +3,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.revhelper"
+    namespace = "com.revhelper.revhelper"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.example.revhelper"
+        applicationId = "com.revhelper.revhelper"
         minSdk = 26
         targetSdk = 34
         versionCode = 1

@@ -8,7 +8,7 @@
 
     <fragment
         android:id="@+id/orderStepOneFragment"
-        android:name="com.example.revhelper.activity.order.OrderFirstStepFragment"
+        android:name="com.revhelper.revhelper.activity.order.OrderFirstStepFragment"
         android:label="Step One"
         tools:layout="@layout/fragment_order_first_step">
         <action
@@ -16,12 +16,12 @@
             app:destination="@id/orderStepTwoFragment" />
         <argument
             android:name="order"
-            app:argType="com.example.revhelper.model.dto.OrderDtoParcelable" />
+            app:argType="com.revhelper.revhelper.model.dto.OrderDtoParcelable" />
     </fragment>
 
     <fragment
         android:id="@+id/orderStepTwoFragment"
-        android:name="com.example.revhelper.activity.order.OrderSecondStepFragment"
+        android:name="com.revhelper.revhelper.activity.order.OrderSecondStepFragment"
         android:label="Step Two"
         tools:layout="@layout/fragment_order_second_step">
         <action
@@ -29,12 +29,12 @@
             app:destination="@+id/orderStepThreeFragment" />
         <argument
             android:name="order"
-            app:argType="com.example.revhelper.model.dto.OrderDtoParcelable" />
+            app:argType="com.revhelper.revhelper.model.dto.OrderDtoParcelable" />
     </fragment>
 
     <fragment
         android:id="@+id/orderStepThreeFragment"
-        android:name="com.example.revhelper.activity.order.OrderThirdStepFragment"
+        android:name="com.revhelper.revhelper.activity.order.OrderThirdStepFragment"
         android:label="Step Three"
         tools:layout="@layout/fragment_order_third_step" />
 
