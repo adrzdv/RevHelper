@@ -1,5 +1,7 @@
 package com.example.revhelper.activity.information;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -7,6 +9,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.revhelper.R;
 import com.example.revhelper.databinding.ActivityResultRevisionBinding;
 import com.example.revhelper.model.dto.CoachOnRevision;
 import com.example.revhelper.model.dto.OrderDtoParcelable;
@@ -18,6 +21,7 @@ import com.example.revhelper.model.enums.StatsCoachParams;
 import com.example.revhelper.sys.SharedViewModel;
 
 import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -36,6 +40,7 @@ public class ResultRevisionActivity extends AppCompatActivity implements View.On
         setContentView(view);
         initData();
         binding.revisionEndRevision.setOnClickListener(this);
+        binding.revisionGenerateReportBttn.setOnClickListener(this);
     }
 
     @Override
@@ -50,8 +55,43 @@ public class ResultRevisionActivity extends AppCompatActivity implements View.On
     @Override
     public void onClick(View v) {
 
-        finish();
+        if (v.getId() == R.id.revision_end_revision) {
+            finish();
+        } else if (v.getId() == R.id.revision_generate_report_bttn) {
+            generateReport();
+        }
 
+    }
+
+    private void generateReport() {
+        StringBuilder result = new StringBuilder();
+        Map<String, Integer> resMap = new HashMap<>();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+        result.append(order.getDate().format(formatter)).append("\n").append(order.getTrain().getNumber())
+                .append(" ").append(order.getTrain().getRoute()).append("\n");
+
+        for (CoachOnRevision coach : order.getCoachMap().values()) {
+            for (ViolationForCoach violation : coach.getViolationList()) {
+                resMap.merge(violation.getName(), violation.getAmount(), Integer::sum);
+            }
+        }
+
+        for (String key : resMap.keySet()) {
+            result.append(resMap.get(key)).append("-").append(key).append("\n");
+        }
+
+        shareReport(result.toString());
+
+    }
+
+    private void shareReport(String report) {
+        Intent sendIntent = new Intent();
+        sendIntent.setAction(Intent.ACTION_SEND);
+        sendIntent.putExtra(Intent.EXTRA_TEXT, report);
+        sendIntent.setType("text/plain");
+
+        Intent shareIntent = Intent.createChooser(sendIntent, "Выберите приложение");
+        startActivity(shareIntent);
     }
 
     private void initData() {

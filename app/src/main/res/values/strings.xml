@@ -107,4 +107,6 @@
     <string name="AddStringText">Добавить</string>
     <string name="AdditionalParamsText">Дополнительные параметры</string>
     <string name="AddAttribText">Добавить признак</string>
+    <string name="AddCommentString">Добавить примечание</string>
+    <string name="GenerateReportText">Сформировать отчет</string>
 </resources>

@@ -114,7 +114,8 @@ public class ViolationAdapter extends RecyclerView.Adapter<ViolationAdapter.Viol
         }
 
         boolean[] selectedAttributes = new boolean[attribs.size()];
-        String[] attributeNames = attribs.stream().map(ViolationAttribute::getAttrib).toArray(String[]::new);
+        String[] attributeNames = attribs.stream().map(ViolationAttribute::getAttrib)
+                .toArray(String[]::new);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle("Выберите признаки")
@@ -158,7 +159,6 @@ public class ViolationAdapter extends RecyclerView.Adapter<ViolationAdapter.Viol
         });
 
         builder.setNegativeButton("Отмена", (dialog, which) -> dialog.dismiss());
-
         builder.show();
     }
 

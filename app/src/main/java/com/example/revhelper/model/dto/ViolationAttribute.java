@@ -8,6 +8,7 @@ import androidx.annotation.NonNull;
 public class ViolationAttribute implements Parcelable {
     private String attrib;
     private int amount;
+    private String comment;
 
     public ViolationAttribute(String attrib, int amount) {
         this.attrib = attrib;
@@ -17,6 +18,7 @@ public class ViolationAttribute implements Parcelable {
     protected ViolationAttribute(Parcel in) {
         attrib = in.readString();
         amount = in.readInt();
+        comment = in.readString();
     }
 
     public static final Creator<ViolationAttribute> CREATOR = new Creator<ViolationAttribute>() {
@@ -47,6 +49,14 @@ public class ViolationAttribute implements Parcelable {
         return this.amount;
     }
 
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -56,5 +66,8 @@ public class ViolationAttribute implements Parcelable {
     public void writeToParcel(@NonNull Parcel dest, int flags) {
         dest.writeString(attrib);
         dest.writeInt(amount);
+        dest.writeString(comment);
     }
+
+
 }
