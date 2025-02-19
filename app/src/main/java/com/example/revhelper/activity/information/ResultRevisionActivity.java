@@ -1,6 +1,5 @@
 package com.example.revhelper.activity.information;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -11,7 +10,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.revhelper.R;
 import com.example.revhelper.databinding.ActivityResultRevisionBinding;
-import com.example.revhelper.model.dto.CoachOnRevision;
+import com.example.revhelper.model.dto.RevCoach;
 import com.example.revhelper.model.dto.OrderDtoParcelable;
 import com.example.revhelper.model.dto.TrainDtoParcelable;
 import com.example.revhelper.model.dto.ViolationAttribute;
@@ -70,7 +69,7 @@ public class ResultRevisionActivity extends AppCompatActivity implements View.On
         result.append(order.getDate().format(formatter)).append("\n").append(order.getTrain().getNumber())
                 .append(" ").append(order.getTrain().getRoute()).append("\n");
 
-        for (CoachOnRevision coach : order.getCoachMap().values()) {
+        for (RevCoach coach : order.getCoachMap().values()) {
             for (ViolationForCoach violation : coach.getViolationList()) {
                 resMap.merge(violation.getName(), violation.getAmount(), Integer::sum);
             }
@@ -114,13 +113,13 @@ public class ResultRevisionActivity extends AppCompatActivity implements View.On
         TextView mainViolationTextView = binding.revisionMainTrainViolationsTextView;
         TextView trailingViolationTextView = binding.revisionTrailingViolationsTextView;
 
-        Map<String, CoachOnRevision> coachMap = order.getCoachMap();
-        List<CoachOnRevision> mainTrainCoachList = coachMap.values().stream()
+        Map<String, RevCoach> coachMap = order.getCoachMap();
+        List<RevCoach> mainTrainCoachList = coachMap.values().stream()
                 .filter(coach -> !coach.isTrailingCar())
                 .collect(Collectors.toList());
 
-        List<CoachOnRevision> trailingCoachList = coachMap.values().stream()
-                .filter(CoachOnRevision::isTrailingCar)
+        List<RevCoach> trailingCoachList = coachMap.values().stream()
+                .filter(RevCoach::isTrailingCar)
                 .collect(Collectors.toList());
 
         long autoDoorsCountTrailing = countAutodoors(trailingCoachList);
@@ -144,12 +143,12 @@ public class ResultRevisionActivity extends AppCompatActivity implements View.On
 
     }
 
-    private String makeResultString(List<CoachOnRevision> coachList) {
+    private String makeResultString(List<RevCoach> coachList) {
 
         StringBuilder resultStringBuilder = new StringBuilder();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
 
-        for (CoachOnRevision coach : coachList) {
+        for (RevCoach coach : coachList) {
             resultStringBuilder.append(coach.getCoachNumber()).append("\n")
                     .append(coach.getCoachWorker()).append("\n")
                     .append(coach.getCoachWorkerDep()).append("\n")
@@ -186,11 +185,11 @@ public class ResultRevisionActivity extends AppCompatActivity implements View.On
 
     }
 
-    private long countViolation(List<CoachOnRevision> list) {
+    private long countViolation(List<RevCoach> list) {
 
         int total = 0;
 
-        for (CoachOnRevision coach : list) {
+        for (RevCoach coach : list) {
 
             total = total + coach.getViolationList().stream()
                     .mapToInt(ViolationForCoach::getAmount)
@@ -200,15 +199,15 @@ public class ResultRevisionActivity extends AppCompatActivity implements View.On
         return total;
     }
 
-    private long countSkudopp(List<CoachOnRevision> list) {
+    private long countSkudopp(List<RevCoach> list) {
         return list.stream()
-                .filter(CoachOnRevision::isCoachSkudopp)
+                .filter(RevCoach::isCoachSkudopp)
                 .count();
     }
 
-    private long countAutodoors(List<CoachOnRevision> list) {
+    private long countAutodoors(List<RevCoach> list) {
         return list.stream()
-                .filter(CoachOnRevision::isCoachAutomaticDoor)
+                .filter(RevCoach::isCoachAutomaticDoor)
                 .count();
     }
 

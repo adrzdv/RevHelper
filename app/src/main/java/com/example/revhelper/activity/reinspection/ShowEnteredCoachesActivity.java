@@ -17,7 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.revhelper.R;
 import com.example.revhelper.adapters.CoachSingleAdapter;
 import com.example.revhelper.databinding.ActivityShowEnteredCoachesBinding;
-import com.example.revhelper.model.dto.CoachOnRevision;
+import com.example.revhelper.model.dto.RevCoach;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +26,7 @@ public class ShowEnteredCoachesActivity extends AppCompatActivity {
 
     private ActivityShowEnteredCoachesBinding binding;
     private CoachSingleAdapter adapter;
-    private List<CoachOnRevision> coachList;
+    private List<RevCoach> coachList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

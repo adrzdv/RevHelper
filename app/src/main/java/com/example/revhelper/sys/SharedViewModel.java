@@ -2,16 +2,16 @@ package com.example.revhelper.sys;
 
 import androidx.lifecycle.ViewModel;
 
-import com.example.revhelper.model.dto.CoachOnRevision;
+import com.example.revhelper.model.dto.RevCoach;
 import com.example.revhelper.model.dto.OrderDtoParcelable;
 import com.example.revhelper.model.dto.TrainDtoParcelable;
-import com.example.revhelper.model.entity.Coach;
+import com.example.revhelper.model.entity.MainCoach;
 
 public class SharedViewModel extends ViewModel {
     private OrderDtoParcelable order;
     private TrainDtoParcelable train;
-    private Coach informator;
-    private CoachOnRevision coachOnRevision;
+    private MainCoach informator;
+    private RevCoach revCoach;
 
     public OrderDtoParcelable getOrder() {
         return order;
@@ -29,19 +29,19 @@ public class SharedViewModel extends ViewModel {
         this.train = train;
     }
 
-    public Coach getInformator() {
+    public MainCoach getInformator() {
         return informator;
     }
 
-    public void setInformator(Coach informator) {
+    public void setInformator(MainCoach informator) {
         this.informator = informator;
     }
 
-    public CoachOnRevision getCoachOnRevision() {
-        return coachOnRevision;
+    public RevCoach getCoachOnRevision() {
+        return revCoach;
     }
 
-    public void setCoachOnRevision(CoachOnRevision coachOnRevision) {
-        this.coachOnRevision = coachOnRevision;
+    public void setCoachOnRevision(RevCoach revCoach) {
+        this.revCoach = revCoach;
     }
 }

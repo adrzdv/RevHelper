@@ -19,7 +19,7 @@ import com.example.revhelper.exceptions.CustomException;
 import com.example.revhelper.sys.AppDatabase;
 import com.example.revhelper.sys.AppRev;
 import com.example.revhelper.R;
-import com.example.revhelper.model.entity.Coach;
+import com.example.revhelper.model.entity.MainCoach;
 import com.example.revhelper.model.dto.TrainDto;
 
 
@@ -54,7 +54,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
 
         if (v.getId() == R.id.startButton) {
             TrainDto trainDto = null;
-            Coach coach = null;
+            MainCoach mainCoach = null;
 
             Editable searchText = binding.TrainTextInput.getText();
             String coachFromActivity = binding.CoachTextInput.getText().toString();
@@ -69,7 +69,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
                     return;
                 }
                 try {
-                    coach = searchService.searchCoach(coachFromActivity);
+                    mainCoach = searchService.searchCoach(coachFromActivity);
                 } catch (CustomException e) {
                     Toast toast = Toast.makeText(this, e.getMessage(),
                             Toast.LENGTH_LONG);
@@ -77,7 +77,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
                     return;
                 }
 
-                if (trainDto == null || coach == null) {
+                if (trainDto == null || mainCoach == null) {
                     sendSearchError();
                     return;
                 }
@@ -97,7 +97,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
             } else if (!binding.trainSwitch.isChecked() && binding.coachSwitch.isChecked()) {
 
                 try {
-                    coach = searchService.searchCoach(coachFromActivity);
+                    mainCoach = searchService.searchCoach(coachFromActivity);
                 } catch (CustomException e) {
                     Toast toast = Toast.makeText(this, e.getMessage(),
                             Toast.LENGTH_LONG);
@@ -105,7 +105,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
                     return;
                 }
 
-                if (coach == null) {
+                if (mainCoach == null) {
                     sendSearchError();
                     return;
                 }
@@ -119,10 +119,10 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
 
             DialogFragmentSearchResult dialog = new DialogFragmentSearchResult();
             Bundle args = new Bundle();
-            if (coach != null && binding.coachSwitch.isChecked()) {
-                args.putString("coach", "Да");
-            } else if (coach == null && binding.coachSwitch.isChecked()) {
-                args.putString("coach", "Нет");
+            if (mainCoach != null && binding.coachSwitch.isChecked()) {
+                args.putString("mainCoach", "Да");
+            } else if (mainCoach == null && binding.coachSwitch.isChecked()) {
+                args.putString("mainCoach", "Нет");
             }
             if (trainDto != null) {
                 args.putString("train", trainDto.toString());

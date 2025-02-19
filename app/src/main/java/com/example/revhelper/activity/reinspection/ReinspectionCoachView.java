@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.example.revhelper.R;
 import com.example.revhelper.adapters.ViolationAdapterForReinspection;
 import com.example.revhelper.databinding.ActivityReinspectionCoachViewBinding;
-import com.example.revhelper.model.dto.CoachOnRevision;
+import com.example.revhelper.model.dto.RevCoach;
 import com.example.revhelper.model.dto.ViolationForCoach;
 
 import java.util.Collections;
@@ -39,7 +39,7 @@ public class ReinspectionCoachView extends AppCompatActivity {
         });
 
         if (getIntent().getParcelableExtra("COACH") != null) {
-            CoachOnRevision coach = getIntent().getParcelableExtra("COACH");
+            RevCoach coach = getIntent().getParcelableExtra("COACH");
             violationList = coach.getViolationList();
             Collections.sort(violationList);
         }

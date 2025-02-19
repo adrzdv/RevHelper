@@ -15,8 +15,8 @@
             android:id="@+id/action_to_coach_revision"
             app:destination="@+id/revisionCoachFragment" />
         <argument
-            android:name="coach"
-            app:argType="com.example.revhelper.model.dto.CoachOnRevision" />
+            android:name="mainCoach"
+            app:argType="com.example.revhelper.model.dto.RevCoach" />
     </fragment>
 
     <fragment
@@ -28,8 +28,8 @@
             android:id="@+id/action_to_first_fragment"
             app:destination="@id/revisionFirstFragment" />
         <argument
-            android:name="coach"
-            app:argType="com.example.revhelper.model.dto.CoachOnRevision" />
+            android:name="mainCoach"
+            app:argType="com.example.revhelper.model.dto.RevCoach" />
     </fragment>
 
 </navigation>

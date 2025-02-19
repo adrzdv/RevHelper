@@ -12,10 +12,10 @@ API 26 (Android 8.0)
 ##### In the stable release:
 * Full process for conducting train inspections;
 * Added the opportunity for train reinspections;
+* Released the ability to merge data from multiple devices without using the Internet;
 ##### Future development:
-* Develop the full process for baggage and post coaches;
+* Develop the full process for baggage and post mainCoaches;
 * Unite the processes of train inspection and reinspection;
 * Add more specific catalogs and handbooks;
-* Implement the ability to merge data from multiple devices without using the Internet;
 
 

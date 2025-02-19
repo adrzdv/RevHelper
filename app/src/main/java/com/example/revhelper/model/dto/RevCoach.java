@@ -17,7 +17,7 @@ import java.util.Objects;
  * Main class for coach object
  */
 @SuppressLint("NewApi")
-public class CoachOnRevision implements Parcelable {
+public class RevCoach implements Parcelable {
     private String coachNumber;
     private String coachWorker;
     private boolean coachSkudopp;
@@ -99,8 +99,8 @@ public class CoachOnRevision implements Parcelable {
             return this;
         }
 
-        public CoachOnRevision build() {
-            return new CoachOnRevision(this);
+        public RevCoach build() {
+            return new RevCoach(this);
         }
     }
 
@@ -192,15 +192,15 @@ public class CoachOnRevision implements Parcelable {
         return this.coachAutomaticDoor;
     }
 
-    public static final Creator<CoachOnRevision> CREATOR = new Creator<CoachOnRevision>() {
+    public static final Creator<RevCoach> CREATOR = new Creator<RevCoach>() {
         @Override
-        public CoachOnRevision createFromParcel(Parcel in) {
-            return new CoachOnRevision(in);
+        public RevCoach createFromParcel(Parcel in) {
+            return new RevCoach(in);
         }
 
         @Override
-        public CoachOnRevision[] newArray(int size) {
-            return new CoachOnRevision[size];
+        public RevCoach[] newArray(int size) {
+            return new RevCoach[size];
         }
     };
 
@@ -236,7 +236,7 @@ public class CoachOnRevision implements Parcelable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        CoachOnRevision that = (CoachOnRevision) o;
+        RevCoach that = (RevCoach) o;
         return Objects.equals(coachNumber, that.coachNumber);
     }
 
@@ -246,7 +246,7 @@ public class CoachOnRevision implements Parcelable {
         return Objects.hashCode(coachNumber);
     }
 
-    protected CoachOnRevision(Parcel in) {
+    protected RevCoach(Parcel in) {
         coachNumber = in.readString();
         coachWorker = in.readString();
         coachSkudopp = in.readByte() != 0;
@@ -271,7 +271,7 @@ public class CoachOnRevision implements Parcelable {
         isTrailingCar = in.readBoolean();
     }
 
-    private CoachOnRevision(Builder builder) {
+    private RevCoach(Builder builder) {
         this.coachNumber = builder.coachNumber;
         this.coachWorker = builder.coachWorker;
         this.coachSkudopp = builder.coachSkudopp;

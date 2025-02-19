@@ -4,20 +4,20 @@ import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.Query;
 
-import com.example.revhelper.model.entity.Coach;
+import com.example.revhelper.model.entity.MainCoach;
 
 import java.util.List;
 
 @Dao
 public interface CoachDao {
     @Query("SELECT * FROM informators WHERE informators.coach_number LIKE :coach")
-    Coach findByCoach(String coach);
+    MainCoach findByCoach(String coach);
 
     @Query("SELECT * FROM informators")
-    List<Coach> getAllCoaches();
+    List<MainCoach> getAllCoaches();
 
     @Insert
-    void insertCoaches(List<Coach> coaches);
+    void insertCoaches(List<MainCoach> mainCoaches);
 
     @Query("DELETE FROM informators")
     void cleanCoachTable();

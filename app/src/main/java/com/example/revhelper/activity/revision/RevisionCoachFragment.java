@@ -28,10 +28,10 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.example.revhelper.R;
+import com.example.revhelper.model.dto.RevCoach;
 import com.example.revhelper.model.entity.Deps;
 import com.example.revhelper.sys.SharedViewModel;
 import com.example.revhelper.adapters.ViolationAdapter;
-import com.example.revhelper.model.dto.CoachOnRevision;
 import com.example.revhelper.model.dto.ViolationForCoach;
 import com.example.revhelper.model.enums.StatsCoachParams;
 import com.example.revhelper.sys.AppRev;
@@ -47,7 +47,7 @@ public class RevisionCoachFragment extends Fragment implements View.OnClickListe
 
     private SharedViewModel sharedViewModel;
     private ActivityResultLauncher<Intent> launcher;
-    private CoachOnRevision coach;
+    private RevCoach coach;
     private ViolationAdapter violationAdapter;
     private List<ViolationForCoach> violationList;
     private final LocalDateTime revisionStart = LocalDateTime.now();
@@ -180,7 +180,7 @@ public class RevisionCoachFragment extends Fragment implements View.OnClickListe
         coachAdditionalParamsTextView.setText(getStringAdditionalParams(coach));
     }
 
-    private void initData(CoachOnRevision coach) {
+    private void initData(RevCoach coach) {
 
         initImgButtons();
         initTextView(coach);
@@ -188,7 +188,7 @@ public class RevisionCoachFragment extends Fragment implements View.OnClickListe
 
     }
 
-    private void initAnotherViews(@NonNull CoachOnRevision coach) {
+    private void initAnotherViews(@NonNull RevCoach coach) {
 
         RecyclerView violationRecyclerView = getView().findViewById(R.id.revision_violation_list_recycler);
         CheckBox isTrailingCar = getView().findViewById(R.id.trailing_car_checkbox);
@@ -225,7 +225,7 @@ public class RevisionCoachFragment extends Fragment implements View.OnClickListe
 
     }
 
-    private void initTextView(CoachOnRevision coach) {
+    private void initTextView(RevCoach coach) {
 
         TextInputLayout coachNumberTextLayout = getView().findViewById(R.id.revision_coach_number_text_view);
         TextInputLayout coachWorkerTextLayout = getView().findViewById(R.id.revision_coach_worker_text_view);
@@ -248,7 +248,7 @@ public class RevisionCoachFragment extends Fragment implements View.OnClickListe
 
     }
 
-    private String getStringAdditionalParams(CoachOnRevision coach) {
+    private String getStringAdditionalParams(RevCoach coach) {
         StringBuilder res = new StringBuilder("Параметры:\n");
         String yes = "ДА";
         String no = "НЕТ";

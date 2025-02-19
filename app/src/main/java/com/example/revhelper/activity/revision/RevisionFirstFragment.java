@@ -34,12 +34,12 @@ import android.widget.Toast;
 import com.example.revhelper.R;
 import com.example.revhelper.activity.information.ResultRevisionActivity;
 import com.example.revhelper.fragments.DialogFragmentExitConfirmation;
+import com.example.revhelper.model.dto.RevCoach;
 import com.example.revhelper.model.dto.ViolationForCoach;
 import com.example.revhelper.model.entity.TempStatsParameter;
 import com.example.revhelper.services.ResultParser;
 import com.example.revhelper.sys.SharedViewModel;
 import com.example.revhelper.adapters.CoachSingleAdapterWithoutButton;
-import com.example.revhelper.model.dto.CoachOnRevision;
 import com.example.revhelper.model.dto.OrderDtoParcelable;
 import com.example.revhelper.model.dto.TrainDtoParcelable;
 import com.example.revhelper.sys.AppRev;
@@ -49,7 +49,6 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.io.FileNotFoundException;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -59,7 +58,7 @@ public class RevisionFirstFragment extends Fragment implements CoachSingleAdapte
 
     private SharedViewModel sharedViewModel;
     private OrderDtoParcelable order;
-    private List<CoachOnRevision> coachList;
+    private List<RevCoach> coachList;
     private CoachSingleAdapterWithoutButton coachAdapter;
     private static final int REQUEST_PERMISSION_WRITE = 100;
     private ActivityResultLauncher<Intent> filePickerLauncher;
@@ -94,7 +93,7 @@ public class RevisionFirstFragment extends Fragment implements CoachSingleAdapte
             initUi(order);
         }
         if (sharedViewModel.getCoachOnRevision() != null) {
-            CoachOnRevision coach = sharedViewModel.getCoachOnRevision();
+            RevCoach coach = sharedViewModel.getCoachOnRevision();
             order.getCoachMap().put(coach.getCoachNumber(), coach);
         }
     }
@@ -141,7 +140,7 @@ public class RevisionFirstFragment extends Fragment implements CoachSingleAdapte
     }
 
     @Override
-    public void onItemClick(@NonNull CoachOnRevision coach) {
+    public void onItemClick(@NonNull RevCoach coach) {
         sharedViewModel.setCoachOnRevision(coach);
         sharedViewModel.setOrder(order);
         sharedViewModel.setTrain(order.getTrain());
@@ -173,7 +172,7 @@ public class RevisionFirstFragment extends Fragment implements CoachSingleAdapte
 
     private void importData(Uri uri) throws FileNotFoundException {
 
-        Map<String, CoachOnRevision> importedData = ResultParser.importData(requireContext(), uri);
+        Map<String, RevCoach> importedData = ResultParser.importData(requireContext(), uri);
         for (String key : importedData.keySet()) {
             if (order.getCoachMap().containsKey(key)) {
                 for (ViolationForCoach violation : importedData.get(key).getViolationList()) {
@@ -295,7 +294,7 @@ public class RevisionFirstFragment extends Fragment implements CoachSingleAdapte
                 "\n" + train.getDepName() + "\n" + train.getBranchName();
     }
 
-    private void updateCoachRecyclerView(List<CoachOnRevision> updatedCoachList) {
+    private void updateCoachRecyclerView(List<RevCoach> updatedCoachList) {
         if (coachAdapter != null) {
             coachAdapter.updateData(updatedCoachList);
         }

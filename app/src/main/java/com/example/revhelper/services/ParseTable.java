@@ -1,6 +1,6 @@
 package com.example.revhelper.services;
 
-import com.example.revhelper.model.dto.CoachOnRevision;
+import com.example.revhelper.model.dto.RevCoach;
 import com.example.revhelper.model.dto.ViolationAttribute;
 import com.example.revhelper.model.dto.ViolationForCoach;
 
@@ -40,11 +40,11 @@ public class ParseTable {
      * Read xls-file and make result in Map
      *
      * @param inputStream input stream for reading
-     * @return Map of CoachOnRevision objects
+     * @return Map of RevCoach objects
      */
-    public static Map<String, CoachOnRevision> readExcel(InputStream inputStream) {
+    public static Map<String, RevCoach> readExcel(InputStream inputStream) {
 
-        Map<String, CoachOnRevision> prevInspectionCoachMap = new HashMap<>();
+        Map<String, RevCoach> prevInspectionCoachMap = new HashMap<>();
         Executor executor = Executors.newSingleThreadExecutor();
 
         executor.execute(()-> {
@@ -72,8 +72,8 @@ public class ParseTable {
                         String coachNumber = getCellValue(row, 5);
                         int amount = parseIntSafe(getCellValue(row, 6), 1);
 
-                        CoachOnRevision coach = prevInspectionCoachMap.getOrDefault(coachNumber,
-                                new CoachOnRevision.Builder()
+                        RevCoach coach = prevInspectionCoachMap.getOrDefault(coachNumber,
+                                new RevCoach.Builder()
                                         .setCoachNumber(coachNumber)
                                         .setRevisionTime(LocalDateTime.now())
                                         .setRevisionEndTime(LocalDateTime.now())
@@ -144,11 +144,11 @@ public class ParseTable {
     /**
      * Method for making attributes for violations
      *
-     * @param coach     CoachOnRevision object
+     * @param coach     RevCoach object
      * @param violation ViolationForCoach object, where need to add attribute
      * @param attrib    attribute String value
      */
-    private static void updateCoachViolations(CoachOnRevision coach, ViolationForCoach violation, String attrib) {
+    private static void updateCoachViolations(RevCoach coach, ViolationForCoach violation, String attrib) {
         if (!coach.getViolationList().contains(violation)) {
             ViolationAttribute attribute = new ViolationAttribute(attrib, 1);
             if (!attrib.isBlank()) {

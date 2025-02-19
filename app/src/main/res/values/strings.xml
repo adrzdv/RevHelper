@@ -80,7 +80,7 @@
     <string name="RevisionHeaderText">Проверка поезда</string>
     <string name="PositiveHasRadioText">Имеется</string>
     <string name="NegativeHasRadioText">Отсутствует</string>
-    <string name="AddViolationForCoachTextDescription">Add violation for coach</string>
+    <string name="AddViolationForCoachTextDescription">Add violation for mainCoach</string>
     <string name="ViolationListHeaderText">Список нарушений</string>
     <string name="SaveAdditionalParameterDescriptionText">Save additional parameter</string>
     <string name="MakeRevisionResultDescriptionText">Закончить проверку</string>

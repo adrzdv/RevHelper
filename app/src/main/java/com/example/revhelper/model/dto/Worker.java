@@ -9,6 +9,7 @@ import java.util.Objects;
 
 public class Worker implements Parcelable {
     private String id;
+    private String idNumber;
     private String name;
     private String jobTitle;
 
@@ -20,6 +21,7 @@ public class Worker implements Parcelable {
 
     protected Worker(Parcel in) {
         id = in.readString();
+        idNumber = in.readString();
         name = in.readString();
         jobTitle = in.readString();
     }
@@ -81,7 +83,16 @@ public class Worker implements Parcelable {
     @Override
     public void writeToParcel(@NonNull Parcel dest, int flags) {
         dest.writeString(id);
+        dest.writeString(idNumber);
         dest.writeString(name);
         dest.writeString(jobTitle);
+    }
+
+    public String getIdNumber() {
+        return idNumber;
+    }
+
+    public void setIdNumber(String idNumber) {
+        this.idNumber = idNumber;
     }
 }

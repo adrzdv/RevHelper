@@ -22,7 +22,7 @@ public class OrderDtoParcelable implements Parcelable {
     private String revisionType;
     private TrainDtoParcelable train;
     private Map<String, Worker> crewLeaders;
-    private Map<String, CoachOnRevision> coachMap;
+    private Map<String, RevCoach> coachMap;
     private boolean isQualityPassport;
     private boolean isAutoinformator;
     private Map<String, Boolean> tempParams;
@@ -53,7 +53,7 @@ public class OrderDtoParcelable implements Parcelable {
         crewLeaders = new HashMap<>();
         in.readMap(crewLeaders, Worker.class.getClassLoader());
         coachMap = new HashMap<>();
-        in.readMap(coachMap, CoachOnRevision.class.getClassLoader());
+        in.readMap(coachMap, RevCoach.class.getClassLoader());
         train = in.readParcelable(TrainDtoParcelable.class.getClassLoader());
         isQualityPassport = in.readBoolean();
         isAutoinformator = in.readBoolean();
@@ -139,11 +139,11 @@ public class OrderDtoParcelable implements Parcelable {
         this.crewLeaders = crewLeaders;
     }
 
-    public Map<String, CoachOnRevision> getCoachMap() {
+    public Map<String, RevCoach> getCoachMap() {
         return coachMap;
     }
 
-    public void setCoachMap(Map<String, CoachOnRevision> coachMap) {
+    public void setCoachMap(Map<String, RevCoach> coachMap) {
         this.coachMap = coachMap;
     }
 

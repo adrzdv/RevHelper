@@ -7,9 +7,9 @@ import android.os.Environment;
 
 import androidx.core.content.FileProvider;
 
+import com.example.revhelper.model.dto.RevCoach;
 import com.example.revhelper.services.util.MapCoachTypeToken;
 import com.example.revhelper.services.util.LocalDateTimeSerializer;
-import com.example.revhelper.model.dto.CoachOnRevision;
 import com.example.revhelper.model.dto.OrderDtoParcelable;
 import com.example.revhelper.sys.AppRev;
 import com.google.gson.Gson;
@@ -87,12 +87,12 @@ public class ResultParser {
      *
      * @param context Context
      * @param uri     file's path
-     * @return Map of CoachOnRevision objects
+     * @return Map of RevCoach objects
      * @throws FileNotFoundException
      */
-    public static Map<String, CoachOnRevision> importData(Context context, Uri uri) throws FileNotFoundException {
+    public static Map<String, RevCoach> importData(Context context, Uri uri) throws FileNotFoundException {
 
-        Map<String, CoachOnRevision> importedData;
+        Map<String, RevCoach> importedData;
         Gson gson = new GsonBuilder()
                 .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeSerializer())
                 .create();

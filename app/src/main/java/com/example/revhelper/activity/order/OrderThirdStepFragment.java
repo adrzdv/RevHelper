@@ -27,15 +27,15 @@ import android.widget.TextView;
 
 import com.example.revhelper.R;
 import com.example.revhelper.fragments.AddCoachInOrderActivity;
+import com.example.revhelper.model.dto.RevCoach;
+import com.example.revhelper.model.entity.MainCoach;
 import com.example.revhelper.sys.SharedViewModel;
 import com.example.revhelper.activity.revision.RevisionHostActivity;
 import com.example.revhelper.adapters.CoachSingleAdapter;
 import com.example.revhelper.mapper.TrainMapper;
-import com.example.revhelper.model.dto.CoachOnRevision;
 import com.example.revhelper.model.dto.OrderDtoParcelable;
 import com.example.revhelper.model.dto.TrainDto;
 import com.example.revhelper.model.dto.TrainDtoParcelable;
-import com.example.revhelper.model.entity.Coach;
 import com.example.revhelper.model.entity.Train;
 import com.example.revhelper.sys.AppDatabase;
 import com.example.revhelper.sys.AppRev;
@@ -51,7 +51,7 @@ public class OrderThirdStepFragment extends Fragment implements AdapterView.OnIt
     private TrainDtoParcelable train;
     private ActivityResultLauncher<Intent> launcher;
     private CoachSingleAdapter coachRecyclerAdapter;
-    private List<CoachOnRevision> coachList;
+    private List<RevCoach> coachList;
     private AppDatabase appDb;
     private SharedViewModel sharedViewModel;
 
@@ -119,8 +119,8 @@ public class OrderThirdStepFragment extends Fragment implements AdapterView.OnIt
                 sharedViewModel.setTrain(train);
                 updatePreResultView(TrainMapper.toParceFromDto(trainFromDb), null);
             }
-        } else if (object.getClass() == Coach.class) {
-            Coach informator = (Coach) parent.getItemAtPosition(position);
+        } else if (object.getClass() == MainCoach.class) {
+            MainCoach informator = (MainCoach) parent.getItemAtPosition(position);
             if (informator != null) {
                 sharedViewModel.setInformator(informator);
                 updatePreResultView(null, informator);
@@ -128,8 +128,8 @@ public class OrderThirdStepFragment extends Fragment implements AdapterView.OnIt
         }
     }
 
-    private void setCoachTextView(Coach coach) {
-        if (coach != null) {
+    private void setCoachTextView(MainCoach mainCoach) {
+        if (mainCoach != null) {
             TextView informatorCell = getView().findViewById(R.id.train_informator_cell);
             informatorCell.setText("ДА");
             if (train != null) {
@@ -176,7 +176,7 @@ public class OrderThirdStepFragment extends Fragment implements AdapterView.OnIt
                     if (result.getResultCode() == RESULT_OK && result.getData() != null) {
                         String coachNumber = result.getData().getStringExtra("COACH");
                         if (coachNumber != null) {
-                            CoachOnRevision newCoach = new CoachOnRevision.Builder().setCoachNumber(coachNumber)
+                            RevCoach newCoach = new RevCoach.Builder().setCoachNumber(coachNumber)
                                     .build();
                             order.getCoachMap().put(coachNumber, newCoach);
                             if (!coachList.contains(newCoach)) {
@@ -200,12 +200,12 @@ public class OrderThirdStepFragment extends Fragment implements AdapterView.OnIt
     private void initAutocompliteFields(@NonNull AppDatabase appDb) {
 
         List<Train> trainList = appDb.trainDao().getAllTrains();
-        List<Coach> mainCoachList = appDb.coachDao().getAllCoaches();
+        List<MainCoach> mainMainCoachList = appDb.coachDao().getAllCoaches();
 
         ArrayAdapter<Train> trainAdapter = new ArrayAdapter<>(requireContext(),
                 android.R.layout.simple_dropdown_item_1line, trainList);
-        ArrayAdapter<Coach> crewCoachAdapter = new ArrayAdapter<>(requireContext(),
-                android.R.layout.simple_dropdown_item_1line, mainCoachList);
+        ArrayAdapter<MainCoach> crewCoachAdapter = new ArrayAdapter<>(requireContext(),
+                android.R.layout.simple_dropdown_item_1line, mainMainCoachList);
 
         AutoCompleteTextView trainTextView = getView().findViewById(R.id.order_train_number_input);
         AutoCompleteTextView crewCoachTextView = getView().findViewById(R.id.order_coach_number_input);
@@ -245,10 +245,10 @@ public class OrderThirdStepFragment extends Fragment implements AdapterView.OnIt
 
     }
 
-    private void updatePreResultView(TrainDtoParcelable train, Coach coach) {
+    private void updatePreResultView(TrainDtoParcelable train, MainCoach mainCoach) {
         if (train == null) {
-            setCoachTextView(coach);
-        } else if (coach == null) {
+            setCoachTextView(mainCoach);
+        } else if (mainCoach == null) {
             initUiTrain(train);
         }
     }
@@ -260,7 +260,7 @@ public class OrderThirdStepFragment extends Fragment implements AdapterView.OnIt
         return "НЕТ";
     }
 
-    private void updateCoachRecyclerView(List<CoachOnRevision> updatedCoachList) {
+    private void updateCoachRecyclerView(List<RevCoach> updatedCoachList) {
         if (coachRecyclerAdapter != null) {
             coachRecyclerAdapter.updateData(updatedCoachList);
         }

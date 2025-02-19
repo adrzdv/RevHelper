@@ -24,7 +24,7 @@ import com.example.revhelper.fragments.AddCoachInOrderActivity;
 import com.example.revhelper.adapters.CoachSingleAdapterWithoutButton;
 import com.example.revhelper.databinding.ActivityReinspectionBinding;
 import com.example.revhelper.fragments.DialogFragmentExitConfirmation;
-import com.example.revhelper.model.dto.CoachOnRevision;
+import com.example.revhelper.model.dto.RevCoach;
 import com.example.revhelper.services.ParseTable;
 
 import java.io.IOException;
@@ -38,10 +38,10 @@ import java.util.stream.Collectors;
 
 public class ReinspectionActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private Map<String, CoachOnRevision> existingCoachMap = new HashMap<>();
-    private Map<String, CoachOnRevision> previousInspectionCoachMap;
-    private List<CoachOnRevision> coachNumbers = new ArrayList<>();
-    private List<CoachOnRevision> enteredCoachNumbers = new ArrayList<>();
+    private Map<String, RevCoach> existingCoachMap = new HashMap<>();
+    private Map<String, RevCoach> previousInspectionCoachMap;
+    private List<RevCoach> coachNumbers = new ArrayList<>();
+    private List<RevCoach> enteredCoachNumbers = new ArrayList<>();
     private ActivityReinspectionBinding binding;
     private ActivityResultLauncher<Intent> filePickerLauncher;
     private ActivityResultLauncher<Intent> launcher;
@@ -154,9 +154,9 @@ public class ReinspectionActivity extends AppCompatActivity implements View.OnCl
     }
 
     private void recoverState(Bundle savedInstanceState) {
-        existingCoachMap = (Map<String, CoachOnRevision>) savedInstanceState.getSerializable("EXISTING");
-        previousInspectionCoachMap = (Map<String, CoachOnRevision>) savedInstanceState.getSerializable("PREVIOUS");
-        coachNumbers = (List<CoachOnRevision>) savedInstanceState.getSerializable("NUMBERS");
+        existingCoachMap = (Map<String, RevCoach>) savedInstanceState.getSerializable("EXISTING");
+        previousInspectionCoachMap = (Map<String, RevCoach>) savedInstanceState.getSerializable("PREVIOUS");
+        coachNumbers = (List<RevCoach>) savedInstanceState.getSerializable("NUMBERS");
         docDate = savedInstanceState.getSerializable("DOCNMB").toString();
         docNumber = savedInstanceState.getSerializable("DOCDATE").toString();
     }
@@ -194,9 +194,9 @@ public class ReinspectionActivity extends AppCompatActivity implements View.OnCl
         }
 
         if (result.getData().getParcelableArrayListExtra("NEW_COACHES") != null) {
-            List<CoachOnRevision> resCoachList = result.getData().getParcelableArrayListExtra("NEW_COACHES");
+            List<RevCoach> resCoachList = result.getData().getParcelableArrayListExtra("NEW_COACHES");
             coachNumbers = resCoachList;
-            Map<String, CoachOnRevision> oldCoachMap = new HashMap<>(existingCoachMap);
+            Map<String, RevCoach> oldCoachMap = new HashMap<>(existingCoachMap);
             existingCoachMap = oldCoachMap.entrySet()
                     .stream()
                     .filter(entry -> coachNumbers.contains(entry.getValue()))
@@ -208,7 +208,7 @@ public class ReinspectionActivity extends AppCompatActivity implements View.OnCl
 
     private void showEnteredCoachList() {
         Intent intent = new Intent(ReinspectionActivity.this, ShowEnteredCoachesActivity.class);
-        ArrayList<CoachOnRevision> list = new ArrayList<>(existingCoachMap.values());
+        ArrayList<RevCoach> list = new ArrayList<>(existingCoachMap.values());
         intent.putParcelableArrayListExtra("COACHES", list);
         launcher.launch(intent);
     }
@@ -246,7 +246,7 @@ public class ReinspectionActivity extends AppCompatActivity implements View.OnCl
 
     }
 
-    private Map<String, CoachOnRevision> readFile(Uri fileUri) {
+    private Map<String, RevCoach> readFile(Uri fileUri) {
         try {
             InputStream inputStream = getContentResolver().openInputStream(fileUri);
             if (inputStream != null) {
@@ -259,7 +259,7 @@ public class ReinspectionActivity extends AppCompatActivity implements View.OnCl
 
     }
 
-    private void updateRecyclerView(List<CoachOnRevision> updatedCoachList) {
+    private void updateRecyclerView(List<RevCoach> updatedCoachList) {
         if (adapter != null) {
             adapter.updateData(updatedCoachList);
         }

@@ -9,10 +9,9 @@ import com.example.revhelper.dao.DepoDao;
 import com.example.revhelper.dao.TempParametersDao;
 import com.example.revhelper.dao.TrainDao;
 import com.example.revhelper.dao.ViolationDao;
-import com.example.revhelper.model.dto.ViolationAttribute;
 import com.example.revhelper.model.entity.Attribute;
 import com.example.revhelper.model.entity.Branches;
-import com.example.revhelper.model.entity.Coach;
+import com.example.revhelper.model.entity.MainCoach;
 import com.example.revhelper.model.entity.Deps;
 import com.example.revhelper.model.entity.TempStatsParameter;
 import com.example.revhelper.model.entity.Train;
@@ -22,7 +21,7 @@ import com.example.revhelper.model.entity.Violation;
  * Application database class
  */
 
-@Database(entities = {Train.class, Coach.class, Branches.class, Deps.class,
+@Database(entities = {Train.class, MainCoach.class, Branches.class, Deps.class,
         TempStatsParameter.class, Violation.class, Attribute.class}, version = 2)
 public abstract class AppDatabase extends RoomDatabase {
 

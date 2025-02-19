@@ -12,7 +12,7 @@ import androidx.annotation.NonNull;
 
 import com.example.revhelper.R;
 import com.example.revhelper.exceptions.CustomException;
-import com.example.revhelper.model.entity.Coach;
+import com.example.revhelper.model.entity.MainCoach;
 import com.example.revhelper.model.entity.Deps;
 import com.example.revhelper.model.entity.Train;
 import com.example.revhelper.model.entity.Violation;
@@ -231,28 +231,28 @@ public class ParseXml {
      * @return list of coaches
      * @throws CustomException
      */
-    private List<Coach> getCoachesListFromDoc(Document doc) throws CustomException {
+    private List<MainCoach> getCoachesListFromDoc(Document doc) throws CustomException {
 
-        List<Coach> res = new ArrayList<>();
+        List<MainCoach> res = new ArrayList<>();
 
         NodeList nodeList = doc.getElementsByTagName("coach");
 
         for (int i = 0; i < nodeList.getLength(); i++) {
 
             Element el = (Element) nodeList.item(i);
-            Coach coach = new Coach();
+            MainCoach mainCoach = new MainCoach();
 
-            if (!service.checkCoachRegex(el.getElementsByTagName("coach-number")
+            if (!service.checkCoachRegex(el.getElementsByTagName("mainCoach-number")
                     .item(0).getTextContent())) {
                 throw new CustomException("Ошибка парсинга");
             } else {
-                coach.setCoachNumber(el.getElementsByTagName("coach-number")
+                mainCoach.setCoachNumber(el.getElementsByTagName("mainCoach-number")
                         .item(0).getTextContent());
             }
-            coach.setDep(Integer.parseInt(el.getElementsByTagName("branch")
+            mainCoach.setDep(Integer.parseInt(el.getElementsByTagName("branch")
                     .item(0).getTextContent()));
 
-            res.add(coach);
+            res.add(mainCoach);
 
         }
 
@@ -305,7 +305,7 @@ public class ParseXml {
     private Map<String, List<Object>> getDataFromDocument(Context context, Document document) {
 
         List<Train> trains;
-        List<Coach> coaches;
+        List<MainCoach> mainCoaches;
         List<Violation> violations;
         List<Deps> deps;
         Map<String, List<Object>> resultMap = new HashMap<>();
@@ -315,9 +315,9 @@ public class ParseXml {
             if (!trains.isEmpty()) {
                 resultMap.put("TRAINS", Collections.singletonList(trains));
             }
-            coaches = getCoachesListFromDoc(document);
-            if (!coaches.isEmpty()) {
-                resultMap.put("COACHES", Collections.singletonList(coaches));
+            mainCoaches = getCoachesListFromDoc(document);
+            if (!mainCoaches.isEmpty()) {
+                resultMap.put("COACHES", Collections.singletonList(mainCoaches));
             }
             violations = getViolationListFromDoc(document);
             if (!violations.isEmpty()) {
@@ -345,11 +345,11 @@ public class ParseXml {
 
         List<T> listFormList = (List) list.get(0);
 
-        if (listFormList.get(0) instanceof Coach) {
+        if (listFormList.get(0) instanceof MainCoach) {
 
             appDb.coachDao().cleanCoachTable();
             appDb.coachDao().cleanKeys();
-            appDb.coachDao().insertCoaches((List<Coach>) listFormList);
+            appDb.coachDao().insertCoaches((List<MainCoach>) listFormList);
 
         } else if (listFormList.get(0) instanceof Train) {
 
@@ -383,8 +383,8 @@ public class ParseXml {
      */
     private <T> void addNewElement(@NonNull List<T> list, AppDatabase appDb) {
 
-        if (list.get(0) instanceof Coach) {
-            appDb.coachDao().insertCoaches((List<Coach>) list);
+        if (list.get(0) instanceof MainCoach) {
+            appDb.coachDao().insertCoaches((List<MainCoach>) list);
         } else if (list.get(0) instanceof Train) {
             appDb.trainDao().insertTrains((List<Train>) list);
         } else if (list.get(0) instanceof Violation) {

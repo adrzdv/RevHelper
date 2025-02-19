@@ -11,28 +11,28 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.revhelper.R;
-import com.example.revhelper.model.dto.CoachOnRevision;
+import com.example.revhelper.model.dto.RevCoach;
 
 import java.util.List;
 
 public class CoachSingleAdapterWithoutButton extends RecyclerView.Adapter<CoachSingleAdapterWithoutButton.CoachViewHolder> {
 
-    private List<CoachOnRevision> coachList;
+    private List<RevCoach> coachList;
     private Context context;
     private OnItemClickListener onItemClickListener;
 
-    public CoachSingleAdapterWithoutButton(Context context, List<CoachOnRevision> coachList,  OnItemClickListener onItemClickListener) {
+    public CoachSingleAdapterWithoutButton(Context context, List<RevCoach> coachList, OnItemClickListener onItemClickListener) {
         this.context = context;
         this.coachList = coachList;
         this.onItemClickListener = onItemClickListener;
     }
 
     public interface OnItemClickListener {
-        void onItemClick(CoachOnRevision coach);
+        void onItemClick(RevCoach coach);
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    public void updateData(List<CoachOnRevision> updatedList) {
+    public void updateData(List<RevCoach> updatedList) {
         this.coachList = updatedList;
         notifyDataSetChanged();
     }
@@ -48,7 +48,7 @@ public class CoachSingleAdapterWithoutButton extends RecyclerView.Adapter<CoachS
 
     @Override
     public void onBindViewHolder(@NonNull CoachSingleAdapterWithoutButton.CoachViewHolder holder, int position) {
-        CoachOnRevision coach = coachList.get(position);
+        RevCoach coach = coachList.get(position);
         holder.coachNumber.setText(coach.getCoachNumber());
         holder.itemView.setOnClickListener(v -> onItemClickListener.onItemClick(coach));
     }

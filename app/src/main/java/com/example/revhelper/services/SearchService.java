@@ -3,7 +3,7 @@ package com.example.revhelper.services;
 import android.text.Editable;
 
 import com.example.revhelper.exceptions.CustomException;
-import com.example.revhelper.model.entity.Coach;
+import com.example.revhelper.model.entity.MainCoach;
 import com.example.revhelper.model.dto.TrainDto;
 import com.example.revhelper.sys.AppDatabase;
 
@@ -56,10 +56,10 @@ public class SearchService {
      * Search coach with radio in database
      *
      * @param search search string
-     * @return Coach object
+     * @return MainCoach object
      * @throws CustomException
      */
-    public Coach searchCoach(String search) throws CustomException {
+    public MainCoach searchCoach(String search) throws CustomException {
 
         if (search.equals("")) {
 

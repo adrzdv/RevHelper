@@ -13,28 +13,28 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.revhelper.R;
-import com.example.revhelper.model.dto.CoachOnRevision;
+import com.example.revhelper.model.dto.RevCoach;
 
 import java.util.List;
 
 public class CoachSingleAdapter extends RecyclerView.Adapter<CoachSingleAdapter.CoachViewHolder> {
 
-    private List<CoachOnRevision> coachList;
+    private List<RevCoach> coachList;
     private Context context;
     private final OnSingleCoachDeleteListener deleteListener;
 
-    public CoachSingleAdapter(Context context, List<CoachOnRevision> coachList, OnSingleCoachDeleteListener listener) {
+    public CoachSingleAdapter(Context context, List<RevCoach> coachList, OnSingleCoachDeleteListener listener) {
         this.context = context;
         this.coachList = coachList;
         this.deleteListener = listener;
     }
 
     public interface OnSingleCoachDeleteListener {
-        void onCoachDelete(CoachOnRevision coach);
+        void onCoachDelete(RevCoach coach);
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    public void updateData(List<CoachOnRevision> updatedList) {
+    public void updateData(List<RevCoach> updatedList) {
         this.coachList = updatedList;
         notifyDataSetChanged();
     }
@@ -50,7 +50,7 @@ public class CoachSingleAdapter extends RecyclerView.Adapter<CoachSingleAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull CoachSingleAdapter.CoachViewHolder holder, int position) {
-        CoachOnRevision coach = coachList.get(position);
+        RevCoach coach = coachList.get(position);
         holder.coachNumber.setText(coach.getCoachNumber());
         holder.menuButton.setOnClickListener(view -> showPopupMenu(view, position));
     }
